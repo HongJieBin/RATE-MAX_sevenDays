@@ -18,17 +18,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-public class Login {
-
-    @Autowired
-    protected HttpServletRequest request;
+public class LoginController {
 
     @Autowired
     protected UserServiceImpl service;
 
     @ResponseBody
     @RequestMapping(value = "/Login",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public String login (@RequestBody User iuser){
+    public String login (@RequestBody User iuser,HttpServletRequest request){
         /*我自己的页面操作
         //获取用户填写的登录用户名//手机号
         String username = request.getParameter("username");
