@@ -1,0 +1,345 @@
+Index: src/test/java/TestMsg.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import com.memory.dao.MsgDAO;\r\nimport com.memory.dao.PersonDao;\r\nimport com.memory.dao.UserDAO;\r\nimport com.memory.pojo.Msg;\r\nimport org.junit.Test;\r\nimport org.junit.runner.RunWith;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.test.context.ContextConfiguration;\r\nimport org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\r\n\r\nimport javax.annotation.Resource;\r\nimport java.sql.Timestamp;\r\nimport java.util.Date;\r\n\r\n@RunWith(SpringJUnit4ClassRunner.class)\r\n@ContextConfiguration(\"classpath:appliciationContext.xml\")\r\npublic class TestMsg {\r\n    @Autowired\r\n    private MsgDAO msgDAO;\r\n    @Autowired\r\n    private UserDAO userDAO;\r\n\r\n    @Test\r\n    public void testMsgDAO() {\r\n        Timestamp time = new Timestamp(new Date().getTime());\r\n        Msg msg = new Msg();\r\n        msg.setMsgContent(\"xxx\");\r\n        msg.setMsgDatetime(time);\r\n        msg.setSendUser(userDAO.get(7));\r\n        msg.setReceiveUser(userDAO.get(6));\r\n        msgDAO.add(msg);\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/TestMsg.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/test/java/TestMsg.java	(date 1587970359998)
+@@ -1,7 +1,9 @@
++import com.memory.controller.MsgController;
+ import com.memory.dao.MsgDAO;
+ import com.memory.dao.PersonDao;
+ import com.memory.dao.UserDAO;
+ import com.memory.pojo.Msg;
++import com.memory.utils.JsonResult;
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -19,6 +21,8 @@
+     private MsgDAO msgDAO;
+     @Autowired
+     private UserDAO userDAO;
++    @Autowired
++    private MsgController msgController;
+ 
+     @Test
+     public void testMsgDAO() {
+@@ -28,11 +32,22 @@
+         msg.setMsgDatetime(time);
+         msg.setSendUser(userDAO.get(7));
+         msg.setReceiveUser(userDAO.get(6));
++        msg.setMsgAction(1);
+         msgDAO.add(msg);
++        System.out.println(msg);
+ 
++    }
+ 
++    @Test
++    public void testUnreadMsg() {
++        JsonResult jsonResult = msgController.getUnReadMsgList(10   );
++        System.out.println(jsonResult.getMsg()+" "+jsonResult.getStatus()+" "+jsonResult.getData());
++    }
+ 
+-
++    @Test
++    public void testAllMsg() {
++        JsonResult jsonResult = msgController.getAllMsgList(7,6);
++        System.out.println(jsonResult.getMsg()+" "+jsonResult.getStatus()+" "+jsonResult.getData());
+     }
+ 
+ }
+Index: src/main/resources/db-mysql.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># jdbc.X\r\njdbc.driverClassName=com.mysql.cj.jdbc.Driver\r\njdbc.url=jdbc:mysql://cdb-hhu95v2g.cd.tencentcdb.com:10095/Hebdo?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8\r\njdbc.username=root\r\njdbc.password=2017rjgcsj\r\n\r\n# hibernate.X\r\nhibernate.dialect=org.hibernate.dialect.MySQL5Dialect\r\nhibernate.show_sql=false\r\nhibernate.hbm2ddl.auto=create-drop
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>NATIVE_TO_ASCII_UTF-8
+===================================================================
+--- src/main/resources/db-mysql.properties	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/resources/db-mysql.properties	(date 1587972720352)
+@@ -1,6 +1,6 @@
+ # jdbc.X
+ jdbc.driverClassName=com.mysql.cj.jdbc.Driver
+-jdbc.url=jdbc:mysql://cdb-hhu95v2g.cd.tencentcdb.com:10095/Hebdo?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8
++jdbc.url=jdbc:mysql://cdb-hhu95v2g.cd.tencentcdb.com:10095/Hebdo?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8
+ jdbc.username=root
+ jdbc.password=2017rjgcsj
+ 
+Index: src/main/java/com/memory/dao/FriendDAOImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.memory.dao;\r\n\r\nimport com.memory.pojo.Blacklist;\r\nimport com.memory.pojo.Friend;\r\nimport org.springframework.orm.hibernate5.HibernateTemplate;\r\nimport org.springframework.stereotype.Repository;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport javax.annotation.Resource;\r\nimport java.util.List;\r\n\r\n/**\r\n * @ClassName FriendDAOImpl\r\n * @Description TODO\r\n * @Author SupreacyXXXXX\r\n * @Date 2020/4/23\r\n * @Version 1.0\r\n **/\r\n\r\n@Repository\r\n@Transactional\r\npublic class FriendDAOImpl implements FriendDAO{\r\n    @Resource\r\n    private HibernateTemplate hibernateTemplate;\r\n\r\n    @Override\r\n    public void add(Friend friend) {\r\n        hibernateTemplate.save(friend);\r\n    }\r\n\r\n    @Override\r\n    public void update(Friend friend) {\r\n        hibernateTemplate.update(friend);\r\n    }\r\n\r\n    @Override\r\n    public void delete(Friend friend) {\r\n        hibernateTemplate.delete(friend);\r\n    }\r\n\r\n    @Override\r\n    public List<Friend> getByUserID(int userId) {\r\n        String hql = \"from Friend as f where f.userId = ?\";\r\n        return (List<Friend>) hibernateTemplate.find(hql);\r\n    }\r\n\r\n    @Override\r\n    public List<Friend> getByAddedID(int addedId) {\r\n        String hql = \"from Friend as f where f.addedId = ?\";\r\n        return (List<Friend>) hibernateTemplate.find(hql);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/memory/dao/FriendDAOImpl.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/java/com/memory/dao/FriendDAOImpl.java	(date 1587888427443)
+@@ -41,12 +41,12 @@
+     @Override
+     public List<Friend> getByUserID(int userId) {
+         String hql = "from Friend as f where f.userId = ?";
+-        return (List<Friend>) hibernateTemplate.find(hql);
++        return (List<Friend>) hibernateTemplate.find(hql, userId);
+     }
+ 
+     @Override
+     public List<Friend> getByAddedID(int addedId) {
+         String hql = "from Friend as f where f.addedId = ?";
+-        return (List<Friend>) hibernateTemplate.find(hql);
++        return (List<Friend>) hibernateTemplate.find(hql, addedId);
+     }
+ }
+Index: src/main/resources/appliciationContext.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<beans xmlns=\"http://www.springframework.org/schema/beans\"\r\n       xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n       xmlns:context=\"http://www.springframework.org/schema/context\"\r\n       xmlns:aop=\"http://www.springframework.org/schema/aop\"\r\n       xsi:schemaLocation=\"\r\n        http://www.springframework.org/schema/beans\r\n        http://www.springframework.org/schema/beans/spring-beans.xsd\r\n       http://www.springframework.org/schema/context\r\n       http://www.springframework.org/schema/context/spring-context.xsd\r\n       http://www.springframework.org/schema/aop\r\n       http://www.springframework.org/schema/aop/spring-aop.xsd\">\r\n\r\n    <!--引入dao和bean配置-->\r\n    <import resource=\"classpath:spring-dao.xml\"></import>\r\n    <import resource=\"classpath:spring-mvc.xml\"></import>\r\n\r\n    <context:annotation-config></context:annotation-config>\r\n    <!-- 扫描注解-->\r\n    <context:component-scan base-package=\"com.memory.dao\">\r\n        <!-- 避免重复扫描controller-->\r\n        <context:exclude-filter type=\"annotation\" expression=\"org.springframework.stereotype.Controller\"/>\r\n    </context:component-scan>\r\n\r\n    <!-- 如果在dao层的配置文件中引入了db.properties就不用这个了使用了就不用这个了-->\r\n<!--    <bean id=\"propertyConfigurer\"-->\r\n<!--          class=\"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer\">-->\r\n<!--        <property name=\"locations\">-->\r\n<!--            <list>-->\r\n<!--                &lt;!&ndash;要是有多个配置文件，只需在这里继续添加即可 &ndash;&gt;-->\r\n<!--                <value>classpath:datasource.properties</value>-->\r\n<!--            </list>-->\r\n<!--        </property>-->\r\n<!--    </bean>-->\r\n\r\n\r\n\r\n</beans>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/appliciationContext.xml	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/resources/appliciationContext.xml	(date 1587955753753)
+@@ -14,6 +14,7 @@
+     <!--引入dao和bean配置-->
+     <import resource="classpath:spring-dao.xml"></import>
+     <import resource="classpath:spring-mvc.xml"></import>
++    <import resource="classpath:spring-service.xml"></import>
+ 
+     <context:annotation-config></context:annotation-config>
+     <!-- 扫描注解-->
+@@ -22,7 +23,68 @@
+         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+     </context:component-scan>
+ 
+-    <!-- 如果在dao层的配置文件中引入了db.properties就不用这个了使用了就不用这个了-->
++    <!--配置扫描包-->
++<!--    //<context:component-scan base-package="com.github.tobato.fastdfs.service,com.github.tobato.fastdfs.domain"/>-->
++
++<!--    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
++<!--        <property name="locations">-->
++<!--            <list>-->
++<!--                <value>classpath:fastDFS.properties</value>-->
++<!--            </list>-->
++<!--        </property>-->
++<!--    </bean>-->
++
++
++    <!--配置连接管理器-->
++<!--    <bean id="trackerConnectionManager" class="com.github.tobato.fastdfs.conn.TrackerConnectionManager">-->
++<!--        <constructor-arg name="pool" ref="fdfsConnectionPool">-->
++<!--        </constructor-arg>-->
++<!--        &lt;!&ndash;配置fastDFS tracker 服务器 ip:port 地址&ndash;&gt;-->
++<!--        <property name="trackerList">-->
++<!--            <list>-->
++<!--                <value>39.97.213.247:22122</value>-->
++<!--            </list>-->
++<!--        </property>-->
++<!--    </bean>-->
++<!--    &lt;!&ndash;配置连接池&ndash;&gt;-->
++<!--    <bean id="fdfsConnectionPool" class="com.github.tobato.fastdfs.conn.FdfsConnectionPool">-->
++<!--        &lt;!&ndash;注入连接池配置&ndash;&gt;-->
++<!--        <constructor-arg name="config" >-->
++<!--            <bean class="com.github.tobato.fastdfs.conn.ConnectionPoolConfig"/>-->
++<!--        </constructor-arg>-->
++<!--        &lt;!&ndash;注入连接池工厂&ndash;&gt;-->
++<!--        <constructor-arg name="factory" >-->
++<!--            <bean class="com.github.tobato.fastdfs.conn.PooledConnectionFactory"/>-->
++<!--        </constructor-arg>-->
++<!--    </bean>-->
++<!--    配置扫描包-->
++    <context:component-scan base-package="com.github.tobato.fastdfs.service,com.github.tobato.fastdfs.domain"/>
++<!--    配置连接管理器-->
++    <bean id="trackerConnectionManager" class="com.github.tobato.fastdfs.conn.TrackerConnectionManager">
++        <constructor-arg name="pool" ref="fdfsConnectionPool">
++        </constructor-arg>
++<!--        配置fastDFS tracker 服务器 ip:port 地址-->
++        <property name="trackerList">
++            <list>
++                <value>172.20.117.183:22122</value>
++            </list>
++        </property>
++    </bean>
++<!--    配置连接池-->
++    <bean id="fdfsConnectionPool" class="com.github.tobato.fastdfs.conn.FdfsConnectionPool">
++<!--        注入连接池配置-->
++        <constructor-arg name="config" >
++            <bean class="com.github.tobato.fastdfs.conn.ConnectionPoolConfig"/>
++        </constructor-arg>
++<!--        注入连接池工厂-->
++        <constructor-arg name="factory" >
++            <bean class="com.github.tobato.fastdfs.conn.PooledConnectionFactory"/>
++        </constructor-arg>
++    </bean>
++
++
++
++<!--&lt;!&ndash;     如果在dao层的配置文件中引入了db.properties就不用这个了使用了就不用这个了&ndash;&gt;-->
+ <!--    <bean id="propertyConfigurer"-->
+ <!--          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+ <!--        <property name="locations">-->
+Index: src/main/java/com/memory/pojo/Msg.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.memory.pojo;\r\n\r\nimport org.hibernate.annotations.Cascade;\r\nimport org.hibernate.annotations.DynamicInsert;\r\nimport org.hibernate.annotations.CascadeType;\r\n\r\nimport javax.persistence.*;\r\nimport java.sql.Timestamp;\r\nimport java.util.Objects;\r\n\r\n/**\r\n * @ClassName Msg\r\n * @Description TODO\r\n * @Author SupreacyXXXXX Hkb\r\n * @Date 2020/4/25\r\n * @Version 1.1\r\n **/\r\n\r\n\r\n@Entity\r\n@Table(name = \"msg\")\r\n@DynamicInsert\r\npublic class Msg {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    @Column(name = \"msg_id\")\r\n    private int msgId;\r\n\r\n    @Column(name = \"msg_content\", nullable = false, length = 128)\r\n    private String msgContent;\r\n    @Column(name = \"msg_datetime\", nullable = false)\r\n    private Timestamp msgDatetime;\r\n\r\n    @Column(name = \"msg_action\")\r\n    private int msgAction;\r\n\r\n    @OneToOne(targetEntity = User.class)\r\n    @JoinColumn(name = \"send_id\")\r\n    private User sendUser;\r\n\r\n    @OneToOne(targetEntity = User.class)\r\n    @JoinColumn(name = \"receive_id\")\r\n    private User receiveUser;\r\n\r\n    public int getMsgId() {\r\n        return msgId;\r\n    }\r\n\r\n    public User getSendUser() {\r\n        return sendUser;\r\n    }\r\n\r\n    public void setSendUser(User sendUser) {\r\n        this.sendUser = sendUser;\r\n    }\r\n\r\n    public User getReceiveUser() {\r\n        return receiveUser;\r\n    }\r\n\r\n    public void setReceiveUser(User receiveUser) {\r\n        this.receiveUser = receiveUser;\r\n    }\r\n\r\n    public void setMsgId(int msgId) {\r\n        this.msgId = msgId;\r\n    }\r\n\r\n\r\n    public String getMsgContent() {\r\n        return msgContent;\r\n    }\r\n\r\n    public void setMsgContent(String msgContent) {\r\n        this.msgContent = msgContent;\r\n    }\r\n\r\n\r\n    public Timestamp getMsgDatetime() {\r\n        return msgDatetime;\r\n    }\r\n\r\n    public void setMsgDatetime(Timestamp msgDatetime) {\r\n        this.msgDatetime = msgDatetime;\r\n    }\r\n\r\n    public int getMsgAction() {\r\n        return msgAction;\r\n    }\r\n\r\n    public void setMsgAction(int msgAction) {\r\n        this.msgAction = msgAction;\r\n    }\r\n\r\n    @Override\r\n    public boolean equals(Object o) {\r\n        if (this == o) return true;\r\n        if (o == null || getClass() != o.getClass()) return false;\r\n        Msg msg = (Msg) o;\r\n        return msgId == msg.msgId &&\r\n                Objects.equals(msgContent, msg.msgContent) &&\r\n                Objects.equals(msgDatetime, msg.msgDatetime);\r\n    }\r\n\r\n    @Override\r\n    public int hashCode() {\r\n        return Objects.hash(msgId, msgContent, msgDatetime);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/memory/pojo/Msg.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/java/com/memory/pojo/Msg.java	(date 1587908325612)
+@@ -42,6 +42,18 @@
+     @JoinColumn(name = "receive_id")
+     private User receiveUser;
+ 
++    @Override
++    public String toString() {
++        return "Msg{" +
++                "msgId=" + msgId +
++                ", msgContent='" + msgContent + '\'' +
++                ", msgDatetime=" + msgDatetime +
++                ", msgAction=" + msgAction +
++                ", sendUser=" + sendUser +
++                ", receiveUser=" + receiveUser +
++                '}';
++    }
++
+     public int getMsgId() {
+         return msgId;
+     }
+Index: src/main/java/com/memory/controller/HelloController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.memory.controller;\r\n\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.ui.Model;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\n\r\n@Controller\r\npublic class HelloController {\r\n\r\n    @RequestMapping(\"/hello\")\r\n    public String hello(Model model) {\r\n        model.addAttribute(\"msg\",\"hello\");\r\n        return \"hello\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/memory/controller/HelloController.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/java/com/memory/controller/HelloController.java	(date 1587954909444)
+@@ -1,11 +1,15 @@
+ package com.memory.controller;
+ 
++import com.memory.service.PerosonService;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ 
+ @Controller
+ public class HelloController {
++    @Autowired
++    private PerosonService perosonService;
+ 
+     @RequestMapping("/hello")
+     public String hello(Model model) {
+Index: src/main/resources/spring-dao.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<beans xmlns=\"http://www.springframework.org/schema/beans\"\r\n       xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n       xmlns:context=\"http://www.springframework.org/schema/context\"\r\n       xmlns:aop=\"http://www.springframework.org/schema/aop\"\r\n       xmlns:tx=\"http://www.springframework.org/schema/tx\"\r\n       xsi:schemaLocation=\"\r\n        http://www.springframework.org/schema/beans\r\n        http://www.springframework.org/schema/beans/spring-beans.xsd\r\n       http://www.springframework.org/schema/context\r\n       http://www.springframework.org/schema/context/spring-context.xsd\r\n       http://www.springframework.org/schema/aop\r\n       http://www.springframework.org/schema/aop/spring-aop.xsd\r\n        http://www.springframework.org/schema/tx\r\n       http://www.springframework.org/schema/tx/spring-tx.xsd\">\r\n\r\n    <!-- 加载配置文件-->\r\n    <context:property-placeholder location=\"classpath:db-mysql.properties\"></context:property-placeholder>\r\n    <!-- 配置数据源-->\r\n    <bean id=\"dataSource\" class=\"com.alibaba.druid.pool.DruidDataSource\"\r\n          destroy-method=\"close\" lazy-init=\"false\">\r\n        <property name=\"driverClassName\" value=\"${jdbc.driverClassName}\" />\r\n        <property name=\"url\" value=\"${jdbc.url}\" />\r\n        <property name=\"username\" value=\"${jdbc.username}\" />\r\n        <property name=\"password\" value=\"${jdbc.password}\" />\r\n\r\n        <property name=\"initialSize\" value=\"1\" />\r\n        <property name=\"maxActive\" value=\"50\" />\r\n        <property name=\"maxWait\" value=\"30000\" />\r\n        <property name=\"filters\" value=\"stat,wall\" />\r\n        <property name=\"timeBetweenEvictionRunsMillis\" value=\"3000\" />\r\n        <property name=\"minEvictableIdleTimeMillis\" value=\"300000\" />\r\n        <property name=\"validationQuery\" value=\"SELECT 'x'\" />\r\n        <property name=\"testWhileIdle\" value=\"true\" />\r\n        <property name=\"testOnBorrow\" value=\"false\" />\r\n        <property name=\"testOnReturn\" value=\"false\" />\r\n        <property name=\"poolPreparedStatements\" value=\"true\" />\r\n        <property name=\"maxPoolPreparedStatementPerConnectionSize\" value=\"20\" />\r\n    </bean>\r\n    <!--配置sessionFactory-->\r\n    <bean id=\"sessionFactory\" class=\"org.springframework.orm.hibernate5.LocalSessionFactoryBean\">\r\n        <property name=\"dataSource\" ref=\"dataSource\"></property>\r\n<!--        <property name=\"configLocation\" value=\"classpath:hibernate.cfg.xml\"></property>-->\r\n<!--        <property name=\"mappingLocations\" value=\"classpath:com/memory/pojo/*.hbm.xml\"></property>-->\r\n        <property name=\"packagesToScan\" value=\"com.memory.pojo\"></property>\r\n        <property name=\"hibernateProperties\">\r\n            <props>\r\n                <prop key=\"hibernate.hbm2ddl.auto\">create</prop>\r\n                <prop key=\"dialect\">org.hibernate.dialect.MySQL5Dialect</prop>\r\n                <prop key=\"show_sql\">true</prop>\r\n                <prop key=\"format_sql\">true</prop>\r\n            </props>\r\n        </property>\r\n    </bean>\r\n    <!-- 配置事务管理-->\r\n    <bean id=\"transactionManager\" class=\"org.springframework.orm.hibernate5.HibernateTransactionManager\">\r\n        <property name=\"sessionFactory\" ref=\"sessionFactory\"></property>\r\n    </bean>\r\n\r\n    <!-- 开启注解事务管理 -->\r\n    <tx:annotation-driven transaction-manager=\"transactionManager\"></tx:annotation-driven>\r\n    <!-- 配置事务属性-->\r\n<!--    <tx:advice id=\"txAdvice\" transaction-manager=\"transactionManager\">-->\r\n<!--        <tx:attributes>-->\r\n<!--            <tx:method name=\"get*\" read-only=\"true\"/>-->\r\n<!--            <tx:method name=\"*\"/>-->\r\n<!--        </tx:attributes>-->\r\n<!--    </tx:advice>-->\r\n\r\n    <!--配置hibernatetemplate-->\r\n    <bean id=\"hibernateTemplate\" class=\"org.springframework.orm.hibernate5.HibernateTemplate\">\r\n        <property name=\"sessionFactory\" ref=\"sessionFactory\"></property>\r\n    </bean>\r\n    <!-- 配置事务切点，并把切点和事务属性关联起来 -->\r\n<!--    <aop:config proxy-target-class=\"true\">-->\r\n<!--    <aop:pointcut expression=\"execution(* com.memory.dao.*.*(..))\" id=\"txPointcut\"/>-->\r\n<!--    <aop:advisor advice-ref=\"txAdvice\" pointcut-ref=\"txPointcut\"/>-->\r\n<!--</aop:config>-->\r\n</beans>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/spring-dao.xml	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/resources/spring-dao.xml	(date 1587957277461)
+@@ -45,7 +45,7 @@
+         <property name="packagesToScan" value="com.memory.pojo"></property>
+         <property name="hibernateProperties">
+             <props>
+-                <prop key="hibernate.hbm2ddl.auto">create</prop>
++                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                 <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                 <prop key="show_sql">true</prop>
+                 <prop key="format_sql">true</prop>
+Index: src/main/java/com/memory/dao/BlacklistDAOImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.memory.dao;\r\n\r\nimport com.memory.pojo.Blacklist;\r\nimport com.memory.pojo.User;\r\nimport org.springframework.orm.hibernate5.HibernateTemplate;\r\nimport org.springframework.stereotype.Repository;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport javax.annotation.Resource;\r\nimport java.util.List;\r\n\r\n/**\r\n * @ClassName BlacklistDAOImpl\r\n * @Description TODO\r\n * @Author SupreacyXXXXX\r\n * @Date 2020/4/23\r\n * @Version 1.0\r\n **/\r\n\r\n@Repository\r\n@Transactional\r\npublic class BlacklistDAOImpl implements BlacklistDAO{\r\n    @Resource\r\n    private HibernateTemplate hibernateTemplate;\r\n\r\n    @Override\r\n    public void add(Blacklist blacklist) {\r\n        hibernateTemplate.save(blacklist);\r\n    }\r\n\r\n    @Override\r\n    public void update(Blacklist blacklist) {\r\n        hibernateTemplate.update(blacklist);\r\n    }\r\n\r\n    @Override\r\n    public void delete(Blacklist blacklist) {\r\n        hibernateTemplate.delete(blacklist);\r\n    }\r\n\r\n    @Override\r\n    public List<Blacklist> getByUserID(int id) {\r\n        String hql = \"from Blacklist as b where b.userId = ?\";\r\n        return (List<Blacklist>) hibernateTemplate.find(hql);\r\n    }\r\n\r\n    @Override\r\n    public List<Blacklist> getByAddedID(int id) {\r\n        String hql = \"from Blacklist as b where b.addedId = ?\";\r\n        return (List<Blacklist>) hibernateTemplate.find(hql);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/memory/dao/BlacklistDAOImpl.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/java/com/memory/dao/BlacklistDAOImpl.java	(date 1587888420788)
+@@ -41,12 +41,12 @@
+     @Override
+     public List<Blacklist> getByUserID(int id) {
+         String hql = "from Blacklist as b where b.userId = ?";
+-        return (List<Blacklist>) hibernateTemplate.find(hql);
++        return (List<Blacklist>) hibernateTemplate.find(hql, id);
+     }
+ 
+     @Override
+     public List<Blacklist> getByAddedID(int id) {
+         String hql = "from Blacklist as b where b.addedId = ?";
+-        return (List<Blacklist>) hibernateTemplate.find(hql);
++        return (List<Blacklist>) hibernateTemplate.find(hql, id);
+     }
+ }
+Index: src/main/java/com/memory/pojo/Tag.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.memory.pojo;\r\n\r\nimport org.hibernate.annotations.DynamicInsert;\r\n\r\nimport javax.persistence.*;\r\nimport java.util.HashSet;\r\nimport java.util.Objects;\r\nimport java.util.Set;\r\n\r\n/**\r\n * @ClassName Tag\r\n * @Description TODO\r\n * @Author SupreacyXXXXX\r\n * @Date 2020/4/21\r\n * @Version 1.0\r\n **/\r\n\r\n\r\n@Entity\r\n@Table(name = \"tag\")\r\n@DynamicInsert\r\npublic class Tag {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    @Column(name = \"tag_id\")\r\n    private int tagId;\r\n\r\n    @Column(name = \"tag_name\", nullable = false, length = 20)\r\n    private String tagName;\r\n\r\n    @ManyToMany(targetEntity = User.class,\r\n                mappedBy = \"tags\")\r\n    private Set<User> users = new HashSet<>();\r\n\r\n    public int getTagId() {\r\n        return tagId;\r\n    }\r\n\r\n    public void setTagId(int tagId) {\r\n        this.tagId = tagId;\r\n    }\r\n\r\n    public String getTagName() {\r\n        return tagName;\r\n    }\r\n\r\n    public void setTagName(String tagName) {\r\n        this.tagName = tagName;\r\n    }\r\n\r\n    public Set<User> getUsers() {\r\n        return users;\r\n    }\r\n\r\n    public void setUsers(Set<User> users) {\r\n        this.users = users;\r\n    }\r\n\r\n    @Override\r\n    public boolean equals(Object o) {\r\n        if (this == o) return true;\r\n        if (o == null || getClass() != o.getClass()) return false;\r\n        Tag tag = (Tag) o;\r\n        return tagId == tag.tagId &&\r\n                Objects.equals(tagName, tag.tagName);\r\n    }\r\n\r\n    @Override\r\n    public int hashCode() {\r\n        return Objects.hash(tagId, tagName);\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        return \"Tag{\" +\r\n                \"tagId=\" + tagId +\r\n                \", tagName='\" + tagName + '\\'' +\r\n                '}';\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/memory/pojo/Tag.java	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/java/com/memory/pojo/Tag.java	(date 1587905383660)
+@@ -22,10 +22,10 @@
+ public class Tag {
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+-    @Column(name = "tag_id")
++    @Column(name = "tagId")
+     private int tagId;
+ 
+-    @Column(name = "tag_name", nullable = false, length = 20)
++    @Column(name = "tagName", nullable = false, length = 20)
+     private String tagName;
+ 
+     @ManyToMany(targetEntity = User.class,
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>org.example</groupId>\r\n    <artifactId>spring-springmvc-hibernate</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <packaging>war</packaging>\r\n\r\n    <name>spring-springmvc-hibernate Maven Webapp</name>\r\n    <!-- FIXME change it to the project's website -->\r\n    <url>http://www.example.com</url>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <maven.compiler.source>1.8</maven.compiler.source>\r\n        <maven.compiler.target>1.8</maven.compiler.target>\r\n        <log4j2.version>2.6.2</log4j2.version>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->\r\n        <!-- json解析其依赖-->\r\n        <dependency>\r\n            <groupId>com.alibaba</groupId>\r\n            <artifactId>fastjson</artifactId>\r\n            <version>1.2.62</version>\r\n        </dependency>\r\n\r\n        <!--spring依赖-->\r\n        <dependency>\r\n            <groupId>org.springframework</groupId>\r\n            <artifactId>spring-webmvc</artifactId>\r\n            <version>5.1.14.RELEASE</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework</groupId>\r\n            <artifactId>spring-orm</artifactId>\r\n            <version>5.1.14.RELEASE</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework</groupId>\r\n            <artifactId>spring-test</artifactId>\r\n            <version>5.1.14.RELEASE</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <!-- hibernate核心依赖-->\r\n        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->\r\n        <!--hibernate依赖-->\r\n        <dependency>\r\n            <groupId>org.hibernate</groupId>\r\n            <artifactId>hibernate-core</artifactId>\r\n            <version>5.2.17.Final</version>\r\n        </dependency>\r\n\r\n        <!--连接池依赖-->\r\n        <dependency>\r\n            <groupId>com.alibaba</groupId>\r\n            <artifactId>druid</artifactId>\r\n            <version>1.1.10</version>\r\n        </dependency>\r\n\r\n        <!-- 数据库依赖-->\r\n        <dependency>\r\n            <groupId>mysql</groupId>\r\n            <artifactId>mysql-connector-java</artifactId>\r\n            <version>8.0.15</version>\r\n        </dependency>\r\n        <!-- 单元测试依赖-->\r\n        <dependency>\r\n            <groupId>junit</groupId>\r\n            <artifactId>junit</artifactId>\r\n            <version>4.12</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n\r\n        <!--jsp provided表示在编码的时候使用该jar包依赖-->\r\n        <dependency>\r\n            <groupId>javax.servlet</groupId>\r\n            <artifactId>javax.servlet-api</artifactId>\r\n            <version>3.1.0</version>\r\n            <scope>provided</scope>\r\n        </dependency>\r\n        <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->\r\n        <dependency>\r\n            <groupId>javax.servlet.jsp</groupId>\r\n            <artifactId>jsp-api</artifactId>\r\n            <version>2.1</version>\r\n            <scope>provided</scope>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>io.netty</groupId>\r\n            <artifactId>netty-all</artifactId>\r\n            <version>4.1.25.Final</version>\r\n        </dependency>\r\n        <!-- 日志依赖 -->\r\n        <!--添加log4j2相关jar包-->\r\n        <!-- SLF4J依赖 -->\r\n        <dependency>\r\n            <groupId>org.slf4j</groupId>\r\n            <artifactId>slf4j-log4j12</artifactId>\r\n            <version>1.7.25</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.logging.log4j</groupId>\r\n            <artifactId>log4j-core</artifactId>\r\n            <version>${log4j2.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.logging.log4j</groupId>\r\n            <artifactId>log4j-api</artifactId>\r\n            <version>${log4j2.version}</version>\r\n        </dependency>\r\n\r\n        <!--apache 工具类-->\r\n        <!-- apache 工具类 -->\r\n        <dependency>\r\n            <groupId>commons-codec</groupId>\r\n            <artifactId>commons-codec</artifactId>\r\n            <version>1.11</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.commons</groupId>\r\n            <artifactId>commons-lang3</artifactId>\r\n            <version>3.4</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.commons</groupId>\r\n            <artifactId>commons-io</artifactId>\r\n            <version>1.3.2</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework</groupId>\r\n            <artifactId>spring-test</artifactId>\r\n            <version>5.1.14.RELEASE</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <build>\r\n        <resources>\r\n            <resource>\r\n                <directory>src/main/java</directory>\r\n                <includes>\r\n                    <include>**/*.xml</include>\r\n                    <include>**/*.properties</include>\r\n                </includes>\r\n                <filtering>true</filtering>\r\n            </resource>\r\n            <resource>\r\n                <directory>src/main/resources</directory>\r\n                <includes>\r\n                    <include>**/*.xml</include>\r\n                    <include>**/*.properties</include>\r\n                </includes>\r\n                <filtering>true</filtering>\r\n            </resource>\r\n        </resources>\r\n        <finalName>spring-springmvc-hibernate</finalName>\r\n        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->\r\n            <plugins>\r\n                <plugin>\r\n                    <artifactId>maven-clean-plugin</artifactId>\r\n                    <version>3.1.0</version>\r\n                </plugin>\r\n                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->\r\n                <plugin>\r\n                    <artifactId>maven-resources-plugin</artifactId>\r\n                    <version>3.0.2</version>\r\n                </plugin>\r\n                <plugin>\r\n                    <artifactId>maven-compiler-plugin</artifactId>\r\n                    <version>3.8.0</version>\r\n                </plugin>\r\n                <plugin>\r\n                    <artifactId>maven-surefire-plugin</artifactId>\r\n                    <version>2.22.1</version>\r\n                </plugin>\r\n                <plugin>\r\n                    <artifactId>maven-war-plugin</artifactId>\r\n                    <version>3.2.2</version>\r\n                </plugin>\r\n                <plugin>\r\n                    <artifactId>maven-install-plugin</artifactId>\r\n                    <version>2.5.2</version>\r\n                </plugin>\r\n                <plugin>\r\n                    <artifactId>maven-deploy-plugin</artifactId>\r\n                    <version>2.8.2</version>\r\n                </plugin>\r\n            </plugins>\r\n        </pluginManagement>\r\n    </build>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ pom.xml	(date 1587831748637)
+@@ -115,6 +115,7 @@
+             <version>${log4j2.version}</version>
+         </dependency>
+ 
++
+         <!--apache 工具类-->
+         <!-- apache 工具类 -->
+         <dependency>
+@@ -138,6 +139,15 @@
+             <version>5.1.14.RELEASE</version>
+             <scope>compile</scope>
+         </dependency>
++
++
++        <!-- 高性能分布式文件服务器 -->
++        <dependency>
++            <groupId>com.github.tobato</groupId>
++            <artifactId>fastdfs-client</artifactId>
++            <version>1.26.2</version>
++        </dependency>
++
+     </dependencies>
+ 
+     <build>
+Index: src/main/webapp/index.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><%--\r\n  Created by IntelliJ IDEA.\r\n  User: a1725\r\n  Date: 2020/4/19\r\n  Time: 21:11\r\n  To change this template use File | Settings | File Templates.\r\n--%>\r\n<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" %>\r\n<html>\r\n<head>\r\n    <title>Title</title>\r\n</head>\r\n<body>\r\n    ${msg}\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/index.jsp	(revision a71180f69dcff2c632b2b5c217b50e5423b2e280)
++++ src/main/webapp/index.jsp	(date 1587914320783)
+@@ -13,4 +13,5 @@
+ <body>
+     ${msg}
+ </body>
++
+ </html>

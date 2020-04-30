@@ -1,0 +1,24 @@
+POST http://localhost/spring/Friends?userId=8
+
+###
+
+POST http://localhost/spring/Friends?userId=8
+
+###
+
+POST http://localhost/unreadMsgs
+
+###
+
+POST http://localhost/unreadMsgs
+
+###
+
+GET http://localhost/Friends？userId=8
+
+###
+
+GET http://localhost/Friends
+
+###
+

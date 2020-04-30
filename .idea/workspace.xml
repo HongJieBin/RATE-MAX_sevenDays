@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="spring-springmvc-hibernate:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="WEB-INF代码">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/19b6f5a9-dbe9-4507-bff5-ff67cd6e73ac.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/19b6f5a9-dbe9-4507-bff5-ff67cd6e73ac/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_16_40_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_16_40__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_23_38_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_23_38__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-springmvc-hibernate.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/testServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/testSpringUtils.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ssmbuild@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ssmbuild@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ssmbuild@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="ssmbuild: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ssmbuild@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="ssmbuild: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="person: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Jsp File" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="git@github.com:HongJieBin/sevenDays.git" />
+      </set>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\devinstall\MyRepository" />
+        <option name="mavenHome" value="C:/devinstall/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="C:\devinstall\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="#JAVA_HOME" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1ak05w46tSeNvjqfKwotAIv8ih0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/memory" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="project.propDebugger" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.memory.pojo" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\sevenDays_project\spring-springmvc-hibernate\src\main\java\com\memory" />
+      <recent name="D:\软件工程\sevenDays\spring-springmvc-hibernate" />
+      <recent name="D:\软件工程\sevenDays\spring-springmvc-hibernate\src\main\resources" />
+      <recent name="D:\软件工程\sevenDays\spring-springmvc-hibernate\src\main\java\com\memory\netty" />
+      <recent name="D:\软件工程\sevenDays\spring-springmvc-hibernate\src\main\java\com\memory\dao" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="excludedTypes">
+      <set>
+        <option value="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.30">
+    <configuration name="generated-requests#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="6" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFriend.testFriend" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring-springmvc-hibernate" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestFriend" />
+      <option name="METHOD_NAME" value="testFriend" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMsg.testMsg" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring-springmvc-hibernate" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestMsg" />
+      <option name="METHOD_NAME" value="testMsg" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="testServer.testServer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="spring-springmvc-hibernate" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="testServer" />
+      <option name="METHOD_NAME" value="testServer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.30" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.30" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=UTF-8" />
+      <option name="UPDATING_POLICY" value="update-resources" />
+      <deployment>
+        <artifact name="spring-springmvc-hibernate:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/spring" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_spring-springmvc-hibernate" />
+        <option name="JNDI_PORT" value="1134" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="22333" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="spring-springmvc-hibernate:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="HTTP Request.generated-requests#2" />
+      <item itemvalue="HTTP Request.generated-requests#6" />
+      <item itemvalue="JUnit.TestFriend.testFriend" />
+      <item itemvalue="JUnit.TestMsg.testMsg" />
+      <item itemvalue="JUnit.testServer.testServer" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.30" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.testServer.testServer" />
+        <item itemvalue="HTTP Request.generated-requests#6" />
+        <item itemvalue="JUnit.TestFriend.testFriend" />
+        <item itemvalue="JUnit.TestMsg.testMsg" />
+        <item itemvalue="HTTP Request.generated-requests#2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+    <option name="myConnectionType" value="NONE" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\13415\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="" />
+      <created>1587264104057</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587264104057</updated>
+      <workItem from="1587264107595" duration="14054000" />
+      <workItem from="1587452746209" duration="6716000" />
+      <workItem from="1587473936690" duration="4278000" />
+      <workItem from="1587482293897" duration="1512000" />
+      <workItem from="1587526100106" duration="172000" />
+      <workItem from="1587528108035" duration="4201000" />
+      <workItem from="1587603100071" duration="1546000" />
+      <workItem from="1587604800030" duration="2543000" />
+      <workItem from="1587607510233" duration="302000" />
+      <workItem from="1587607850611" duration="19329000" />
+      <workItem from="1587628523880" duration="2547000" />
+      <workItem from="1587631223360" duration="26551000" />
+      <workItem from="1587723240830" duration="7132000" />
+      <workItem from="1587779611176" duration="15199000" />
+      <workItem from="1587819315922" duration="173000" />
+      <workItem from="1587820533890" duration="3367000" />
+      <workItem from="1587827995881" duration="1539000" />
+      <workItem from="1587830724917" duration="277000" />
+      <workItem from="1587831026893" duration="5556000" />
+      <workItem from="1587865300199" duration="9621000" />
+      <workItem from="1587876262209" duration="312000" />
+      <workItem from="1587880280954" duration="8139000" />
+      <workItem from="1587888724973" duration="24919000" />
+      <workItem from="1587949632645" duration="3852000" />
+      <workItem from="1587953534514" duration="20224000" />
+      <workItem from="1587999320687" duration="5539000" />
+      <workItem from="1588035284716" duration="1901000" />
+      <workItem from="1588037411771" duration="502000" />
+      <workItem from="1588040017690" duration="1240000" />
+      <workItem from="1588042489582" duration="1323000" />
+      <workItem from="1588044173796" duration="609000" />
+      <workItem from="1588045204358" duration="686000" />
+      <workItem from="1588055005237" duration="904000" />
+      <workItem from="1588071411227" duration="1729000" />
+      <workItem from="1588089554136" duration="445000" />
+      <workItem from="1588090005879" duration="388000" />
+      <workItem from="1588090922446" duration="672000" />
+      <workItem from="1588127745091" duration="12620000" />
+      <workItem from="1588207494384" duration="7172000" />
+      <workItem from="1588230781730" duration="373000" />
+      <workItem from="1588233934664" duration="1421000" />
+      <workItem from="1588235386177" duration="130000" />
+      <workItem from="1588235521614" duration="677000" />
+    </task>
+    <task id="LOCAL-00001" summary="项目基本结构">
+      <created>1587453590919</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587453590920</updated>
+    </task>
+    <task id="LOCAL-00002" summary="DAO">
+      <created>1587649791113</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1587649791113</updated>
+    </task>
+    <task id="LOCAL-00003" summary="DAO">
+      <created>1587649831840</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1587649831840</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Test">
+      <created>1587649856518</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1587649856518</updated>
+    </task>
+    <task id="LOCAL-00005" summary="pojo">
+      <created>1587649948967</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1587649948967</updated>
+    </task>
+    <task id="LOCAL-00006" summary="配置文件">
+      <created>1587650250506</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1587650250506</updated>
+    </task>
+    <task id="LOCAL-00007" summary="配置文件">
+      <created>1587650288557</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1587650288557</updated>
+    </task>
+    <task id="LOCAL-00008" summary="工具类文件">
+      <created>1587724067574</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1587724067574</updated>
+    </task>
+    <task id="LOCAL-00009" summary="增加配置">
+      <created>1587724125179</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1587724125179</updated>
+    </task>
+    <task id="LOCAL-00010" summary="log4j2">
+      <created>1587725645879</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1587725645879</updated>
+    </task>
+    <task id="LOCAL-00011" summary="JsonUtils">
+      <created>1587726690729</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1587726690729</updated>
+    </task>
+    <task id="LOCAL-00012" summary="更新pojo">
+      <created>1587819553472</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1587819553472</updated>
+    </task>
+    <task id="LOCAL-00013" summary="更新pojo dao">
+      <created>1587976890554</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1587976890555</updated>
+    </task>
+    <task id="LOCAL-00014" summary="环境配置文件更改">
+      <created>1588001805139</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1588001805139</updated>
+    </task>
+    <task id="LOCAL-00015" summary="增加好友和聊天得服务层代码">
+      <created>1588217032007</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1588217032007</updated>
+    </task>
+    <task id="LOCAL-00016" summary="增加控制层代码">
+      <created>1588217071430</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1588217071430</updated>
+    </task>
+    <task id="LOCAL-00017" summary="增加服务层代码">
+      <created>1588217135784</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1588217135784</updated>
+    </task>
+    <task id="LOCAL-00018" summary="控制层层代码">
+      <created>1588234555738</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1588234555738</updated>
+    </task>
+    <task id="LOCAL-00019" summary="DAO层代码">
+      <created>1588234672104</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1588234672104</updated>
+    </task>
+    <task id="LOCAL-00020" summary="FormBean代码">
+      <created>1588235869785</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1588235869785</updated>
+    </task>
+    <task id="LOCAL-00021" summary="pojo代码">
+      <created>1588235946055</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1588235946055</updated>
+    </task>
+    <task id="LOCAL-00022" summary="service代码">
+      <created>1588235975535</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1588235975535</updated>
+    </task>
+    <task id="LOCAL-00023" summary="工具类代码">
+      <created>1588236020277</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1588236020277</updated>
+    </task>
+    <task id="LOCAL-00024" summary="环境配置代码">
+      <created>1588236080467</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1588236080467</updated>
+    </task>
+    <task id="LOCAL-00025" summary="WEB-INF代码">
+      <created>1588236119869</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1588236119869</updated>
+    </task>
+    <task id="LOCAL-00026" summary="WEB-INF代码">
+      <created>1588236158762</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1588236158762</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="项目基本结构" />
+    <MESSAGE value="DAO" />
+    <MESSAGE value="Test" />
+    <MESSAGE value="pojo" />
+    <MESSAGE value="配置文件" />
+    <MESSAGE value="工具类文件" />
+    <MESSAGE value="增加配置" />
+    <MESSAGE value="log4j2" />
+    <MESSAGE value="JsonUtils" />
+    <MESSAGE value="更新pojo" />
+    <MESSAGE value="更新pojo dao" />
+    <MESSAGE value="环境配置文件更改" />
+    <MESSAGE value="增加好友和聊天得服务层代码" />
+    <MESSAGE value="增加控制层代码" />
+    <MESSAGE value="增加服务层代码" />
+    <MESSAGE value="控制层层代码" />
+    <MESSAGE value="DAO层代码" />
+    <MESSAGE value="FormBean代码" />
+    <MESSAGE value="pojo代码" />
+    <MESSAGE value="service代码" />
+    <MESSAGE value="工具类代码" />
+    <MESSAGE value="环境配置代码" />
+    <MESSAGE value="WEB-INF代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="WEB-INF代码" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="362" y="80" key="#Assign_Data_Sources" timestamp="1587604637212">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="362" y="80" key="#Assign_Data_Sources/0.0.1536.824@0.0.1536.824" timestamp="1587604637212" />
+    <state x="452" y="101" key="#Assign_Data_Sources/0.0.1920.1040@0.0.1920.1040" timestamp="1587295102045" />
+    <state x="362" y="0" key="#Project_Structure" timestamp="1588236198892">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="362" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1588236198892" />
+    <state x="452" y="101" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1587302086756" />
+    <state x="449" y="0" width="651" height="824" key="#Tomcat_9.0.30" timestamp="1587475441120">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="0" width="651" height="824" key="#Tomcat_9.0.30/0.0.1536.824@0.0.1536.824" timestamp="1587475441120" />
+    <state x="228" y="82" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588090981079">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="228" y="82" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1588090981079" />
+    <state x="552" y="176" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587302012438" />
+    <state x="492" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588165154583">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="492" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1588165154583" />
+    <state x="577" y="113" key="#com.intellij.ide.util.MemberChooser" timestamp="1588235213359">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="577" y="113" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1588235213359" />
+    <state x="721" y="142" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587301783457" />
+    <state x="495" y="65" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable" timestamp="1587821027586">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="495" y="65" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/0.0.1536.824@0.0.1536.824" timestamp="1587821027586" />
+    <state x="365" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1588235917378">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="365" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1588235917378" />
+    <state x="544" y="279" width="448" height="272" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1587978321842">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="544" y="279" width="448" height="272" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1587978321842" />
+    <state x="502" y="170" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1587977882064">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="502" y="170" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1587977882064" />
+    <state x="627" y="215" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587294995214" />
+    <state x="449" y="0" width="651" height="824" key="#index.jsp_(1)" timestamp="1587914186743">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="0" width="651" height="824" key="#index.jsp_(1)/0.0.1536.824@0.0.1536.824" timestamp="1587914186743" />
+    <state x="551" y="177" key="FileChooserDialogImpl" timestamp="1588234062993">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="551" y="177" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1588234062993" />
+    <state x="689" y="223" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587275372257" />
+    <state width="1493" height="270" key="GridCell.Tab.0.bottom" timestamp="1588235537697">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588235537697" />
+    <state width="1282" height="323" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
+    <state width="1493" height="270" key="GridCell.Tab.0.center" timestamp="1588235537697">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588235537697" />
+    <state width="1282" height="323" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
+    <state width="1493" height="270" key="GridCell.Tab.0.left" timestamp="1588235537697">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588235537697" />
+    <state width="1282" height="323" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
+    <state width="1493" height="270" key="GridCell.Tab.0.right" timestamp="1588235537697">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588235537697" />
+    <state width="1282" height="323" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
+    <state width="1493" height="270" key="GridCell.Tab.1.bottom" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.1.center" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.1.left" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.1.right" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.2.bottom" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.2.center" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.2.left" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.2.right" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1282" height="323" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1493" height="270" key="GridCell.Tab.3.bottom" timestamp="1588235379452">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588235379452" />
+    <state width="1493" height="270" key="GridCell.Tab.3.center" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1493" height="270" key="GridCell.Tab.3.left" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state width="1493" height="270" key="GridCell.Tab.3.right" timestamp="1588235379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="270" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1588235379451" />
+    <state x="0" y="78" key="MergeDialog" timestamp="1587650488047">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="78" key="MergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1587650488047" />
+    <state x="498" y="289" key="MultipleFileMergeDialog" timestamp="1587650488078">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="498" y="289" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1587650488078" />
+    <state x="444" y="114" key="RollbackChangesDialog" timestamp="1588002383950">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="444" y="114" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588002383950" />
+    <state x="270" y="0" key="SettingsEditor" timestamp="1588055160492">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1588055160492" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1588217179942">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588217179942" />
+    <state x="565" y="190" key="chooseDestDirectoryDialog" timestamp="1588235900035">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="565" y="190" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1588235900035" />
+    <state x="844" y="402" width="428" height="250" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1587298345851">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="844" y="402" width="428" height="250" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1920.1040@0.0.1920.1040" timestamp="1587298345851" />
+    <state x="468" y="13" width="600" height="798" key="find.popup" timestamp="1587607824132">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="468" y="13" width="600" height="798" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1587607824132" />
+    <state x="476" y="124" key="git4idea.branch.GitSmartOperationDialog" timestamp="1588001925806">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="476" y="124" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1588001925806" />
+    <state x="474" y="199" key="git4idea.merge.GitPullDialog" timestamp="1588217145922">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="474" y="199" key="git4idea.merge.GitPullDialog/0.0.1536.824@0.0.1536.824" timestamp="1588217145922" />
+    <state x="570" y="319" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1588234505215">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="570" y="319" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588234505215" />
+    <state x="6" y="161" key="new project wizard" timestamp="1587275381741">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="6" y="161" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1587275381741" />
+    <state x="545" y="169" key="refactoring.ChangeSignatureDialog" timestamp="1587908765009">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="545" y="169" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1587908765009" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1588236168539">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1588236168539" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587902718153">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587902718153" />
+    <state x="418" y="115" key="spring file set editor" timestamp="1587953750332">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="418" y="115" key="spring file set editor/0.0.1536.824@0.0.1536.824" timestamp="1587953750332" />
+    <state x="523" y="145" key="spring file set editor/0.0.1920.1040@0.0.1920.1040" timestamp="1587265107588" />
+    <state x="599" y="203" key="svn.repositoryBrowser" timestamp="1588164981134">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="599" y="203" key="svn.repositoryBrowser/0.0.1536.824@0.0.1536.824" timestamp="1588164981134" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$myTest1_testMemoryDAO.ic" NAME="myTest1.testMemoryDAO Coverage Results" MODIFIED="1587620646849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$testServer_testFastDFS.ic" NAME="testServer.testFastDFS Coverage Results" MODIFIED="1587865393638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$TestFriend_testFriend.ic" NAME="TestFriend.testFriend Coverage Results" MODIFIED="1587967917090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
