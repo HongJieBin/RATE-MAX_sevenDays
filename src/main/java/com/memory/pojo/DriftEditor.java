@@ -16,7 +16,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "drift")
+@Table(name = "drift_editor")
 @DynamicInsert
 public class DriftEditor {
     @Id
