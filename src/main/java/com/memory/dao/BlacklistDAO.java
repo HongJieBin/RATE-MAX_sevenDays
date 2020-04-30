@@ -17,5 +17,6 @@ public interface BlacklistDAO {
     void delete(Blacklist blacklist);
     List<Blacklist> getByUserID(int id);
     List<Blacklist> getByAddedID(int id);
+    Blacklist get(Integer uid,Integer addId);
 
 }
