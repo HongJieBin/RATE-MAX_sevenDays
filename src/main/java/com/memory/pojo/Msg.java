@@ -6,6 +6,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,8 @@ public class Msg {
     @Column(name = "msg_content", nullable = false, length = 128)
     private String msgContent;
     @Column(name = "msg_datetime", nullable = false)
-    private Timestamp msgDatetime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date msgDatetime;
 
     @Column(name = "msg_action")
     private int msgAction;
@@ -88,11 +90,11 @@ public class Msg {
     }
 
 
-    public Timestamp getMsgDatetime() {
+    public Date getMsgDatetime() {
         return msgDatetime;
     }
 
-    public void setMsgDatetime(Timestamp msgDatetime) {
+    public void setMsgDatetime(Date msgDatetime) {
         this.msgDatetime = msgDatetime;
     }
 
