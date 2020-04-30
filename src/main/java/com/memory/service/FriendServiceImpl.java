@@ -43,6 +43,9 @@ public class FriendServiceImpl implements FriendService{
         add_id.addAll((List<Integer>)hibernateTemplate.find(hql2,userId));
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
         String hql3 = "from User as user where user.userId in (:list)";
+        if(add_id.isEmpty()){
+            return null;
+        }
         List<User> users= (List<User>)session.createQuery(hql3).setParameterList("list",add_id).list();
 
         return users;
