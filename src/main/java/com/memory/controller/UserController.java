@@ -2,6 +2,7 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
@@ -43,7 +44,7 @@ public class UserController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("查询错误"));
         }
-        if( u ==null ){                         //can not find the user
+        if( u == null ){                         //can not find the user
             return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+user.getUserId()));
         }
         u.setNickname(user.getNickname());
@@ -55,7 +56,7 @@ public class UserController {
         try {
             userService.update(u);
         }catch (Exception e){
-            return JsonUtils.toJSON(JsonResult.errorException("修改错误"));
+            return JsonUtils.toJSON(JsonResult.errorException("保存失败！\nMessage:"+e.getMessage()));
         }
         return JsonUtils.toJSON(JsonResult.ok(u));
     }
@@ -66,13 +67,14 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/pastTag" , method = RequestMethod.GET)
-    public @ResponseBody String pastTag(int userId){
+    public @ResponseBody String pastTag(@RequestBody JSONObject json){
         //System.out.println("userId"+userId);
         List<String> tagList = new LinkedList<>();
         List<UserTag> list = null;
         try {
-            list = userTagService.getByUserId(userId);
+            list = userTagService.getByUserId(json.getInteger("userId"));
         }catch (Exception e){
+            System.out.println(e.getCause()+":"+e.getMessage());
             return JsonUtils.toJSON(JsonResult.build(1000,"args error",""));
         }
         for(UserTag ut:list){
@@ -97,8 +99,8 @@ public class UserController {
         }
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-        String lastTag = u.getThisWeekTag();
-        String[] lastTagList = lastTag.split(",");
+        String lastTag = u.getThisWeekTag();                    //获取上周标签
+        String[] lastTagList = lastTag.split(",");        //将字符串分开
         for(String s: lastTagList){                     //update UserTag chart
             Tag t = tagService.getByTagName(s);
             UserTag ut = userTagService.get(user.getUserId(),t.getTagId());
