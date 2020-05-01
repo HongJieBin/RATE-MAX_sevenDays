@@ -1,5 +1,7 @@
 package com.memory.utils;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 返回格式
  * {
@@ -63,6 +65,7 @@ public class JsonResult {
         this.data = data;
     }
 
+    @JSONField(serialize=false)
     public Boolean isOK() {
         return this.status == 200;
     }
