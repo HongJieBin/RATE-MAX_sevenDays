@@ -45,6 +45,11 @@ public class TagController {
         return JsonUtils.toJSON(JsonResult.ok(returnList));
     }
 
+    /**
+     * 设置标签请求，以后可能会用到
+     * @param tag
+     * @return
+     */
     @RequestMapping(value = "setTag" , method = RequestMethod.POST)
     public @ResponseBody String setTag(@RequestBody Tag tag){
         try {

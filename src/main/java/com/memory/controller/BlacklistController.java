@@ -52,10 +52,10 @@ public class BlacklistController {
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public @ResponseBody String delete(int userId,int deleteId){
+    public @ResponseBody String delete(@RequestBody Blacklist b){
         Blacklist blacklist;
         try {
-            blacklist = blacklistService.get(userId, deleteId);
+            blacklist = blacklistService.get(b.getUserId(),b.getAddedId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误"));
         }
@@ -66,4 +66,14 @@ public class BlacklistController {
         }
         return JsonUtils.toJSON(JsonResult.ok());
     }
+
+    /**
+     * 测试方法
+     * @param blacklist
+     * @return
+     *
+    @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
+    public @ResponseBody String getBlackList(@RequestBody Blacklist blacklist){
+        return JsonUtils.toJSON(JsonResult.ok(blacklistService.get(blacklist.getUserId(),blacklist.getAddedId())));
+    }*/
 }

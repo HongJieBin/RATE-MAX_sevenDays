@@ -100,19 +100,23 @@ public class UserController {
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
         String lastTag = u.getThisWeekTag();                    //获取上周标签
-        String[] lastTagList = lastTag.split(",");        //将字符串分开
-        for(String s: lastTagList){                     //update UserTag chart
-            Tag t = tagService.getByTagName(s);
-            UserTag ut = userTagService.get(user.getUserId(),t.getTagId());
-            if (ut == null){
-                ut = new UserTag();
-                ut.setUserId(user.getUserId());
-                ut.setTagId(t.getTagId());
-                ut.setTagNumber(1);
-                userTagService.save(ut);
-            }else {
-                ut.setTagNumber(ut.getTagNumber() + 1);
-                userTagService.update(ut);
+        String[] lastTagList = null;
+        if( lastTag != null) {
+            lastTagList = lastTag.split(",");        //将字符串分开
+
+            for (String s : lastTagList) {                     //update UserTag chart
+                Tag t = tagService.getByTagName(s);
+                UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
+                if (ut == null) {
+                    ut = new UserTag();
+                    ut.setUserId(user.getUserId());
+                    ut.setTagId(t.getTagId());
+                    ut.setTagNumber(1);
+                    userTagService.save(ut);
+                } else {
+                    ut.setTagNumber(ut.getTagNumber() + 1);
+                    userTagService.update(ut);
+                }
             }
         }
         try {
@@ -146,7 +150,7 @@ public class UserController {
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息，以后可能会用到
      * @param user
      * @return
      */
