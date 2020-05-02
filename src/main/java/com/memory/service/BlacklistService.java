@@ -6,6 +6,8 @@ import com.memory.pojo.Blacklist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BlacklistService {
 
@@ -22,5 +24,9 @@ public class BlacklistService {
 
     public Blacklist get(Integer uid,Integer addId){
         return blacklistDAO.get(uid,addId);
+    }
+
+    public List<Blacklist> getByUserId(int id){
+        return blacklistDAO.getByUserID(id);
     }
 }

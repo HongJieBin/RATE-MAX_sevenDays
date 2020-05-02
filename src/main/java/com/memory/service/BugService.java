@@ -15,4 +15,6 @@ public class BugService {
     public void save(Bug bug){
         bugDAO.add(bug);
     }
+
+    public Bug get(int id){return bugDAO.get(id);}
 }

@@ -6,6 +6,7 @@ import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,5 +43,20 @@ public class TagController {
             returnList.add(list.get(random.nextInt()%list.size()));
         }
         return JsonUtils.toJSON(JsonResult.ok(returnList));
+    }
+
+    /**
+     * 设置标签请求，以后可能会用到
+     * @param tag
+     * @return
+     */
+    @RequestMapping(value = "setTag" , method = RequestMethod.POST)
+    public @ResponseBody String setTag(@RequestBody Tag tag){
+        try {
+            tagService.add(tag);
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok("添加成功"));
     }
 }

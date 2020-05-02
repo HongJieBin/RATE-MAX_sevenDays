@@ -31,4 +31,6 @@ public class TagService {
     public List<Tag> getAll(){
         return tagDAO.getAll();
     }
+
+    public void add(Tag tag){ tagDAO.add(tag);}
 }
