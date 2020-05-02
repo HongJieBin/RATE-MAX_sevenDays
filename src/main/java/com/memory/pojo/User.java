@@ -62,13 +62,6 @@ public class User {
     @Cascade(CascadeType.DELETE)
     private Set<Memory> memories = new HashSet<>();     //用户十字记忆记录表
 
-    @ManyToMany(targetEntity = Tag.class)
-    @Fetch(FetchMode.JOIN)
-    @JoinTable(name = "user_tag",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags = new HashSet<Tag>();     //用户标签表
-
     @OneToMany(mappedBy = "user", targetEntity = Ban.class)
     @Cascade(CascadeType.DELETE)
     private Set<Ban> banHistory = new HashSet<Ban>();   //封禁记录表
@@ -164,16 +157,6 @@ public class User {
     public void setThrowNumber(Integer throwNumber) {
         this.throwNumber = throwNumber;
     }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-
 
     public Set<Memory> getMemories() {
         return memories;

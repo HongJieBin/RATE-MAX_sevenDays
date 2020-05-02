@@ -22,11 +22,12 @@ public class BugController {
      * @return
      */
     @RequestMapping(value = "/feedback",method = RequestMethod.POST)
-    public @ResponseBody String feedback(int userId,String content){
+    public @ResponseBody String feedback(@RequestBody JSONObject json){
         Bug bug = new Bug();
-        bug.setBugContent(content);                   //build bug object
+        bug.setBugContent(json.getString("content"));                   //build bug object
         try {
             bugService.save(bug);
+            //System.out.println(bug.getBugId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.build(1000,"请求参数错误",""));
         }
@@ -36,10 +37,9 @@ public class BugController {
     /**
      * 测试方法
      * @return
-     */
-    @RequestMapping(value = "/bug",method = RequestMethod.POST)
-    public @ResponseBody String bug(String content){
-        System.out.println("test method");
-        return JsonUtils.toJSON(JsonResult.ok());
-    }
+     *
+    @RequestMapping(value = "/getBug",method = RequestMethod.POST)
+    public @ResponseBody String bug(@RequestBody Bug bug){
+        return JsonUtils.toJSON(JsonResult.ok(bugService.get(bug.getBugId())));
+    }*/
 }
