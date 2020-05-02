@@ -5,12 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
+import com.memory.service.MsgService;
 import com.memory.service.TagService;
 import com.memory.service.UserService;
 import com.memory.service.UserTagService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.LinkedList;
@@ -29,12 +32,14 @@ public class UserController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private MsgService msgService;
     /**
      * 修改个人信息
      * @param
      * @return
      */
-    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String modifyInformation (@RequestBody User user){
         User u;
         System.out.println(user);
@@ -152,5 +157,15 @@ public class UserController {
     public @ResponseBody String getUser(@RequestBody User user){
         User u = userService.get(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(u));
+    }
+
+    @RequestMapping(value = "/getUnReadMsgList",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getUnReadMsgList(Integer acceptUserId) {
+        if (acceptUserId==null) {
+            return JsonUtils.toJSON(JsonResult.errorMsg("用户民不能为空"));
+        }
+        List<com.memory.netty.Msg> msgList = msgService.getUnReadMsgList(acceptUserId);
+        return JsonUtils.toJSON(JsonResult.ok(msgList));
     }
 }
