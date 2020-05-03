@@ -3,7 +3,7 @@ package com.memory.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Bug;
-import com.memory.service.BugService;
+import com.memory.service.BugServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class BugController {
 
     @Autowired
-    private BugService bugService;
+    private BugServiceImpl bugService;
 
     /**
      * Bug反馈

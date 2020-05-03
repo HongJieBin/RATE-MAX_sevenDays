@@ -1,7 +1,7 @@
 package com.memory.controller;
 
 import com.memory.pojo.Tag;
-import com.memory.service.TagService;
+import com.memory.service.TagServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.Random;
 public class TagController {
 
     @Autowired
-    private TagService tagService;
+    private TagServiceImpl tagService;
 
 
     /**

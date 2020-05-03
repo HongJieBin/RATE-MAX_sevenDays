@@ -3,11 +3,13 @@ package com.memory.service;
 import com.memory.pojo.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author hy
  * @date 2020/4/25 - 13:49
  */
-@Service
+
 public interface IUserService {
     /**
      * 提供注册服务
@@ -25,5 +27,9 @@ public interface IUserService {
      */
     User loginUser(String userphone, String userPwd) throws Exception;
 
+    public User get(Integer id);
 
+    public void update(User u);
+
+    public List<User> getAll();
 }

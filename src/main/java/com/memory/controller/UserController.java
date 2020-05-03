@@ -2,13 +2,12 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
-import com.memory.service.TagService;
-import com.memory.service.UserService;
-import com.memory.service.UserTagService;
+import com.memory.service.IUserService;
+import com.memory.service.TagServiceImpl;
+import com.memory.service.UserTagServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,13 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
-    private UserTagService userTagService;
+    private UserTagServiceImpl userTagService;
 
     @Autowired
-    private TagService tagService;
+    private TagServiceImpl tagService;
 
     /**
      * 修改个人信息

@@ -58,5 +58,13 @@ public class UserServiceImpl implements IUserService{
         return loginuer;
     }
 
+    public User get(Integer id){
+        return userDAO.get(id);
+    }
 
+    public void update(User u){
+        userDAO.update(u);
+    }
+
+    public List<User>getAll(){return userDAO.getAll();}
 }

@@ -1,11 +1,10 @@
 package com.memory.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Blacklist;
 import com.memory.pojo.User;
-import com.memory.service.BlacklistService;
-import com.memory.service.UserService;
+import com.memory.service.BlacklistServiceImpl;
+import com.memory.service.IUserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,10 @@ import java.util.List;
 public class BlacklistController {
 
     @Autowired
-    private BlacklistService blacklistService;
+    private BlacklistServiceImpl blacklistService;
 
     @Autowired
-    private UserService userService;
+    private IUserService iUserService;
 
 
     /**
@@ -88,7 +87,7 @@ public class BlacklistController {
             List<Blacklist> list = blacklistService.getByUserId(user.getUserId());
             if(list != null){
                 for(Blacklist l : list){
-                    User u = userService.get(l.getAddedId());
+                    User u = iUserService.get(l.getAddedId());
                     map.put(u.getUserId(),u.getNickname());
                 }
             }
