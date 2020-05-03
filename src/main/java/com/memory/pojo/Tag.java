@@ -22,15 +22,11 @@ import java.util.Set;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tagId")
+    @Column(name = "tag_id")
     private int tagId;
 
-    @Column(name = "tagName", nullable = false, length = 20)
+    @Column(name = "tag_name", nullable = false, length = 20)
     private String tagName;
-
-    @ManyToMany(targetEntity = User.class,
-                mappedBy = "tags")
-    private Set<User> users = new HashSet<>();
 
     public int getTagId() {
         return tagId;
@@ -48,13 +44,6 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     @Override
     public boolean equals(Object o) {

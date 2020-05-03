@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Msg;
 import com.memory.pojo.Post;
 
+import java.util.List;
+
 /**
  * @InterfaceName PostDAO
  * @Description TODO
@@ -15,4 +17,5 @@ public interface PostDAO {
     void update(Post post);
     void delete(Post post);
     Post get(int id);
+    List<Post> getLatest(int start, int max);
 }

@@ -32,7 +32,7 @@ public class Post {
     @Column(name = "post_date", nullable = false)
     private Timestamp postDate;
 
-    @Column(name = "post_emoji", length = 256)
+    @Column(name = "post_emoji", length = 256)  
     private String postEmoji;
 
     @Column(name = "post_like")
@@ -129,4 +129,6 @@ public class Post {
                 ", user=" + user +
                 '}';
     }
+
+
 }

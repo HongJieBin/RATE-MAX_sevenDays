@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName PostDAOImpl
@@ -39,5 +40,13 @@ public class PostDAOImpl implements PostDAO{
     @Override
     public Post get(int id) {
         return hibernateTemplate.get(Post.class, id);
+    }
+
+    @Override
+    public List<Post> getLatest(int start, int max){
+        String hql = "from Post as p order by postDate desc";
+        return (List<Post>)hibernateTemplate.getSessionFactory().getCurrentSession().
+                createQuery(hql).setFirstResult(start).
+                setMaxResults(max).list();
     }
 }
