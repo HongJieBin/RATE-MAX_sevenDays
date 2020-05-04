@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName BanDAOImpl
@@ -39,5 +40,13 @@ public class BanDAOImpl implements BanDAO{
     @Override
     public Ban get(int id) {
         return hibernateTemplate.get(Ban.class, id);
+    }
+
+    @Override
+    public Ban getByUserId(int userId) {
+        List<Ban> list = (List<Ban>) hibernateTemplate.find("from Ban as b where b.user.UserId = ?" ,userId);
+        if(list.size() != 0)
+            return list.get(0);
+        return null;
     }
 }

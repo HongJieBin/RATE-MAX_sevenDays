@@ -35,23 +35,23 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String modifyInformation (@RequestBody User user){
+    public @ResponseBody String modifyInformation (@RequestBody JSONObject json){
         User u;
-        System.out.println(user);
+        //System.out.println(user);
         try {
-            u = userService.get(user.getUserId());
+            u = userService.get(json.getInteger("userId"));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("查询错误"));
         }
         if( u == null ){                         //can not find the user
-            return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+user.getUserId()));
+            return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+json.getInteger("userId")));
         }
-        u.setNickname(user.getNickname());
-        if (user.getIcon() != null || user.getIcon().length()!=0 )
-            u.setIcon(user.getIcon());
-        u.setGender(user.getGender());
-        if (user.getProfile() != null || user.getProfile().length() != 0 )
-            u.setProfile(user.getProfile());
+        u.setNickname(json.getString("nickname"));
+        if (json.getString("icon") != null && json.getString("icon").length()!=0 )
+            u.setIcon(json.getString("icon"));
+        u.setGender(json.getString("gender"));
+        if (json.getString("profile") != null )
+            u.setProfile(json.getString("profile"));
         try {
             userService.update(u);
         }catch (Exception e){
