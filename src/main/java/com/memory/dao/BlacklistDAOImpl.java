@@ -52,7 +52,7 @@ public class BlacklistDAOImpl implements BlacklistDAO{
 
     @Override
     public Blacklist get(Integer uid, Integer addId) {
-        List<Blacklist> list = (List<Blacklist>)hibernateTemplate.find("from Blacklist as bl where bl.user_id = ? and bl.added_id = ?",
+        List<Blacklist> list = (List<Blacklist>)hibernateTemplate.find("from Blacklist as bl where bl.userId = ? and bl.addedId = ?",
                 new Object[]{uid,addId});
         if(list.size() == 0)
             return null;
