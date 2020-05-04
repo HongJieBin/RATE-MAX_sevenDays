@@ -1,7 +1,6 @@
 package com.memory.controller;
 
 import com.memory.pojo.User;
-import com.memory.service.IUserService;
 import com.memory.service.UserServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author hy
@@ -18,14 +16,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-public class LoginController {
+public class Login {
+
+    @Autowired
+    protected HttpServletRequest request;
 
     @Autowired
     protected UserServiceImpl service;
 
     @ResponseBody
-    @RequestMapping(value = "/Login",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public String login (@RequestBody User iuser,HttpServletRequest request){
+    @RequestMapping(value = "/user/login",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public String login (@RequestBody User iuser){
         /*我自己的页面操作
         //获取用户填写的登录用户名//手机号
         String username = request.getParameter("username");
@@ -36,13 +37,16 @@ public class LoginController {
         String username = iuser.getTelephone();
         String password = iuser.getPassword();
 
+        System.out.println(username);
+        System.out.println(password);
+
         User user = null;
         try {
-            user = service.loginUser(username,password);
+            user = service.loginUser(username,password);//数据库查询并返回用户信息
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("用户名/手机号，密码问题");
-            return JsonUtils.toJSON(JsonResult.errorMsg("用户名/手机号，密码问题"));
+            //System.out.println("用户名/手机号，密码问题");
+            return JsonUtils.toJSON(JsonResult.errorMsg("用户名/手机号，用户名或密码错误"));
         }
         if(user==null){
             /*String message = String.format(
@@ -60,6 +64,6 @@ public class LoginController {
                 request.getContextPath()+"/index.jsp");
         request.setAttribute("message",message);
         //request.getRequestDispatcher("/message.jsp").forward(request, response);*/
-        return JsonUtils.toJSON(JsonResult.errorMsg("登录成功"));
+        return JsonUtils.toJSON(JsonResult.ok(user));
     }
 }
