@@ -143,7 +143,7 @@ public class UserController {
         String tags = u.getThisWeekTag();
         String[] list = null;
         if(tags != null) {
-            list = tags.split(",");
+            list = tags.split(" ");
         }
         return JsonUtils.toJSON(JsonResult.ok(list));
     }

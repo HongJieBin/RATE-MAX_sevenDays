@@ -3,7 +3,9 @@ package com.memory.service;
 import com.memory.dao.MemoryDAO;
 import com.memory.pojo.Memory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MemoryServiceImpl implements MemoryService {
 
     @Autowired
@@ -22,5 +24,9 @@ public class MemoryServiceImpl implements MemoryService {
     @Override
     public Memory get(int id) {
         return memoryDAO.get(id);
+    }
+
+    public void update(Memory memory){
+        memoryDAO.update(memory);
     }
 }

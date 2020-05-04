@@ -9,4 +9,6 @@ public interface MemoryService {
     void add(Memory memory);
 
     Memory get(int id);
+
+    void update(Memory memory);
 }
