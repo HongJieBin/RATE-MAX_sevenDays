@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
-import com.memory.service.TagService;
-import com.memory.service.UserService;
-import com.memory.service.UserTagService;
+import com.memory.service.IUserService;
+import com.memory.service.TagServiceImpl;
+import com.memory.service.UserTagServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
-    private UserTagService userTagService;
+    private UserTagServiceImpl userTagService;
 
     @Autowired
-    private TagService tagService;
+    private TagServiceImpl tagService;
 
     /**
      * 修改个人信息
@@ -43,7 +43,7 @@ public class UserController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("查询错误"));
         }
-        if( u ==null ){                         //can not find the user
+        if( u == null ){                         //can not find the user
             return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+user.getUserId()));
         }
         u.setNickname(user.getNickname());
@@ -55,7 +55,7 @@ public class UserController {
         try {
             userService.update(u);
         }catch (Exception e){
-            return JsonUtils.toJSON(JsonResult.errorException("修改错误"));
+            return JsonUtils.toJSON(JsonResult.errorException("保存失败！\nMessage:"+e.getMessage()));
         }
         return JsonUtils.toJSON(JsonResult.ok(u));
     }
@@ -66,13 +66,14 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/pastTag" , method = RequestMethod.GET)
-    public @ResponseBody String pastTag(int userId){
+    public @ResponseBody String pastTag(@RequestBody JSONObject json){
         //System.out.println("userId"+userId);
         List<String> tagList = new LinkedList<>();
         List<UserTag> list = null;
         try {
-            list = userTagService.getByUserId(userId);
+            list = userTagService.getByUserId(json.getInteger("userId"));
         }catch (Exception e){
+            System.out.println(e.getCause()+":"+e.getMessage());
             return JsonUtils.toJSON(JsonResult.build(1000,"args error",""));
         }
         for(UserTag ut:list){
@@ -97,20 +98,24 @@ public class UserController {
         }
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-        String lastTag = u.getThisWeekTag();
-        String[] lastTagList = lastTag.split(",");
-        for(String s: lastTagList){                     //update UserTag chart
-            Tag t = tagService.getByTagName(s);
-            UserTag ut = userTagService.get(user.getUserId(),t.getTagId());
-            if (ut == null){
-                ut = new UserTag();
-                ut.setUserId(user.getUserId());
-                ut.setTagId(t.getTagId());
-                ut.setTagNumber(1);
-                userTagService.save(ut);
-            }else {
-                ut.setTagNumber(ut.getTagNumber() + 1);
-                userTagService.update(ut);
+        String lastTag = u.getThisWeekTag();                    //获取上周标签
+        String[] lastTagList = null;
+        if( lastTag != null) {
+            lastTagList = lastTag.split(" ");        //将字符串分开
+
+            for (String s : lastTagList) {                     //update UserTag chart
+                Tag t = tagService.getByTagName(s);
+                UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
+                if (ut == null) {
+                    ut = new UserTag();
+                    ut.setUserId(user.getUserId());
+                    ut.setTagId(t.getTagId());
+                    ut.setTagNumber(1);
+                    userTagService.save(ut);
+                } else {
+                    ut.setTagNumber(ut.getTagNumber() + 1);
+                    userTagService.update(ut);
+                }
             }
         }
         try {
@@ -138,13 +143,13 @@ public class UserController {
         String tags = u.getThisWeekTag();
         String[] list = null;
         if(tags != null) {
-            list = tags.split(",");
+            list = tags.split(" ");
         }
         return JsonUtils.toJSON(JsonResult.ok(list));
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息，以后可能会用到
      * @param user
      * @return
      */
