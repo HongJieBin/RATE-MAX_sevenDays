@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="spring-springmvc-hibernate:war exploded" />
+      <artifact name="RATE-MAX_sevenDays:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="BranchesTreeState">
@@ -16,21 +16,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="个人中心模块修改">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/ChatServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/ChatServerHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/ChatServerInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/DataContent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/HttpRequestHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/netty/UserChannelRelation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/websocket/HandShake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/websocket/WebSocketConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/memory/websocket/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_16_40_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_16_40__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_23_38_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2020_4_27_23_38__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/controller/FriendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/controller/FriendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/dao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/dao/UserDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/FriendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/FriendService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/FriendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/FriendServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-springmvc-hibernate.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +83,7 @@
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/.." value="master" />
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -120,6 +112,7 @@
     </option>
     <option name="importingSettings">
       <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
         <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
     </option>
@@ -137,6 +130,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
@@ -168,6 +162,11 @@
       <recent name="E:\sevenDays_project\spring-springmvc-hibernate\src\main\java\com\memory\service" />
       <recent name="E:\sevenDays_project\spring-springmvc-hibernate" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn idea:module" />
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="excludedTypes">
@@ -225,12 +224,12 @@
     </configuration>
     <configuration name="Tomcat 9.0.30" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.30" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
-      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=UTF-8" />
-      <option name="UPDATING_POLICY" value="update-resources" />
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
       <deployment>
-        <artifact name="spring-springmvc-hibernate:war exploded">
+        <artifact name="RATE-MAX_sevenDays:war exploded">
           <settings>
-            <option name="CONTEXT_PATH" value="/spring" />
+            <option name="CONTEXT_PATH" value="/sevenDays" />
           </settings>
         </artifact>
       </deployment>
@@ -295,6 +294,7 @@
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
           <artifact name="spring-springmvc-hibernate:war exploded" />
+          <artifact name="RATE-MAX_sevenDays:war exploded" />
         </option>
       </method>
     </configuration>
@@ -374,6 +374,7 @@
       <workItem from="1588235386177" duration="130000" />
       <workItem from="1588235521614" duration="4641000" />
       <workItem from="1588248966533" duration="611000" />
+      <workItem from="1588665607312" duration="2930000" />
     </task>
     <task id="LOCAL-00001" summary="项目基本结构">
       <created>1587453590919</created>
@@ -592,11 +593,18 @@
       <option name="project" value="LOCAL" />
       <updated>1588246588155</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="添加redis依赖,暂时没用">
+      <created>1588665669232</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1588665669232</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -615,15 +623,14 @@
                   </entry>
                 </map>
               </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Test" />
     <MESSAGE value="pojo" />
     <MESSAGE value="配置文件" />
     <MESSAGE value="工具类文件" />
@@ -648,7 +655,8 @@
     <MESSAGE value="README文件" />
     <MESSAGE value="增加文件" />
     <MESSAGE value="个人中心模块修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="个人中心模块修改" />
+    <MESSAGE value="添加redis依赖,暂时没用" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加redis依赖,暂时没用" />
   </component>
   <component name="WindowStateProjectService">
     <state x="362" y="80" key="#Assign_Data_Sources" timestamp="1587604637212">
@@ -669,11 +677,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="449" y="0" width="651" height="824" key="#Tomcat_9.0.30/0.0.1536.824@0.0.1536.824" timestamp="1587475441120" />
-    <state x="228" y="82" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588246501885">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="552" y="176" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588669312329">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="228" y="82" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1588246501885" />
-    <state x="552" y="176" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587302012438" />
+    <state x="552" y="176" width="1211" height="693" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588669312329" />
     <state x="492" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588165154583">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -704,71 +712,75 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="449" y="0" width="651" height="824" key="#index.jsp_(1)/0.0.1536.824@0.0.1536.824" timestamp="1587914186743" />
+    <state x="459" y="54" key="CommitChangelistDialog2" timestamp="1588669055488">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="459" y="54" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1588669055488" />
     <state x="551" y="177" key="FileChooserDialogImpl" timestamp="1588234062993">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="551" y="177" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1588234062993" />
     <state x="689" y="223" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587275372257" />
-    <state width="1231" height="270" key="GridCell.Tab.0.bottom" timestamp="1588249210820">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.0.bottom" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1231" height="270" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588249210820" />
-    <state width="1282" height="323" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
-    <state width="1231" height="270" key="GridCell.Tab.0.center" timestamp="1588249210820">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.0.center" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1231" height="270" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588249210820" />
-    <state width="1282" height="323" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
-    <state width="1231" height="270" key="GridCell.Tab.0.left" timestamp="1588249210820">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.0.left" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1231" height="270" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588249210820" />
-    <state width="1282" height="323" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
-    <state width="1231" height="270" key="GridCell.Tab.0.right" timestamp="1588249210820">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.0.right" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1231" height="270" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588249210820" />
-    <state width="1282" height="323" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141427" />
-    <state width="1232" height="270" key="GridCell.Tab.1.bottom" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.1.bottom" timestamp="1588669329488">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.1.center" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329488" />
+    <state width="1869" height="372" key="GridCell.Tab.1.center" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.1.left" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.1.left" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.1.right" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.1.right" timestamp="1588669329487">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.2.bottom" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329487" />
+    <state width="1869" height="372" key="GridCell.Tab.2.bottom" timestamp="1588669329489">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.2.center" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329489" />
+    <state width="1869" height="372" key="GridCell.Tab.2.center" timestamp="1588669329488">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.2.left" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329488" />
+    <state width="1869" height="372" key="GridCell.Tab.2.left" timestamp="1588669329488">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
-    <state width="1232" height="270" key="GridCell.Tab.2.right" timestamp="1588246703523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1869" height="372" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329488" />
+    <state width="1869" height="372" key="GridCell.Tab.2.right" timestamp="1588669329488">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1232" height="270" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1588246703523" />
-    <state width="1282" height="323" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587302141428" />
+    <state width="1869" height="372" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588669329488" />
     <state width="1232" height="270" key="GridCell.Tab.3.bottom" timestamp="1588246703524">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -805,10 +817,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="ShowDiffWithBranchDialog/0.0.1536.824@0.0.1536.824" timestamp="1588237289317" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1588249265497">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2" timestamp="1588665678674">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588249265497" />
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588665678674" />
     <state x="565" y="190" key="chooseDestDirectoryDialog" timestamp="1588236482692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -825,10 +838,15 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="476" y="124" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1588001925806" />
-    <state x="474" y="199" key="git4idea.merge.GitPullDialog" timestamp="1588249036807">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="699" y="289" key="git4idea.merge.GitMergeDialog" timestamp="1588669019879">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="699" y="289" key="git4idea.merge.GitMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588669019879" />
+    <state x="593" y="251" key="git4idea.merge.GitPullDialog" timestamp="1588669446108">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="474" y="199" key="git4idea.merge.GitPullDialog/0.0.1536.824@0.0.1536.824" timestamp="1588249036807" />
+    <state x="593" y="251" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588669446108" />
     <state x="570" y="319" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1588234505215">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -841,10 +859,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="545" y="169" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1587908765009" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1588236168539">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="531" y="236" width="840" height="1034" key="run.anything.popup" timestamp="1588669224359">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1588236168539" />
+    <state x="531" y="236" width="840" height="1034" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588669224359" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587902718153">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -860,8 +879,8 @@
     <state x="599" y="203" key="svn.repositoryBrowser/0.0.1536.824@0.0.1536.824" timestamp="1588164981134" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$myTest1_testMemoryDAO.ic" NAME="myTest1.testMemoryDAO Coverage Results" MODIFIED="1587620646849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$testServer_testFastDFS.ic" NAME="testServer.testFastDFS Coverage Results" MODIFIED="1587865393638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$myTest1_testMemoryDAO.ic" NAME="myTest1.testMemoryDAO Coverage Results" MODIFIED="1587620646849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$TestFriend_testFriend.ic" NAME="TestFriend.testFriend Coverage Results" MODIFIED="1587967917090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
