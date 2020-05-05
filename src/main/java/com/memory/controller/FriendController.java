@@ -49,4 +49,12 @@ public class FriendController {
         return JsonUtils.toJSON(JsonResult.ok(myFirends));
     }
 
+
+    @RequestMapping(value = "Friend/getInterest",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String recommendFriends(int userId){
+        List<User> recommendFriends = friendService.recommendFriends(userId);
+        return JsonUtils.toJSON(JsonResult.ok(recommendFriends));
+    }
+
 }

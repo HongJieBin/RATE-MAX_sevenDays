@@ -6,6 +6,8 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @ClassName TagDAOImpl
  * @Description TODO
@@ -39,5 +41,20 @@ public class TagDAOImpl implements TagDAO{
     @Override
     public Tag get(int id) {
         return hibernateTemplate.get(Tag.class, id);
+    }
+
+
+    @Override
+    public Tag getByName(String name) {
+        List<Tag> list = (List<Tag>)hibernateTemplate.find("from Tag as t where t.tagName = ?",name);
+        if(list.size()==0)
+            return null;
+        else
+            return list.get(0);
+    }
+
+    @Override
+    public List<Tag> getAll() {
+        return (List<Tag>)hibernateTemplate.find("from Tag");
     }
 }

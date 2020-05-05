@@ -1,13 +1,9 @@
 package com.memory.controller;
 
-import com.memory.formbean.RegisterFormBean;
 import com.memory.pojo.User;
-import com.memory.service.IUserService;
 import com.memory.service.UserServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
-import com.memory.utils.WebUtils;
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author hy
@@ -24,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-public class Register {
+public class Signup {
 
 
     @Autowired
@@ -35,7 +30,7 @@ public class Register {
     protected UserServiceImpl service;
 
     @ResponseBody()
-    @RequestMapping(value = "/Register",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/signup",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public String register (@RequestBody User iuser){
 
         //我自己页面的操作，这里简单起见先不做数据判断
@@ -72,7 +67,7 @@ public class Register {
                     request.getContextPath()+"/servlet/LoginUIServlet");
             request.setAttribute("message",message);
             request.getRequestDispatcher("/message.jsp").forward(request,response);*/
-            return JsonUtils.toJSON(JsonResult.errorMsg("注册成功，这里返回登录界面"));
+            return JsonUtils.toJSON(JsonResult.ok("注册成功，这里返回登录界面"));
         } /*catch (UserExistException e) {
             formbean.getErrors().put("userName", "注册用户已存在！！");
             request.setAttribute("formbean", formbean);

@@ -15,7 +15,9 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--注解驱动-->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <!--注解驱动-->
+    <mvc:annotation-driven>
+    </mvc:annotation-driven>
     <!--过滤静态资源 -->
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
     <!--扫描controller-->

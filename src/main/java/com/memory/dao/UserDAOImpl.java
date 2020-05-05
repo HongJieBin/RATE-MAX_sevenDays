@@ -81,4 +81,16 @@ public class UserDAOImpl implements UserDAO {
         return (List<User>) hibernateTemplate.find(hql, value);
     }
 
+    @Override
+    public List<User> getAll() {
+        return (List<User>)hibernateTemplate.find("from User");
+    }
+
+    @Override
+    public int getCount() {
+        String hql = "select count(*) from User as user";
+        Long count = (Long)hibernateTemplate.find(hql).listIterator().next();
+        return count.intValue();
+    }
+
 }

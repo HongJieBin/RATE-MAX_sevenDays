@@ -20,4 +20,7 @@ public interface FriendService {
     public boolean isExitUser(int userId);
     public void saveFriends(Integer myUserId, Integer friendUserId);
     public void deleteFriend(Integer myUserId, Integer friendUserId);
+    public List<User> recommendFriends(Integer myUserId);
+    public int getRandomId(int myUserId);
+    public List<User> queryBlackList(int userId);
 }
