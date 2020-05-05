@@ -60,6 +60,6 @@ public class LoginController {
                 request.getContextPath()+"/index.jsp");
         request.setAttribute("message",message);
         //request.getRequestDispatcher("/message.jsp").forward(request, response);*/
-        return JsonUtils.toJSON(JsonResult.errorMsg("登录成功"));
+        return JsonUtils.toJSON(JsonResult.ok(user));
     }
 }

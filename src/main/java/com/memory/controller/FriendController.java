@@ -16,19 +16,21 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
-@Transactional()
+@Transactional
 public class FriendController {
    @Autowired
     private FriendService friendService;
 
     @RequestMapping(value="/Friends",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getFriends(int userId) {
+        System.out.println(userId);
         if (!friendService.isExitUser(userId)) {
             return JsonUtils.toJSON(JsonResult.errorMsg("不存在此用户"));
         }
         else {
             // 1. 数据库查询好友列表
             List<User> myFirends = (List<User>) friendService.queryFriendsList(userId);
+            System.out.println(myFirends.toString());
             return JsonUtils.toJSON(JsonResult.ok(myFirends));
         }
     }

@@ -1,7 +1,6 @@
 package com.memory.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
@@ -11,9 +10,7 @@ import com.memory.service.UserService;
 import com.memory.service.UserTagService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.LinkedList;
@@ -161,11 +158,18 @@ public class UserController {
 
     @RequestMapping(value = "/getUnReadMsgList",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String getUnReadMsgList(Integer acceptUserId) {
+    public JsonResult getUnReadMsgList(Integer acceptUserId) {
+        System.out.println("发送的用户id为" + acceptUserId);
         if (acceptUserId==null) {
-            return JsonUtils.toJSON(JsonResult.errorMsg("用户民不能为空"));
+//            return JsonUtils.toJSON(JsonResult.errorMsg("用户名不能为空"));
+            return JsonResult.errorMsg("用户名不能为空");
         }
         List<com.memory.netty.Msg> msgList = msgService.getUnReadMsgList(acceptUserId);
-        return JsonUtils.toJSON(JsonResult.ok(msgList));
+        if (msgList==null) {
+            System.out.println("msglsit is null");
+        }
+        System.out.println("得到的消息列表为" + msgList.toString());
+//        return JsonUtils.toJSON(JsonResult.ok(msgList));
+        return JsonResult.ok(msgList);
     }
 }
