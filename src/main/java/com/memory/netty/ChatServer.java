@@ -28,8 +28,8 @@ public class ChatServer {
         serverBootstrap.group(bossGroup, worker)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChatServerInitializer())
-                .option(ChannelOption.SO_BACKLOG, 128)
-                .childOption(ChannelOption.SO_KEEPALIVE, true);
+                .option(ChannelOption.SO_BACKLOG, 128);
+//                    .childOption(ChannelOption.SO_KEEPALIVE, true);
     }
 
     public void start() {

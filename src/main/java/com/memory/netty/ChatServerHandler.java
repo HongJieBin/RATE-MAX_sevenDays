@@ -30,6 +30,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame textWebSocketFrame) throws Exception {
         String content = textWebSocketFrame.text();
+        System.out.println(content);
         Channel currentChannel = ctx.channel();
 
         // 获取发送的消息
@@ -118,10 +119,6 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         channels.remove(ctx.channel());
     }
 
-    //每当从服务端读到客户端写入信息时，将信息转发给其他客户端的 Channel。
-    //信息的处理和发送
-
-
 
     //服务端监听到客户端活动
     @Override
@@ -146,7 +143,5 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         cause.printStackTrace();
         incoming.close();
         channels.remove(incoming);
-
     }
-
 }

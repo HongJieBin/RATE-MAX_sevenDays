@@ -46,12 +46,9 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
         //自己的handler
         pipeline.addLast(new ChatServerHandler());
 
-        pipeline.addLast(new StringEncoder(Charset.forName("UTF-8")));
-        pipeline.addLast(new StringDecoder(Charset.forName("UTF-8")));
-
         /* 增加心跳支持 */
-        pipeline.addLast(new IdleStateHandler(8, 10, 12));
-        pipeline.addLast(new HeartBeatHandler());
+//        pipeline.addLast(new IdleStateHandler(8, 10, 12));
+//        pipeline.addLast(new HeartBeatHandler());
 
     }
 }
