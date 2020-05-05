@@ -1,6 +1,7 @@
 package com.memory.controller;
 
 
+import com.memory.formbean.BlackListBean;
 import com.memory.pojo.Blacklist;
 import com.memory.pojo.User;
 import com.memory.service.BlacklistServiceImpl;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -78,23 +80,26 @@ public class BlacklistController {
     /**
      * 获取用户的黑名单
      * @param user  用户id
-     * @return  一个用户黑名单的id，昵称键值对map
+     * @return
      */
     @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
     public @ResponseBody String getBlackList(@RequestBody User user){
-        HashMap<Integer,String> map = new HashMap<>();
+        List<BlackListBean> blist = new LinkedList<>();
         try {
             List<Blacklist> list = blacklistService.getByUserId(user.getUserId());
             if(list != null){
                 for(Blacklist l : list){
                     User u = iUserService.get(l.getAddedId());
-                    map.put(u.getUserId(),u.getNickname());
+                    BlackListBean blackListBean = new BlackListBean();
+                    blackListBean.setUserId(u.getUserId());
+                    blackListBean.setNickname(u.getNickname());
+                    blist.add(blackListBean);
                 }
             }
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("error:"+e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.ok(map));
+        return JsonUtils.toJSON(JsonResult.ok(blist));
     }
 
     /**

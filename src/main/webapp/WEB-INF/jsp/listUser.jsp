@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>用户列表</title>
+    <title>用户列表</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <body>
 	<h1 >用户管理</h1>
@@ -27,12 +28,62 @@
 				<tr>
 					<td><%= user.getUserId()%></td>
 					<td><%= user.getNickname()%></td>
-					<td><input type="button" value="封禁" /></td>
+					<td><input type="button" value="封禁" id = <%= user.getUserId()%> onclick="func()"/></td>
+					<td><input type="button" value="解封" id = <%= user.getUserId()%> onclick="disBan()"/></td>
 				</tr>			
 				<%
 					}
 				%>
 			</tbody>
 		</table>
+	<script>
+		function func(){
+            var id = event.target.id;
+            //alert(id);
+            $.ajax({
+                url: '/ban/banUser',//地址
+                dataType: 'json',//数据类型
+                data: {
+                    userId: id
+                },
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',//类型
+                timeout: 1000,//超时
+                //请求成功
+                success: function (data) {
+                    alert(data);
+                    //alert(status);
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("请求错误");
+                }
+            });
+        }
+
+        function disBan(){
+            var id = event.target.id;
+            //alert(id);
+            $.ajax({
+                url: '/ban/disBan',//地址
+                dataType: 'json',//数据类型
+                data: {
+                    userId: id
+                },
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',//类型
+                timeout: 1000,//超时
+                //请求成功
+                success: function (data) {
+                    alert(data);
+                    //alert(status);
+                },
+                //失败/超时
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("请求错误");
+                }
+            });
+        }
+	</script>
 </body>
 </html>

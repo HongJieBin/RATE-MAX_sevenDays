@@ -44,7 +44,7 @@ public class BanDAOImpl implements BanDAO{
 
     @Override
     public Ban getByUserId(int userId) {
-        List<Ban> list = (List<Ban>) hibernateTemplate.find("from Ban as b where b.user.UserId = ?" ,userId);
+        List<Ban> list = (List<Ban>) hibernateTemplate.find("from Ban as b where b.user.userId = ?" ,userId);
         if(list.size() != 0)
             return list.get(0);
         return null;
