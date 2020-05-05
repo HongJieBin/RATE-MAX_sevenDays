@@ -6,6 +6,7 @@ import com.memory.pojo.Memory;
 import com.memory.pojo.User;
 import com.memory.service.IUserService;
 import com.memory.service.MemoryService;
+import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class MemoryController {
     private MemoryService memoryService;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * 删除十字记忆
