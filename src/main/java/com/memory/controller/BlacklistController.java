@@ -5,14 +5,13 @@ import com.memory.formbean.BlackListBean;
 import com.memory.pojo.Blacklist;
 import com.memory.pojo.User;
 import com.memory.service.BlacklistServiceImpl;
-import com.memory.service.IUserService;
+import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class BlacklistController {
     private BlacklistServiceImpl blacklistService;
 
     @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
 
     /**
@@ -89,7 +88,7 @@ public class BlacklistController {
             List<Blacklist> list = blacklistService.getByUserId(user.getUserId());
             if(list != null){
                 for(Blacklist l : list){
-                    User u = iUserService.get(l.getAddedId());
+                    User u = userService.get(l.getAddedId());
                     BlackListBean blackListBean = new BlackListBean();
                     blackListBean.setUserId(u.getUserId());
                     blackListBean.setNickname(u.getNickname());

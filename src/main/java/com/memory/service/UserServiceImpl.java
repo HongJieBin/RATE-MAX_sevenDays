@@ -1,11 +1,9 @@
 package com.memory.service;
 
 import com.memory.dao.UserDAO;
-import com.memory.dao.UserDAOImpl;
 import com.memory.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  * @date 2020/4/25 - 13:53
  */
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;

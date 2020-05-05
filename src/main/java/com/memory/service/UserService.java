@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2020/4/25 - 13:49
  */
 
-public interface IUserService {
+public interface UserService {
     /**
      * 提供注册服务
      * @param user

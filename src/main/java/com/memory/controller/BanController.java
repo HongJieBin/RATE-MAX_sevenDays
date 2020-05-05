@@ -2,11 +2,10 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.memory.pojo.Ban;
 import com.memory.pojo.User;
 import com.memory.service.BanService;
-import com.memory.service.IUserService;
+import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class BanController {
     private BanService banService;
 
     @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
 
     /**
@@ -36,7 +35,7 @@ public class BanController {
     public @ResponseBody String ban(@RequestBody JSONObject json){
         System.out.println(json.getInteger("userId"));
         try {
-            User user = iUserService.get(json.getInteger("userId"));
+            User user = userService.get(json.getInteger("userId"));
             Ban ban1 = banService.getByUserId(json.getInteger("userId"));
             if( ban1 != null)
                 return JsonUtils.toJSON(JsonResult.errorMsg("该用户已被封禁"));

@@ -2,8 +2,7 @@ package com.memory.controller;
 
 import com.memory.pojo.Admin;
 import com.memory.service.AdminService;
-import com.memory.service.IUserService;
-import com.memory.service.UserTagService;
+import com.memory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class AdminController {
     private AdminService adminService;
 
     @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
     @RequestMapping(value = "logIn",method = RequestMethod.POST)
     public String logIn(@RequestParam(name = "adminName")String name,@RequestParam(name = "adminPassword")String password, HttpSession session, HttpServletRequest request){
@@ -35,7 +34,7 @@ public class AdminController {
                     session.setAttribute("adminName",admin1.getAdminName());
                     request.setAttribute("code",200);
                     request.setAttribute("msg","登录成功！");
-                    request.setAttribute("users",iUserService.getAll());
+                    request.setAttribute("users", userService.getAll());
                     return "listUser";
                 }else {
                     System.out.println("密码错误");
