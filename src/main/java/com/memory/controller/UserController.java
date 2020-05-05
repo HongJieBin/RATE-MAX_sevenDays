@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
-import com.memory.service.IUserService;
 import com.memory.service.TagServiceImpl;
 import com.memory.service.UserService;
 import com.memory.service.UserTagServiceImpl;

@@ -5,7 +5,6 @@ import com.memory.formbean.BlackListBean;
 import com.memory.pojo.Blacklist;
 import com.memory.pojo.User;
 import com.memory.service.BlacklistServiceImpl;
-import com.memory.service.IUserService;
 import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -108,8 +106,8 @@ public class BlacklistController {
      * @param blacklist
      * @return
      *
-    @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
-    public @ResponseBody String getBlackList(@RequestBody Blacklist blacklist){
-        return JsonUtils.toJSON(JsonResult.ok(blacklistService.get(blacklist.getUserId(),blacklist.getAddedId())));
-    }*/
+     @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
+     public @ResponseBody String getBlackList(@RequestBody Blacklist blacklist){
+     return JsonUtils.toJSON(JsonResult.ok(blacklistService.get(blacklist.getUserId(),blacklist.getAddedId())));
+     }*/
 }

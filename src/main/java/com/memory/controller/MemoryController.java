@@ -4,7 +4,6 @@ package com.memory.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Memory;
 import com.memory.pojo.User;
-import com.memory.service.IUserService;
 import com.memory.service.MemoryService;
 import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
