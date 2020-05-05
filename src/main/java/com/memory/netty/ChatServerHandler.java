@@ -34,68 +34,68 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         Channel currentChannel = ctx.channel();
 
         // 获取发送的消息
-//        DataContent dataContent = JsonUtils.toBean(content, DataContent.class);
-//        Integer action = dataContent.getAction();
-//
-//        if (action==MsgActionEnum.CONNECT.type) {
-//            // 建立连接的时候加入到channelRel
-//            com.memory.netty.Msg msg = dataContent.getMsg();
-//            // 获取发送人的id,和channel
-//            Integer senderId = msg.getSenderId();
-//            UserChannelRelation.add(senderId, currentChannel);
-//        }
-//        else if (action==MsgActionEnum.CHAT.type) {
-//            // 如果是聊天消息
-//            com.memory.netty.Msg msg = dataContent.getMsg();
-//            String msgContent = msg.getContent();
-//            int senderId = msg.getSenderId();
-//            int receiverId = msg.getReceiverId();
-//            System.out.println("dataContent为:" + dataContent);
-//            // 保存消息到数据库,
-//            MsgService msgService = (MsgService) SpringUtils.getBean("msgServiceImpl");
-//            Integer msgId = msgService.save(msg);
-//            // 创建需要转发的dataContent
-//            DataContent dataContent1 = new DataContent(null, msg, null);
-//            // 发送消息
-//            Channel reveicerChannel = UserChannelRelation.get(receiverId);
-//            if (reveicerChannel == null) {
-//                // 推送
-//            }
-//            else {
-//                Channel findChannel = channels.find(reveicerChannel.id());
-//                if (findChannel!=null) {
-//                    reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
-//                }
-//                else {
-//                    // 用户离线,推送
-//                }
-//            }
-//
-//        }
-//        else if (action == MsgActionEnum.SIGNED.type) {
-//            // 消息签收
-//            String extand = dataContent.getExtend();
-//            // 分割需要签收消息的id
-//            String[] msgIdStr = extand.split(",");
-//            List<Integer> msgList = new ArrayList<>();
-//            for (String mid : msgIdStr) {
-//                if ( StringUtils.isNoneBlank(mid)) {
-//                    int i = Integer.parseInt(mid);
-//                    msgList.add(i);
-//                }
-//            }
-//
-//            System.out.println(msgList.toString());
-//            // 更新需要签收消息的msg_action
-//            if (msgList!=null && !msgList.isEmpty() && msgList.size()>0) {
-//                MsgService msgService = (MsgService) SpringUtils.getBean("msgServiceImpl");
-//                msgService.updateMsgSigned(msgList);
-//
-//            }
-//        }
-//        else if (action==MsgActionEnum.KEEPALIVE.type) {
-//            System.out.println("收到来自为[" + currentChannel + "]的心跳包");
-//        }
+        DataContent dataContent = JsonUtils.toBean(content, DataContent.class);
+        Integer action = dataContent.getAction();
+
+        if (action==MsgActionEnum.CONNECT.type) {
+            // 建立连接的时候加入到channelRel
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            // 获取发送人的id,和channel
+            Integer senderId = msg.getSenderId();
+            UserChannelRelation.add(senderId, currentChannel);
+        }
+        else if (action==MsgActionEnum.CHAT.type) {
+            // 如果是聊天消息
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            String msgContent = msg.getContent();
+            int senderId = msg.getSenderId();
+            int receiverId = msg.getReceiverId();
+            System.out.println("dataContent为:" + dataContent);
+            // 保存消息到数据库,
+            MsgService msgService = (MsgService) SpringUtils.getBean("msgServiceImpl");
+            Integer msgId = msgService.save(msg);
+            // 创建需要转发的dataContent
+            DataContent dataContent1 = new DataContent(null, msg, null);
+            // 发送消息
+            Channel reveicerChannel = UserChannelRelation.get(receiverId);
+            if (reveicerChannel == null) {
+                // 推送
+            }
+            else {
+                Channel findChannel = channels.find(reveicerChannel.id());
+                if (findChannel!=null) {
+                    reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                }
+                else {
+                    // 用户离线,推送
+                }
+            }
+
+        }
+        else if (action == MsgActionEnum.SIGNED.type) {
+            // 消息签收
+            String extand = dataContent.getExtend();
+            // 分割需要签收消息的id
+            String[] msgIdStr = extand.split(",");
+            List<Integer> msgList = new ArrayList<>();
+            for (String mid : msgIdStr) {
+                if ( StringUtils.isNoneBlank(mid)) {
+                    int i = Integer.parseInt(mid);
+                    msgList.add(i);
+                }
+            }
+
+            System.out.println(msgList.toString());
+            // 更新需要签收消息的msg_action
+            if (msgList!=null && !msgList.isEmpty() && msgList.size()>0) {
+                MsgService msgService = (MsgService) SpringUtils.getBean("msgServiceImpl");
+                msgService.updateMsgSigned(msgList);
+
+            }
+        }
+        else if (action==MsgActionEnum.KEEPALIVE.type) {
+            System.out.println("收到来自为[" + currentChannel + "]的心跳包");
+        }
 
     }
 
