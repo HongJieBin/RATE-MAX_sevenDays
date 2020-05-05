@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-    ${msg}
+    <a href="/adminLogin">adminLogin</a>
 </body>
 </html>
