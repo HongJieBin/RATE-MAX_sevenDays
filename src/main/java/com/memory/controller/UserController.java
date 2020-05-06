@@ -34,7 +34,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String modifyInformation (@RequestBody JSONObject json){
         User u;
         //System.out.println(user);
@@ -89,7 +89,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST)
+    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String setThisWeekTag(@RequestBody User user){
         User u;
         try {
@@ -133,7 +133,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST)
+    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getThisTags(@RequestBody User user){
         User u;
         try {
@@ -154,7 +154,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/getUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getUser(@RequestBody User user){
         User u = userService.get(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(u));

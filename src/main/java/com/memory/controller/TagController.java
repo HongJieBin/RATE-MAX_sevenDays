@@ -50,7 +50,7 @@ public class TagController {
      * @param tag
      * @return
      */
-    @RequestMapping(value = "setTag" , method = RequestMethod.POST)
+    @RequestMapping(value = "/setTag" , method = RequestMethod.POST)
     public @ResponseBody String setTag(@RequestBody Tag tag){
         try {
             tagService.add(tag);
