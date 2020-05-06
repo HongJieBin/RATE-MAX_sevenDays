@@ -25,7 +25,7 @@ public class Login {
     protected UserServiceImpl service;
 
     @ResponseBody
-    @RequestMapping(value = "/user/login",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/login",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public String login (@RequestBody User iuser){
         /*我自己的页面操作
         //获取用户填写的登录用户名//手机号
