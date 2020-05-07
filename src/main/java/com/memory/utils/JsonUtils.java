@@ -33,7 +33,9 @@ public class JsonUtils {
             // Boolean字段如果为null，输出为false，而不是null
             SerializerFeature.WriteNullBooleanAsFalse,
             // 字符类型字段如果为null，输出为""，而不是null
-            SerializerFeature.WriteNullStringAsEmpty
+            SerializerFeature.WriteNullStringAsEmpty,
+            // 禁止循环引用
+            SerializerFeature.DisableCircularReferenceDetect
     };
 
     /** Object TO Json String 字符串输出 */
