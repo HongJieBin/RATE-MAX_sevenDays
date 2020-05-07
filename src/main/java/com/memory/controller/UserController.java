@@ -66,9 +66,8 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/pastTag" , method = RequestMethod.GET)
+    @RequestMapping(value = "/pastTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String pastTag(@RequestBody JSONObject json){
-        //System.out.println("userId"+userId);
         List<String> tagList = new LinkedList<>();
         List<UserTag> list = null;
         try {
@@ -102,9 +101,10 @@ public class UserController {
         String lastTag = u.getThisWeekTag();                    //获取上周标签
         String[] lastTagList = null;
         if( lastTag != null) {
-            lastTagList = lastTag.split(" ");        //将字符串分开
+            lastTagList = lastTag.split(",");        //将字符串分开
 
-            for (String s : lastTagList) {                     //update UserTag chart
+            for (String s : lastTagList) {//update UserTag chart
+                System.out.println(s);
                 Tag t = tagService.getByTagName(s);
                 UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
                 if (ut == null) {

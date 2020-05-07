@@ -77,6 +77,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             String extand = dataContent.getExtend();
             // 分割需要签收消息的id
             String[] msgIdStr = extand.split(",");
+            System.out.println("dataContent为:" + dataContent);
             List<Integer> msgList = new ArrayList<>();
             for (String mid : msgIdStr) {
                 if ( StringUtils.isNoneBlank(mid)) {
