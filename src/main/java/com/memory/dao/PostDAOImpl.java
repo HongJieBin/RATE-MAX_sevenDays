@@ -1,11 +1,13 @@
 package com.memory.dao;
 
 import com.memory.pojo.Post;
+import com.memory.pojo.User;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName PostDAOImpl
@@ -39,5 +41,19 @@ public class PostDAOImpl implements PostDAO{
     @Override
     public Post get(int id) {
         return hibernateTemplate.get(Post.class, id);
+    }
+
+    @Override
+    public List<Post> get(String param, int value) {
+        String hql = "from Post as u where u." + param + " = ?";
+        return (List<Post>) hibernateTemplate.find(hql, value);
+    }
+
+    @Override
+    public List<Post> getLatest(int start, int max){
+        String hql = "from Post as p order by postDate desc";
+        return (List<Post>)hibernateTemplate.getSessionFactory().getCurrentSession().
+                createQuery(hql).setFirstResult(start).
+                setMaxResults(max).list();
     }
 }
