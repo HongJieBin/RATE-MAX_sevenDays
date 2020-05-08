@@ -81,7 +81,7 @@ public class BlacklistController {
      * @param user  用户id
      * @return  一个用户黑名单的id，昵称键值对map
      */
-    @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
+    @RequestMapping(value = "getBlackList",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getBlackList(@RequestBody User user){
         List<BlackListBean> blist = new LinkedList<>();
         try {

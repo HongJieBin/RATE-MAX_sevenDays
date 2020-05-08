@@ -44,7 +44,11 @@ public class FriendController {
     @RequestMapping(value = "Friend/delete/",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public  String deleteFriend(int userId,int deleteId) {
-        friendService.deleteFriend(userId,deleteId);
+        if(friendService.isExitFriend(userId,deleteId)) {
+            friendService.deleteFriend(userId, deleteId);
+        }else {
+            friendService.deleteFriend(deleteId,userId);
+        }
         List<User> myFirends = (List<User>) friendService.queryFriendsList(userId);
         return JsonUtils.toJSON(JsonResult.ok(myFirends));
     }
