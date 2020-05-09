@@ -47,8 +47,8 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new ChatServerHandler());
 
         /* 增加心跳支持 */
-//        pipeline.addLast(new IdleStateHandler(8, 10, 12));
-//        pipeline.addLast(new HeartBeatHandler());
+        pipeline.addLast(new IdleStateHandler(8, 10, 12));
+        pipeline.addLast(new HeartBeatHandler());
 
     }
 }
