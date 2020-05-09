@@ -30,7 +30,7 @@ public class Signup {
     protected UserServiceImpl service;
 
     @ResponseBody()
-    @RequestMapping(value = "/user/signup",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/signup",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public String register (@RequestBody User iuser){
 
         //我自己页面的操作，这里简单起见先不做数据判断

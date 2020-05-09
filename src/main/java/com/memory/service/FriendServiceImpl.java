@@ -168,4 +168,12 @@ public class FriendServiceImpl implements FriendService{
 
         return users;
     }
+
+    @Override
+    public boolean isExitFriend(int userId,int friendId) {
+        String hql = "from Friend f where f.userId = ? and f.addedId = ?";
+        List<User> users=(List<User>) hibernateTemplate.find(hql,userId,friendId);
+        if(users.isEmpty()) return false;
+        else return true;
+    }
 }

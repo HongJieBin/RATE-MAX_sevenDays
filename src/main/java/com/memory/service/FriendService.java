@@ -23,4 +23,5 @@ public interface FriendService {
     public List<User> recommendFriends(Integer myUserId);
     public int getRandomId(int myUserId);
     public List<User> queryBlackList(int userId);
+    public boolean isExitFriend(int userId,int friendId);
 }

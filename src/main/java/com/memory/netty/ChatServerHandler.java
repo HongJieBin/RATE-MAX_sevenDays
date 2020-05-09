@@ -27,6 +27,8 @@ import java.util.List;
 public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public  static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame textWebSocketFrame) throws Exception {
         String content = textWebSocketFrame.text();
@@ -54,6 +56,8 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             // 保存消息到数据库,
             MsgService msgService = (MsgService) SpringUtils.getBean("msgServiceImpl");
             Integer msgId = msgService.save(msg);
+            msg.setMsgId(msgId);
+            System.out.println("保存的msgId为:" + msgId);
             // 创建需要转发的dataContent
             DataContent dataContent1 = new DataContent(null, msg, null);
             // 发送消息
@@ -68,6 +72,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 }
                 else {
                     // 用户离线,推送
+                    System.out.println("用户处于离线状态");
                 }
             }
 
@@ -77,6 +82,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             String extand = dataContent.getExtend();
             // 分割需要签收消息的id
             String[] msgIdStr = extand.split(",");
+            System.out.println("dataContent为:" + dataContent);
             List<Integer> msgList = new ArrayList<>();
             for (String mid : msgIdStr) {
                 if ( StringUtils.isNoneBlank(mid)) {
@@ -98,25 +104,32 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         }
 
     }
-
     //每当从服务端收到新的客户端连接时，客户端的 Channel 存入ChannelGroup列表中  并通知列表中的其他客户端 Channel
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        Channel in = ctx.channel();
+        System.out.println("CLient:"+in.remoteAddress()+"进入");
+        channels.add(ctx.channel());
+    }
+    //每当从服务端收到客户端断开时，客户端的 Channel 移除 ChannelGroup 列表中,并通知列表中的其他客户端 Channel
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        Channel in = ctx.channel();
+        System.out.println("CLient:"+in.remoteAddress()+"离开");
+        channels.remove(ctx.channel());
+    }
+
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel in = ctx.channel();
-        for (Channel channel:channels) {
-            channel.writeAndFlush("Server:"+in.remoteAddress()+"进入");
-        }
-        channels.add(ctx.channel());
+        System.out.println("handler:"+in.remoteAddress()+"加入");
     }
 
-    //每当从服务端收到客户端断开时，客户端的 Channel 移除 ChannelGroup 列表中,并通知列表中的其他客户端 Channel
+
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel in = ctx.channel();
-        for(Channel channel:channels) {
-            channel.writeAndFlush("Server:"+in.remoteAddress()+"离开");
-        }
-        channels.remove(ctx.channel());
+        System.out.println("handler:"+in.remoteAddress()+"离开");
     }
 
 
