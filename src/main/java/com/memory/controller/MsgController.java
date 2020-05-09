@@ -21,7 +21,7 @@ public class MsgController {
     @Autowired
     private FriendService friendService;
 
-    @PostMapping("/unreadMsgs")
+    @PostMapping(value = "/unreadMsgs")
     public @ResponseBody String getUnReadMsgList(int acceptUserId) {
         //if(!friendService.isExitUser(acceptUserId)){ }
         if (!friendService.isExitUser(acceptUserId)) {

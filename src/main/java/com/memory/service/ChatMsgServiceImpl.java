@@ -24,6 +24,9 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         for(Msg msg :msgs) {
             System.out.println(msg);
         }
+        if (msgs.isEmpty()) {
+            return null;
+        }
         return  msgs;
     }
 

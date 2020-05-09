@@ -14,4 +14,5 @@ public interface AdminDAO {
     void update(Admin admin);
     void delete(Admin admin);
     Admin get(int id);
+    Admin getByName(String name);
 }
