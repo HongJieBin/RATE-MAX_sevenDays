@@ -66,7 +66,7 @@ public class MemoryController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.ok("保存成功"));
+        return JsonUtils.toJSON(JsonResult.ok(memory));
     }
 
 
@@ -99,6 +99,6 @@ public class MemoryController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("保存错误:"+e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.ok("保存成功！"));
+        return JsonUtils.toJSON(JsonResult.ok(m));
     }
 }

@@ -42,11 +42,12 @@
             //alert(id);
             $.ajax({
                 url: '/ban/banUser',//地址
-                dataType: 'json',//数据类型
+                dataType:'json',
                 data: {
-                    userId: id
+                    userId:id,
+					text:"text"
                 },
-                contentType: "application/json; charset=utf-8",
+                contentType: "application/json;charset = UTF-8",
                 type: 'POST',//类型
                 timeout: 1000,//超时
                 //请求成功

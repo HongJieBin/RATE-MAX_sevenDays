@@ -2,7 +2,7 @@ package com.memory.controller;
 
 import com.memory.formbean.RegisterFormBean;
 import com.memory.pojo.User;
-import com.memory.service.IUserService;
+import com.memory.service.UserService;
 import com.memory.service.UserServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;

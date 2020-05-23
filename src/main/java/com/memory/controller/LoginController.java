@@ -1,7 +1,7 @@
 package com.memory.controller;
 
 import com.memory.pojo.User;
-import com.memory.service.IUserService;
+import com.memory.service.UserService;
 import com.memory.service.UserServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -57,7 +57,7 @@ public class LoginController {
         /*String message = String.format(
                 "恭喜：%s,登陆成功！本页将在秒后跳到首页！！<meta http-equiv='refresh' content=';url=%s'",
                 user.getTelephone(),
-                request.getContextPath()+"/index.jsp");
+                request.getContextPath()+"/index_2.jsp");
         request.setAttribute("message",message);
         //request.getRequestDispatcher("/message.jsp").forward(request, response);*/
         return JsonUtils.toJSON(JsonResult.errorMsg("登录成功"));

@@ -41,7 +41,7 @@ public class AdminController {
                     request.setAttribute("code",2008);
                     request.setAttribute("msg","密码错误");
                     request.setAttribute("users",null);
-                    return "adminLogin";
+                    return "/index.jsp";
                 }
             }
         }catch (Exception e){
@@ -51,12 +51,12 @@ public class AdminController {
             request.setAttribute("code",1999);
             request.setAttribute("msg","服务器错误");
             request.setAttribute("users",null);
-            return "adminLogin";
+            return "/index.jsp";
         }
         System.out.println("管理员不存在");
         request.setAttribute("code",2008);
         request.setAttribute("msg","该管理员不存在");
         request.setAttribute("users",null);
-        return "adminLogin";
+        return "/index.jsp";
     }
 }
