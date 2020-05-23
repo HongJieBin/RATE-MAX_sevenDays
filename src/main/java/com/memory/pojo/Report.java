@@ -39,6 +39,9 @@ public class Report {
     @Column(name = "send_id", nullable = false)
     private Integer sendId;
 
+    @Column(name = "reported_id", nullable = false)
+    private Integer reportedId;
+
     public Integer getSendId() {
         return sendId;
     }
@@ -87,21 +90,12 @@ public class Report {
         this.reportType = reportType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Report report = (Report) o;
-        return reportId == report.reportId &&
-                Objects.equals(reportReason, report.reportReason) &&
-                Objects.equals(reportContent, report.reportContent) &&
-                Objects.equals(reportDate, report.reportDate) &&
-                Objects.equals(reportType, report.reportType);
+    public Integer getReportedId() {
+        return reportedId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(reportId, reportReason, reportContent, reportDate, reportType);
+    public void setReportedId(Integer reportedId) {
+        this.reportedId = reportedId;
     }
 
     @Override
@@ -113,6 +107,14 @@ public class Report {
                 ", reportDate=" + reportDate +
                 ", reportType='" + reportType + '\'' +
                 ", sendId=" + sendId +
+                ", reportedId=" + reportedId +
                 '}';
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reportId, reportReason, reportContent, reportDate, reportType, sendId, reportedId);
     }
 }

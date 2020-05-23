@@ -1,5 +1,7 @@
 package com.memory.service;
 
+import com.memory.controller.VO.TrustInfoVO;
+import com.memory.controller.VO.UntrustInfoVO;
 import com.memory.dao.FriendDAO;
 import com.memory.pojo.Friend;
 import com.memory.pojo.User;
@@ -24,4 +26,9 @@ public interface FriendService {
     public int getRandomId(int myUserId);
     public List<User> queryBlackList(int userId);
     public boolean isExitFriend(int userId,int friendId);
+    public Friend saveLevel(int userId,int friendId);
+    public Friend addRemark(int userId,int friendId,String remark);
+    public TrustInfoVO getTrustedInfo(int userId,int friendId);
+    public UntrustInfoVO getUntrustedInfo(int userId, int friendId);
+    public Object getInformation(int userId,int friendId);
 }

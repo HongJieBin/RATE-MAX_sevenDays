@@ -1,5 +1,7 @@
 package com.memory.service;
 
+import com.memory.controller.VO.TrustInfoVO;
+import com.memory.controller.VO.UntrustInfoVO;
 import com.memory.dao.BlacklistDAO;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.UserDAO;
@@ -29,8 +31,12 @@ public class FriendServiceImpl implements FriendService{
     @Autowired
     private BlacklistDAO blacklistDAO;
 
+
     @Resource
     private HibernateTemplate hibernateTemplate;
+
+    private TrustInfoVO trustInfoVO = new TrustInfoVO() ;
+    private UntrustInfoVO untrustInfoVO = new UntrustInfoVO();
 
 
     /**
@@ -43,16 +49,12 @@ public class FriendServiceImpl implements FriendService{
         System.out.println(hql1);
         List<Integer> add_id= (List<Integer>) hibernateTemplate.find(hql1,userId);
         System.out.println(add_id);
-        String hql2 = "select userId from Friend f where f.addedId= ? ";
-        System.out.println(hql2);
-        add_id.addAll((List<Integer>)hibernateTemplate.find(hql2,userId));
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
         String hql3 = "from User as user where user.userId in (:list)";
         if(add_id.isEmpty()){
             return null;
         }
         List<User> users= (List<User>)session.createQuery(hql3).setParameterList("list",add_id).list();
-
         return users;
     }
 
@@ -175,5 +177,56 @@ public class FriendServiceImpl implements FriendService{
         List<User> users=(List<User>) hibernateTemplate.find(hql,userId,friendId);
         if(users.isEmpty()) return false;
         else return true;
+    }
+
+    @Override
+    public Friend saveLevel(int userId, int friendId) {
+        Friend friend = friendDAO.get(userId,friendId);
+        friend.setLevel(friend.getLevel()==1?0:1);
+        friendDAO.update(friend);
+        return friend;
+    }
+
+    @Override
+    public Friend addRemark(int userId, int friendId, String remark) {
+        Friend friend = friendDAO.get(userId,friendId);
+        friend.setRemark(remark);
+        friendDAO.update(friend);
+        return friend;
+    }
+
+    @Override
+    public TrustInfoVO getTrustedInfo(int userId, int friendId) {
+        Friend friend = friendDAO.get(userId,friendId);
+        User friendInfo = userDAO.get(friendId);
+
+        trustInfoVO.setGender(friendInfo.getGender());
+        trustInfoVO.setIcon(friendInfo.getIcon());
+        trustInfoVO.setNickname(friendInfo.getNickname());
+        trustInfoVO.setProfile(friendInfo.getProfile());
+        trustInfoVO.setThisWeekTag(friendInfo.getThisWeekTag());
+        trustInfoVO.setRemark(friend.getRemark());
+        return trustInfoVO;
+    }
+
+
+    @Override
+    public UntrustInfoVO getUntrustedInfo(int userId, int friendId) {
+        Friend friend = friendDAO.get(userId,friendId);
+        User friendInfo = userDAO.get(friendId);
+        untrustInfoVO.setIcon(friendInfo.getIcon());
+        untrustInfoVO.setNickname(friendInfo.getNickname());
+        untrustInfoVO.setProfile(friendInfo.getProfile());
+        return untrustInfoVO;
+    }
+
+    @Override
+    public Object getInformation(int userId, int friendId) {
+        Friend friend = friendDAO.get(userId,friendId);
+        if(friend.getLevel()==1) {
+            return getTrustedInfo(userId,friendId);
+        } else {
+            return getUntrustedInfo(userId,friendId);
+        }
     }
 }
