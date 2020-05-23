@@ -58,7 +58,7 @@ public class Signup {
             user.setPassword(formbean.getUserPwd());*/
 
             iuser.setProfile("无");
-
+            iuser.setNickname("用户" + iuser.getTelephone());
             //IUserService service = new UserServiceImpl();
             //调用service层提供的注册用户服务实现用户注册
             service.registerUser(iuser);
