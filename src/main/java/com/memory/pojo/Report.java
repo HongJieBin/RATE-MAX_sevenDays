@@ -24,8 +24,8 @@ public class Report {
     @Column(name = "report_id")
     private int reportId;
 
-    @Column(name = "report_reason", nullable = false, length = 20)
-    private String reportReason;
+    @Column(name = "report_reason", nullable = false, length = 11)
+    private Integer reportReason;
 
     @Column(name = "report_content", length = 128)
     private String reportContent;
@@ -58,11 +58,11 @@ public class Report {
         this.reportId = reportId;
     }
 
-    public String getReportReason() {
+    public Integer getReportReason() {
         return reportReason;
     }
 
-    public void setReportReason(String reportReason) {
+    public void setReportReason(Integer reportReason) {
         this.reportReason = reportReason;
     }
 
