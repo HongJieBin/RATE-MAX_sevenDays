@@ -1,5 +1,7 @@
 package com.memory.service;
 
+import com.memory.controller.VO.FriendInfoVO;
+import com.memory.controller.VO.RecommendFriendInfoVO;
 import com.memory.controller.VO.TrustInfoVO;
 import com.memory.controller.VO.UntrustInfoVO;
 import com.memory.dao.BlacklistDAO;
@@ -40,7 +42,7 @@ public class FriendServiceImpl implements FriendService{
 
 
     /**
-     * @Description: 查询好友列表
+     * @Description: 获取所有好友列表得实体类信息
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -56,6 +58,29 @@ public class FriendServiceImpl implements FriendService{
         }
         List<User> users= (List<User>)session.createQuery(hql3).setParameterList("list",add_id).list();
         return users;
+    }
+
+
+    /**
+     * @Description: 获取所有好友指定数据格式列表
+     */
+    @Override
+    public List<FriendInfoVO> getFriendsList(int userId) {
+        List<FriendInfoVO> friends = new ArrayList<FriendInfoVO>();
+        List<User> users = queryFriendsList(userId);
+        for (User user: users) {
+            FriendInfoVO friendInfoVO = new FriendInfoVO();
+            friendInfoVO.setUserId(user.getUserId());
+            friendInfoVO.setIcon(user.getIcon());
+            Friend friend = new Friend();
+            friend.setUserId(userId);
+            friend.setAddedId(user.getUserId());
+            friendInfoVO.setLevel(friend.getLevel());
+            friendInfoVO.setNickname(friend.getRemark());
+            friends.add(friendInfoVO);
+        }
+
+        return friends;
     }
 
     public boolean isExitUser(int userId) {
@@ -85,7 +110,7 @@ public class FriendServiceImpl implements FriendService{
     }
 
     @Override
-    public List<User> recommendFriends(Integer myUserId){
+    public List<RecommendFriendInfoVO> recommendFriends(Integer myUserId){
         int myId = myUserId;
         int cnt = userDAO.getCount();
         int randomId1 = 0;
@@ -141,11 +166,21 @@ public class FriendServiceImpl implements FriendService{
                 flag2++;
             }
         }
-        List<User> recommendUsers = new ArrayList<>();
+        List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
         User u1 = userDAO.get(randomId1);
         User u2 = userDAO.get(randomId2);
-        recommendUsers.add(u1);
-        recommendUsers.add(u2);
+        RecommendFriendInfoVO rf1 = new RecommendFriendInfoVO();
+        rf1.setUserId(randomId1);
+        rf1.setIcon(u1.getIcon());
+        rf1.setNickname(u1.getNickname());
+
+        RecommendFriendInfoVO rf2 = new RecommendFriendInfoVO();
+        rf2.setUserId(randomId2);
+        rf2.setIcon(u2.getIcon());
+        rf2.setNickname(u2.getNickname());
+
+        recommendUsers.add(rf1);
+        recommendUsers.add(rf2);
         return recommendUsers;
     }
 
@@ -217,6 +252,7 @@ public class FriendServiceImpl implements FriendService{
         untrustInfoVO.setIcon(friendInfo.getIcon());
         untrustInfoVO.setNickname(friendInfo.getNickname());
         untrustInfoVO.setProfile(friendInfo.getProfile());
+        untrustInfoVO.setRemark(friend.getRemark());
         return untrustInfoVO;
     }
 

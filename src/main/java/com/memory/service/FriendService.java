@@ -1,5 +1,7 @@
 package com.memory.service;
 
+import com.memory.controller.VO.FriendInfoVO;
+import com.memory.controller.VO.RecommendFriendInfoVO;
 import com.memory.controller.VO.TrustInfoVO;
 import com.memory.controller.VO.UntrustInfoVO;
 import com.memory.dao.FriendDAO;
@@ -19,10 +21,11 @@ public interface FriendService {
      * @Description: 查询好友列表
      */
     public List<User> queryFriendsList(int userId);
+    public List<FriendInfoVO> getFriendsList(int userId);
     public boolean isExitUser(int userId);
     public void saveFriends(Integer myUserId, Integer friendUserId);
     public void deleteFriend(Integer myUserId, Integer friendUserId);
-    public List<User> recommendFriends(Integer myUserId);
+    public List<RecommendFriendInfoVO> recommendFriends(Integer myUserId);
     public int getRandomId(int myUserId);
     public List<User> queryBlackList(int userId);
     public boolean isExitFriend(int userId,int friendId);
