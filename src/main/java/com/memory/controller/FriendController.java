@@ -1,5 +1,7 @@
 package com.memory.controller;
 
+import com.memory.controller.VO.FriendInfoVO;
+import com.memory.controller.VO.RecommendFriendInfoVO;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.ReportDAO;
 import com.memory.pojo.Friend;
@@ -34,7 +36,7 @@ public class FriendController {
         }
         else {
             // 1. 数据库查询好友列表
-            List<User> myFirends = (List<User>) friendService.queryFriendsList(userId);
+            List<FriendInfoVO> myFirends = (List<FriendInfoVO>) friendService.getFriendsList(userId);
             return JsonUtils.toJSON(JsonResult.ok(myFirends));
         }
     }
@@ -42,40 +44,55 @@ public class FriendController {
     @RequestMapping(value = "Friend/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String addFriends(int userId, int friendUserId){
+        try{
         friendService.saveFriends(userId, friendUserId);
         friendService.saveFriends(friendUserId, userId);
-        List<User> myFirends = (List<User>) friendService.queryFriendsList(userId);
-        return JsonUtils.toJSON(JsonResult.ok(myFirends));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok());
     }
 
     @RequestMapping(value = "Friend/delete/",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public  String deleteFriend(int userId,int deleteId) {
+        try{
         friendService.deleteFriend(userId, deleteId);
         friendService.deleteFriend(deleteId,userId);
-        List<User> myFirends = (List<User>) friendService.queryFriendsList(userId);
-        return JsonUtils.toJSON(JsonResult.ok(myFirends));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok());
     }
 
 
     @RequestMapping(value = "/Friend/getInterest",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String recommendFriends(int userId){
-        List<User> recommendFriends = friendService.recommendFriends(userId);
+        List<RecommendFriendInfoVO> recommendFriends = friendService.recommendFriends(userId);
         return JsonUtils.toJSON(JsonResult.ok(recommendFriends));
     }
 
     @RequestMapping(value = "/Friend/trust",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String trustFriend(int userId,int trustId){
-        friendService.saveLevel(userId,trustId);
+        try {
+            friendService.saveLevel(userId, trustId);
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
         return JsonUtils.toJSON(JsonResult.ok());
     }
 
     @RequestMapping(value = "/Friend/remark/",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String addRemark(int remarkId,int userId,String remark){
-        return JsonUtils.toJSON(friendService.addRemark(userId,remarkId,remark));
+        try{
+            friendService.addRemark(userId,remarkId,remark);
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok());
     }
 
     @RequestMapping(value = "/Friend/getInformation/",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
