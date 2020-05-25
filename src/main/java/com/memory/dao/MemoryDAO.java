@@ -2,6 +2,8 @@ package com.memory.dao;
 
 import com.memory.pojo.Memory;
 
+import java.util.List;
+
 /**
  * @InterfaceName MemoryDAO
  * @Description TODO
@@ -14,4 +16,5 @@ public interface MemoryDAO {
     void update(Memory memory);
     void delete(Memory memory);
     Memory get(int id);
+    List<Memory> getAllOfUser(int UserId);
 }

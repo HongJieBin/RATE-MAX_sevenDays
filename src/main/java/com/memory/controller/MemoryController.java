@@ -2,6 +2,9 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONReader;
+import com.memory.formbean.MemoryBean;
+import com.memory.formbean.UserBean;
 import com.memory.pojo.Memory;
 import com.memory.pojo.User;
 import com.memory.service.UserService;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "memory")
@@ -34,7 +39,7 @@ public class MemoryController {
      *                memoryId：十字记忆id
      * @return
      */
-    @RequestMapping(value = "delete",method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete",method = RequestMethod.DELETE,produces = {"application/json;charset = UTF-8"})
     public @ResponseBody String delete(@RequestBody JSONObject json){
         Memory memory = memoryService.get(json.getInteger("memoryId"));
         try {
@@ -48,17 +53,22 @@ public class MemoryController {
 
     /**
      * 保存十字记忆
-     * @param json ：
+     * @param  ：
      *             userId：用户id
      *             content：十字记忆内容
      * @return
      */
-    @RequestMapping(value = "create",method = RequestMethod.POST)
+    @RequestMapping(value = "create",method = RequestMethod.POST,produces = {"application/json;charset = UTF-8"})
     public @ResponseBody String create(@RequestBody JSONObject json){
+//        System.out.println(s);
+//        return null;
         User user = userService.get(json.getInteger("userId"));
+        if(user == null){return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在！"));}
         Memory memory = new Memory();
         memory.setMemoryContent(json.getString("content"));
         memory.setUser(user);
+        if(json.getString("memoryTitle") == null){ memory.setMemoryTitle("title"); }
+        //memory.setMemoryTitle("title");
         memory.setMemoryTitle(json.getString("memoryTitle"));
         memory.setMemoryDate(new Timestamp((new Date()).getTime()));
         try {
@@ -66,7 +76,7 @@ public class MemoryController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.ok(memory));
+        return JsonUtils.toJSON(JsonResult.ok(MemoryBean.toMemeoryBean(memory)));
     }
 
 
@@ -79,7 +89,7 @@ public class MemoryController {
      * @return
      */
 
-    @RequestMapping(value = "edit",method = RequestMethod.POST)
+    @RequestMapping(value = "edit",method = RequestMethod.POST,produces = {"application/json;charset = UTF-8"})
     public @ResponseBody String edit(@RequestBody Memory memory){
         Memory m;
         try {
@@ -90,7 +100,9 @@ public class MemoryController {
         if(m == null){
             return JsonUtils.toJSON(JsonResult.errorMsg("该十字记忆不存在，id："+ memory.getMemoryId()));
         }
-        m.setMemoryContent(memory.getMemoryContent());
+        if(memory.getMemoryContent() != null && memory.getMemoryContent().length() != 0){
+            m.setMemoryContent(memory.getMemoryContent());
+        }
         m.setMemoryDate(new Timestamp((new Date()).getTime()));
         if( memory.getMemoryTitle() != null && memory.getMemoryTitle().length() != 0)
             m.setMemoryTitle(memory.getMemoryTitle());
@@ -99,6 +111,41 @@ public class MemoryController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("保存错误:"+e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.ok(m));
+        return JsonUtils.toJSON(JsonResult.ok(MemoryBean.toMemeoryBean(m)));
+    }
+
+    /**
+     * 获取用户的所有十字记忆
+     * @param json : userId
+     * @return  返回带用户十字记忆的列表(List)的json
+     */
+    @RequestMapping( value = "/getMemory",method = RequestMethod.POST,produces = {"application/json;charset = UTF-8"})
+    public @ResponseBody String getMemory(@RequestBody JSONObject json){
+        try {
+            User user = userService.get(json.getInteger("userId"));
+            if(user == null){return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));}
+            List<Memory> lists = memoryService.getAllOfUser(json.getInteger("userId"));
+            List<MemoryBean> list = new ArrayList<>();
+            for( Memory m : lists){
+                MemoryBean mbean = MemoryBean.toMemeoryBean(m);
+                list.add(mbean);
+            }
+            return JsonUtils.toJSON(JsonResult.ok(list));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+    }
+
+
+    @RequestMapping(value = "/getOneMemory",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    public @ResponseBody String getOneMemory(@RequestBody JSONObject json){
+        try {
+            Memory memory = memoryService.get(json.getInteger("memoryId"));
+            if(memory == null) return JsonUtils.toJSON(JsonResult.errorMsg("该十字记忆不存在，id："
+                    +json.getInteger("memoryId")));
+            return JsonUtils.toJSON(JsonResult.ok(MemoryBean.toMemeoryBean(memory)));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
     }
 }

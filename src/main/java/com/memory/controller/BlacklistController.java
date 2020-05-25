@@ -3,8 +3,10 @@ package com.memory.controller;
 
 import com.memory.formbean.BlackListBean;
 import com.memory.pojo.Blacklist;
+import com.memory.pojo.Friend;
 import com.memory.pojo.User;
 import com.memory.service.BlacklistServiceImpl;
+import com.memory.service.FriendService;
 import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -24,6 +26,9 @@ public class BlacklistController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FriendService friendService;
 
 
     /**
@@ -50,6 +55,8 @@ public class BlacklistController {
             }catch (Exception e){
                 return JsonUtils.toJSON(JsonResult.errorException("服务器错误"));
             }
+            friendService.deleteFriend(blist.getUserId(),blist.getAddedId());
+            friendService.deleteFriend(blist.getAddedId(),blist.getUserId());
         }
         return JsonUtils.toJSON(JsonResult.ok());
     }
@@ -106,8 +113,8 @@ public class BlacklistController {
      * @param blacklist
      * @return
      *
-    @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
-    public @ResponseBody String getBlackList(@RequestBody Blacklist blacklist){
-        return JsonUtils.toJSON(JsonResult.ok(blacklistService.get(blacklist.getUserId(),blacklist.getAddedId())));
-    }*/
+     @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
+     public @ResponseBody String getBlackList(@RequestBody Blacklist blacklist){
+     return JsonUtils.toJSON(JsonResult.ok(blacklistService.get(blacklist.getUserId(),blacklist.getAddedId())));
+     }*/
 }
