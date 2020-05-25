@@ -41,9 +41,8 @@ public class MsgServiceImpl implements MsgService {
         msg1.setMsgAction(0);
         msg1.setMsgDatetime(new Date());
         msg1.setMsgContent(msg.getContent());
-
-        // 返回保存之后的msgId
-        return msgDao.save(msg1);
+        Integer msgID = msgDao.save(msg1);
+        return msgID;
     }
 
     @Override
