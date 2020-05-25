@@ -14,4 +14,5 @@ public interface BanDAO {
     void update(Ban ban);
     void delete(Ban ban);
     Ban get(int id);
+    Ban getByUserId(int userId);
 }

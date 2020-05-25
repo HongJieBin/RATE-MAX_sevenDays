@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName CommentDAOImpl
@@ -39,5 +40,13 @@ public class CommentDAOImpl implements CommentDAO{
     @Override
     public Comment get(int id) {
         return hibernateTemplate.get(Comment.class, id);
+    }
+
+    @Override
+    public List<Comment> getLatest(int start, int max, String postId) {
+        String hql = "from Comment as p where p.post.postId = "+postId;
+        return (List<Comment>)hibernateTemplate.getSessionFactory().getCurrentSession().
+                createQuery(hql).setFirstResult(start).
+                setMaxResults(max).list();
     }
 }

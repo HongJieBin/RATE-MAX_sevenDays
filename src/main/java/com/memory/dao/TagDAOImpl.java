@@ -46,7 +46,11 @@ public class TagDAOImpl implements TagDAO{
 
     @Override
     public Tag getByName(String name) {
-        return (Tag)hibernateTemplate.find("from Tag as t where t.tag_name = ?",name);
+        List<Tag> list = (List<Tag>)hibernateTemplate.find("from Tag as t where t.tagName = ?",name);
+        if(list.size()==0)
+            return null;
+        else
+            return list.get(0);
     }
 
     @Override

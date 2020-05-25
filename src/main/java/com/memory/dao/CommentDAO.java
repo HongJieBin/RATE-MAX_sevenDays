@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Bug;
 import com.memory.pojo.Comment;
 
+import java.util.List;
+
 /**
  * @InterfaceName CommentDAO
  * @Description TODO
@@ -15,4 +17,5 @@ public interface CommentDAO {
     void update(Comment comment);
     void delete(Comment comment);
     Comment get(int id);
+    List<Comment> getLatest(int start, int max, String postId);
 }

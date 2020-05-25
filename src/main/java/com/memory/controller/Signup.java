@@ -30,7 +30,7 @@ public class Signup {
     protected UserServiceImpl service;
 
     @ResponseBody()
-    @RequestMapping(value = "/user/signup",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/user/signup",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public String register (@RequestBody User iuser){
 
         //我自己页面的操作，这里简单起见先不做数据判断
@@ -58,7 +58,7 @@ public class Signup {
             user.setPassword(formbean.getUserPwd());*/
 
             iuser.setProfile("无");
-
+            iuser.setNickname("用户" + iuser.getTelephone());
             //IUserService service = new UserServiceImpl();
             //调用service层提供的注册用户服务实现用户注册
             service.registerUser(iuser);

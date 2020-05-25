@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName AdminDAOImpl
@@ -39,5 +40,15 @@ public class AdminDAOImpl implements AdminDAO{
     @Override
     public Admin get(int id) {
         return hibernateTemplate.get(Admin.class, id);
+    }
+
+
+    @Override
+    public Admin getByName(String name) {
+        List<Admin> list = (List<Admin>) hibernateTemplate.find("from Admin as a where a.adminName = ?",name);
+        System.out.println(list);
+        if(list.size() == 0)
+            return null;
+        return list.get(0);
     }
 }

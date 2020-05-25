@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
-import com.memory.service.TagService;
+import com.memory.service.TagServiceImpl;
 import com.memory.service.UserService;
-import com.memory.service.UserTagService;
+import com.memory.service.UserTagServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,39 +24,40 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserTagService userTagService;
+    private UserTagServiceImpl userTagService;
 
     @Autowired
-    private TagService tagService;
+    private TagServiceImpl tagService;
 
     /**
      * 修改个人信息
      * @param
      * @return
      */
-    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String modifyInformation (@RequestBody User user){
+    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public @ResponseBody String modifyInformation (@RequestBody JSONObject json){
         User u;
-        System.out.println(user);
+        //System.out.println(user);
         try {
-            u = userService.get(user.getUserId());
+            u = userService.get(json.getInteger("userId"));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("查询错误"));
         }
-        if( u ==null ){                         //can not find the user
-            return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+user.getUserId()));
+        if( u == null ){                         //can not find the user
+            return JsonUtils.toJSON(JsonResult.errorMsg("找不到该用户：uid= "+json.getInteger("userId")));
         }
-        u.setNickname(user.getNickname());
-        if (user.getIcon() != null || user.getIcon().length()!=0 )
-            u.setIcon(user.getIcon());
-        u.setGender(user.getGender());
-        if (user.getProfile() != null || user.getProfile().length() != 0 )
-            u.setProfile(user.getProfile());
+        u.setNickname(json.getString("nickname"));
+        if (json.getString("icon") != null && json.getString("icon").length()!=0 )
+            u.setIcon(json.getString("icon"));
+        u.setGender(json.getString("gender"));
+        if (json.getString("profile") != null )
+            u.setProfile(json.getString("profile"));
         try {
             userService.update(u);
         }catch (Exception e){
-            return JsonUtils.toJSON(JsonResult.errorException("修改错误"));
+            return JsonUtils.toJSON(JsonResult.errorException("保存失败！\nMessage:"+e.getMessage()));
         }
+        System.out.println(JsonResult.ok(u));
         return JsonUtils.toJSON(JsonResult.ok(u));
     }
 
@@ -65,14 +66,14 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/pastTag" , method = RequestMethod.GET)
-    public @ResponseBody String pastTag(int userId){
-        //System.out.println("userId"+userId);
+    @RequestMapping(value = "/pastTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public @ResponseBody String pastTag(@RequestBody JSONObject json){
         List<String> tagList = new LinkedList<>();
         List<UserTag> list = null;
         try {
-            list = userTagService.getByUserId(userId);
+            list = userTagService.getByUserId(json.getInteger("userId"));
         }catch (Exception e){
+            System.out.println(e.getCause()+":"+e.getMessage());
             return JsonUtils.toJSON(JsonResult.build(1000,"args error",""));
         }
         for(UserTag ut:list){
@@ -87,7 +88,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST)
+    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String setThisWeekTag(@RequestBody User user){
         User u;
         try {
@@ -97,22 +98,32 @@ public class UserController {
         }
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-        String lastTag = u.getThisWeekTag();
-        String[] lastTagList = lastTag.split(",");
-        for(String s: lastTagList){                     //update UserTag chart
-            Tag t = tagService.getByTagName(s);
-            UserTag ut = userTagService.get(user.getUserId(),t.getTagId());
-            if (ut == null){
-                ut = new UserTag();
-                ut.setUserId(user.getUserId());
-                ut.setTagId(t.getTagId());
-                ut.setTagNumber(1);
-                userTagService.save(ut);
-            }else {
-                ut.setTagNumber(ut.getTagNumber() + 1);
-                userTagService.update(ut);
-            }
-        }
+        System.out.println("传过来的标签为" + user.getThisWeekTag());
+//        String thisWeekTag = u.getThisWeekTag();                    //获取本周标签
+//        System.out.println(u.getThisWeekTag());
+//        String[] lastTagList = null;
+//        if( lastTag != null) {
+//            lastTagList = lastTag.split(",");//将字符串分开
+//            System.out.println(lastTagList.toString());
+//
+//            for (String s : lastTagList) {//update UserTag chart
+//                System.out.println(s);
+//                if(s!=null) {
+//                    Tag t = tagService.getByTagName(s);
+//                    UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
+//                    if (ut == null) {
+//                        ut = new UserTag();
+//                        ut.setUserId(user.getUserId());
+//                        ut.setTagId(t.getTagId());
+//                        ut.setTagNumber(1);
+//                        userTagService.save(ut);
+//                    } else {
+//                        ut.setTagNumber(ut.getTagNumber() + 1);
+//                        userTagService.update(ut);
+//                    }
+//                }
+//            }
+//        }
         try {
             u.setThisWeekTag(user.getThisWeekTag());            //update user.thisWeekTag
             userService.update(u);
@@ -127,7 +138,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST)
+    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getThisTags(@RequestBody User user){
         User u;
         try {
@@ -138,17 +149,17 @@ public class UserController {
         String tags = u.getThisWeekTag();
         String[] list = null;
         if(tags != null) {
-            list = tags.split(",");
+            list = tags.split(" ");
         }
         return JsonUtils.toJSON(JsonResult.ok(list));
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息，以后可能会用到
      * @param user
      * @return
      */
-    @RequestMapping(value = "/getUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getUser(@RequestBody User user){
         User u = userService.get(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(u));

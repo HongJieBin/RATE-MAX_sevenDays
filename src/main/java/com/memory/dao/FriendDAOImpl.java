@@ -49,4 +49,15 @@ public class FriendDAOImpl implements FriendDAO{
         String hql = "from Friend as f where f.addedId = ?";
         return (List<Friend>) hibernateTemplate.find(hql, addedId);
     }
+
+
+    @Override
+    public Friend get(Integer uid, Integer addId) {
+        List<Friend> list = (List<Friend>)hibernateTemplate.find("from Friend as f where f.userId = ? and f.addedId = ?",
+                new Object[]{uid,addId});
+        if(list.size() == 0)
+            return null;
+        else
+            return list.get(0);
+    }
 }

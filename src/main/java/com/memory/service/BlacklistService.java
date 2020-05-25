@@ -1,26 +1,16 @@
 package com.memory.service;
 
-
-import com.memory.dao.BlacklistDAO;
 import com.memory.pojo.Blacklist;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.memory.pojo.User;
 
-@Service
-public class BlacklistService {
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
-    @Autowired
-    private BlacklistDAO blacklistDAO;
+public interface BlacklistService {
 
-    public void add(Blacklist blacklist){
-        blacklistDAO.add(blacklist);
-    }
+    void add(Blacklist blacklist);
+    void delete(Blacklist blacklist);
+    Blacklist get(int userId,int addedId);
+    List<Blacklist> getByUserId(int userId);
 
-    public void delete(Blacklist blacklist){
-        blacklistDAO.delete(blacklist);
-    }
-
-    public Blacklist get(Integer uid,Integer addId){
-        return blacklistDAO.get(uid,addId);
-    }
 }
