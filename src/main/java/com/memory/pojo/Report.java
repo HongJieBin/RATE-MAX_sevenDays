@@ -128,5 +128,6 @@ public class Report {
     @Override
     public int hashCode() {
         return Objects.hash(reportId, reportReason, reportContent, reportDate, reportTypeId, sendId, reportedId);
+
     }
 }
