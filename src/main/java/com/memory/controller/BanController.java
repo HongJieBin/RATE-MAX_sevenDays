@@ -33,7 +33,7 @@ public class BanController {
      */
     @RequestMapping(value = "banUser",method = RequestMethod.POST)
     public @ResponseBody String ban(@RequestBody JSONObject json){
-        System.out.println(json.getInteger("userId"));
+        System.out.println("data:"+json.getInteger("userId"));
         try {
             User user = userService.get(json.getInteger("userId"));
             Ban ban1 = banService.getByUserId(json.getInteger("userId"));
