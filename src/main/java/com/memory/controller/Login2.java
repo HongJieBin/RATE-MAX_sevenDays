@@ -48,3 +48,4 @@ public class Login2 {
         return JsonUtils.toJSON(JsonResult.ok(user));
     }
 }
+

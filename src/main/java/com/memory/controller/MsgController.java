@@ -21,9 +21,9 @@ public class MsgController {
     @Autowired
     private FriendService friendService;
 
-    @PostMapping("/unreadMsgs")
+    @PostMapping(value = "/unreadMsgs", produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getUnReadMsgList(int acceptUserId) {
-        //if(!friendService.isExitUser(acceptUserId)){ }
+
         if (!friendService.isExitUser(acceptUserId)) {
             return JsonUtils.toJSON(JsonResult.errorMsg("不存在此用户"));
         }
@@ -33,7 +33,7 @@ public class MsgController {
         }
     }
 
-    @PostMapping("/allMsgs")
+    @PostMapping(value = "/allMsgs", produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getAllMsgList(int userId, int receiveId) {
         List<Msg> unreadMsgList = chatMsgService.getAllMsgList(userId,receiveId);
         return JsonUtils.toJSON(JsonResult.ok(unreadMsgList));

@@ -24,8 +24,8 @@ public class Report {
     @Column(name = "report_id")
     private int reportId;
 
-    @Column(name = "report_reason", nullable = false, length = 20)
-    private String reportReason;
+    @Column(name = "report_reason", nullable = false, length = 11)
+    private Integer reportReason;
 
     @Column(name = "report_content", length = 128)
     private String reportContent;
@@ -33,11 +33,14 @@ public class Report {
     @Column(name = "report_date", nullable = false)
     private Timestamp reportDate;
 
-    @Column(name = "report_type", nullable = false, length = 3)
-    private String reportType;
+    @Column(name = "report_type_id", nullable = false, length = 3)
+    private Integer reportTypeId;
 
     @Column(name = "send_id", nullable = false)
     private Integer sendId;
+
+    @Column(name = "reported_id", nullable = false)
+    private Integer reportedId;
 
     public Integer getSendId() {
         return sendId;
@@ -55,11 +58,11 @@ public class Report {
         this.reportId = reportId;
     }
 
-    public String getReportReason() {
+    public Integer getReportReason() {
         return reportReason;
     }
 
-    public void setReportReason(String reportReason) {
+    public void setReportReason(Integer reportReason) {
         this.reportReason = reportReason;
     }
 
@@ -79,12 +82,33 @@ public class Report {
         this.reportDate = reportDate;
     }
 
-    public String getReportType() {
-        return reportType;
+    public Integer getReportTypeId() {
+        return reportTypeId;
     }
 
-    public void setReportType(String reportType) {
-        this.reportType = reportType;
+    public void setReportTypeId(Integer reportTypeId) {
+        this.reportTypeId = reportTypeId;
+    }
+
+    public Integer getReportedId() {
+        return reportedId;
+    }
+
+    public void setReportedId(Integer reportedId) {
+        this.reportedId = reportedId;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "reportId=" + reportId +
+                ", reportReason='" + reportReason + '\'' +
+                ", reportContent='" + reportContent + '\'' +
+                ", reportDate=" + reportDate +
+                ", reportTypeId=" + reportTypeId +
+                ", sendId=" + sendId +
+                ", reportedId=" + reportedId +
+                '}';
     }
 
     @Override
@@ -96,23 +120,14 @@ public class Report {
                 Objects.equals(reportReason, report.reportReason) &&
                 Objects.equals(reportContent, report.reportContent) &&
                 Objects.equals(reportDate, report.reportDate) &&
-                Objects.equals(reportType, report.reportType);
+                Objects.equals(reportTypeId, report.reportTypeId) &&
+                Objects.equals(sendId, report.sendId) &&
+                Objects.equals(reportedId, report.reportedId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reportId, reportReason, reportContent, reportDate, reportType);
-    }
+        return Objects.hash(reportId, reportReason, reportContent, reportDate, reportTypeId, sendId, reportedId);
 
-    @Override
-    public String toString() {
-        return "Report{" +
-                "reportId=" + reportId +
-                ", reportReason='" + reportReason + '\'' +
-                ", reportContent='" + reportContent + '\'' +
-                ", reportDate=" + reportDate +
-                ", reportType='" + reportType + '\'' +
-                ", sendId=" + sendId +
-                '}';
     }
 }

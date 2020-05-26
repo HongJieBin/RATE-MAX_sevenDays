@@ -27,7 +27,7 @@ public class TagController {
      * 获取标签，上限为十个，随机选取
      * @return
      */
-    @RequestMapping(value = "/getTag",method = RequestMethod.GET)
+    @RequestMapping(value = "/getTag",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getTag(){
         Random random = new Random();
         List<Tag> list;
@@ -40,7 +40,7 @@ public class TagController {
             return JsonUtils.toJSON(JsonResult.ok(list));
         List<Tag> returnList = new LinkedList<>();
         for(int i = 0 ; i < 10 ; i++){                                      //else randomly return ten tags
-            returnList.add(list.get(random.nextInt()%list.size()));
+            returnList.add(list.get(random.nextInt() % list.size()));
         }
         return JsonUtils.toJSON(JsonResult.ok(returnList));
     }
@@ -50,7 +50,7 @@ public class TagController {
      * @param tag
      * @return
      */
-    @RequestMapping(value = "setTag" , method = RequestMethod.POST)
+    @RequestMapping(value = "/setTag" , method = RequestMethod.POST)
     public @ResponseBody String setTag(@RequestBody Tag tag){
         try {
             tagService.add(tag);

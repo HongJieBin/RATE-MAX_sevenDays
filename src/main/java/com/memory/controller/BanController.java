@@ -22,7 +22,8 @@ public class BanController {
     @Autowired
     private BanService banService;
 
-    @Autowired
+
+   @Autowired
     private UserService userService;
 
 

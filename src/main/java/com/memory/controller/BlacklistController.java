@@ -7,6 +7,7 @@ import com.memory.pojo.Friend;
 import com.memory.pojo.User;
 import com.memory.service.BlacklistServiceImpl;
 import com.memory.service.FriendService;
+
 import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -29,6 +30,7 @@ public class BlacklistController {
 
     @Autowired
     private FriendService friendService;
+
 
 
     /**
@@ -86,9 +88,9 @@ public class BlacklistController {
     /**
      * 获取用户的黑名单
      * @param user  用户id
-     * @return
+     * @return  一个用户黑名单的id，昵称键值对map
      */
-    @RequestMapping(value = "getBlackList",method = RequestMethod.POST,produces = {"application/json;charset = UTF-"})
+    @RequestMapping(value = "getBlackList",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getBlackList(@RequestBody User user){
         List<BlackListBean> blist = new LinkedList<>();
         try {

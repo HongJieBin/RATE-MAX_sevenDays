@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Msg;
 import com.memory.pojo.Tag;
 
+import java.util.List;
+
 
 /**
  * @InterfaceName TagDAO
@@ -17,4 +19,6 @@ public interface MsgDAO {
     void update(Msg msg);
     void delete(Msg msg);
     Msg get(int id);
+    Integer save(Msg msg);
+    List<Msg> getUnReadMsgList(Integer acceptUserId);
 }

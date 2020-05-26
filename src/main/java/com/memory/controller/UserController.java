@@ -7,6 +7,7 @@ import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
 import com.memory.service.UserService;
 import com.memory.service.TagServiceImpl;
+import com.memory.service.UserService;
 import com.memory.service.UserTagServiceImpl;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
@@ -34,7 +35,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/modifyInformation", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String modifyInformation (@RequestBody JSONObject json){
         User u;
         //System.out.println(user);
@@ -57,6 +58,7 @@ public class UserController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("保存失败！\nMessage:"+e.getMessage()));
         }
+        System.out.println(JsonResult.ok(u));
         return JsonUtils.toJSON(JsonResult.ok(u));
     }
 
@@ -65,9 +67,8 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/pastTag" , method = RequestMethod.GET)
+    @RequestMapping(value = "/pastTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String pastTag(@RequestBody JSONObject json){
-        //System.out.println("userId"+userId);
         List<String> tagList = new LinkedList<>();
         List<UserTag> list = null;
         try {
@@ -88,7 +89,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST)
+    @RequestMapping(value = "/setThisWeekTag" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String setThisWeekTag(@RequestBody User user){
         User u;
         try {
@@ -98,26 +99,32 @@ public class UserController {
         }
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-        String lastTag = u.getThisWeekTag();                    //获取上周标签
-        String[] lastTagList = null;
-        if( lastTag != null) {
-            lastTagList = lastTag.split(" ");        //将字符串分开
-
-            for (String s : lastTagList) {                     //update UserTag chart
-                Tag t = tagService.getByTagName(s);
-                UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
-                if (ut == null) {
-                    ut = new UserTag();
-                    ut.setUserId(user.getUserId());
-                    ut.setTagId(t.getTagId());
-                    ut.setTagNumber(1);
-                    userTagService.save(ut);
-                } else {
-                    ut.setTagNumber(ut.getTagNumber() + 1);
-                    userTagService.update(ut);
-                }
-            }
-        }
+        System.out.println("传过来的标签为" + user.getThisWeekTag());
+//        String thisWeekTag = u.getThisWeekTag();                    //获取本周标签
+//        System.out.println(u.getThisWeekTag());
+//        String[] lastTagList = null;
+//        if( lastTag != null) {
+//            lastTagList = lastTag.split(",");//将字符串分开
+//            System.out.println(lastTagList.toString());
+//
+//            for (String s : lastTagList) {//update UserTag chart
+//                System.out.println(s);
+//                if(s!=null) {
+//                    Tag t = tagService.getByTagName(s);
+//                    UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
+//                    if (ut == null) {
+//                        ut = new UserTag();
+//                        ut.setUserId(user.getUserId());
+//                        ut.setTagId(t.getTagId());
+//                        ut.setTagNumber(1);
+//                        userTagService.save(ut);
+//                    } else {
+//                        ut.setTagNumber(ut.getTagNumber() + 1);
+//                        userTagService.update(ut);
+//                    }
+//                }
+//            }
+//        }
         try {
             u.setThisWeekTag(user.getThisWeekTag());            //update user.thisWeekTag
             userService.update(u);
@@ -132,7 +139,7 @@ public class UserController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST)
+    @RequestMapping(value = "/getThisTags",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getThisTags(@RequestBody User user){
         User u;
         try {
@@ -153,7 +160,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/getUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUser", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getUser(@RequestBody User user){
         User u = userService.get(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(u));
