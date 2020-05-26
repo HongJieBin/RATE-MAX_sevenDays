@@ -88,7 +88,7 @@ public class BlacklistController {
      * @param user  用户id
      * @return
      */
-    @RequestMapping(value = "getBlackList",method = RequestMethod.POST)
+    @RequestMapping(value = "getBlackList",method = RequestMethod.POST,produces = {"application/json;charset = UTF-"})
     public @ResponseBody String getBlackList(@RequestBody User user){
         List<BlackListBean> blist = new LinkedList<>();
         try {

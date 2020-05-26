@@ -1,9 +1,9 @@
 package com.memory.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.memory.pojo.Ban;
+import com.memory.pojo.User;
 import com.memory.service.BanService;
 import com.memory.service.UserService;
 import com.memory.utils.JsonResult;
@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/ban")
@@ -30,25 +32,24 @@ public class BanController {
      * @return
      */
     @RequestMapping(value = "banUser",method = RequestMethod.POST)
-    public @ResponseBody String ban(@RequestBody JSONObject userId){
-        System.out.println(userId);
-//        try {
-//            User user = userService.get(json.getInteger("userId"));
-//            Ban ban1 = banService.getByUserId(json.getInteger("userId"));
-//            if( ban1 != null)
-//                return JsonUtils.toJSON(JsonResult.errorMsg("该用户已被封禁"));
-//            if(user == null)
-//                return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-//            Ban ban = new Ban();
-//            ban.setUser(user);
-//            ban.setBanStime(new Timestamp((new Date()).getTime()));
-//            ban.setBanEtime(new Timestamp(new Date().getTime()));
-//            banService.ban(ban);
-//        }catch (Exception e){
-//            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
-//        }
-//        return JsonUtils.toJSON(JsonResult.ok("封禁成功"));
-        return null;
+    public @ResponseBody String ban(@RequestBody JSONObject json){
+        System.out.println(json.getInteger("userId"));
+        try {
+            User user = userService.get(json.getInteger("userId"));
+            Ban ban1 = banService.getByUserId(json.getInteger("userId"));
+            if( ban1 != null)
+                return JsonUtils.toJSON(JsonResult.errorMsg("该用户已被封禁"));
+            if(user == null)
+                return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
+            Ban ban = new Ban();
+            ban.setUser(user);
+            ban.setBanStime(new Timestamp((new Date()).getTime()));
+            ban.setBanEtime(new Timestamp(new Date().getTime()));
+            banService.ban(ban);
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok("封禁成功"));
     }
 
 

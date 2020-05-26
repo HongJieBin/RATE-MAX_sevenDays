@@ -34,14 +34,14 @@ public class AdminController {
                     session.setAttribute("adminName",admin1.getAdminName());
                     request.setAttribute("code",200);
                     request.setAttribute("msg","登录成功！");
-                    request.setAttribute("users", userService.getAll());
+                    request.setAttribute("users",userService.getAll());
                     return "listUser";
                 }else {
                     System.out.println("密码错误");
                     request.setAttribute("code",2008);
                     request.setAttribute("msg","密码错误");
                     request.setAttribute("users",null);
-                    return "/index.jsp";
+                    return "adminLogin";
                 }
             }
         }catch (Exception e){
@@ -51,12 +51,12 @@ public class AdminController {
             request.setAttribute("code",1999);
             request.setAttribute("msg","服务器错误");
             request.setAttribute("users",null);
-            return "/index.jsp";
+            return "adminLogin";
         }
         System.out.println("管理员不存在");
         request.setAttribute("code",2008);
         request.setAttribute("msg","该管理员不存在");
         request.setAttribute("users",null);
-        return "/index.jsp";
+        return "adminLogin";
     }
 }

@@ -38,23 +38,50 @@ public class UserServiceImpl implements UserService {
         //查询电话号
         User loginuer = null;
         List<User> userList = userDAO.get("telephone",userphone);
-            if(userList.size()==1){
-
-                loginuer = userList.get(0);
-                if (loginuer.getPassword().equals(userPwd)) {
+        if(userList.size()==1){
+            loginuer = userList.get(0);
+            if (loginuer.getPassword().equals(userPwd)) {
                 System.out.println("登录成功，去往首页");
-                //TODO
-
-
             } else {
-            throw new Exception("用户名或密码错误！！");
+                throw new Exception("用户名或密码错误！！");
             }
         }else{
-                System.out.println("不存在该用户");
-            }
+            System.out.println("不存在该用户");
+        }
 
         return loginuer;
     }
+
+    @Override
+    public User loginUser2(String telephone) throws Exception {
+        //查询电话号
+        User loginuser = null;
+        System.out.println(telephone);
+        List<User> userList = userDAO.get("telephone",telephone);
+        if(userList.size()==1){
+            loginuser = userList.get(0);
+            System.out.println("登陆成功，去往首页");
+        }else{
+            throw new Exception("用户名/手机号错误，不存在该用户！！");//手机验证码在前端校验
+        }
+        return loginuser;
+    }
+
+    @Override
+    public void forgetRegister(String telephone, String password) throws Exception {
+        //重新设置密码
+        User forgetuser = null;
+        List<User> userList = userDAO.get("telephone",telephone);
+        if(userList.size()==1){
+            forgetuser = userList.get(0);
+            forgetuser.setPassword(password);
+            userDAO.update(forgetuser);
+            System.out.println("修改密码成功，账号：" + telephone + ",密码：" +password);
+        }else{
+            throw new Exception("用户名/手机号未注册！！");
+        }
+    }
+
 
     public User get(Integer id){
         return userDAO.get(id);
@@ -65,4 +92,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User>getAll(){return userDAO.getAll();}
+
+
 }

@@ -2,9 +2,7 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONReader;
 import com.memory.formbean.MemoryBean;
-import com.memory.formbean.UserBean;
 import com.memory.pojo.Memory;
 import com.memory.pojo.User;
 import com.memory.service.UserService;
@@ -60,15 +58,13 @@ public class MemoryController {
      */
     @RequestMapping(value = "create",method = RequestMethod.POST,produces = {"application/json;charset = UTF-8"})
     public @ResponseBody String create(@RequestBody JSONObject json){
-//        System.out.println(s);
-//        return null;
         User user = userService.get(json.getInteger("userId"));
         if(user == null){return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在！"));}
         Memory memory = new Memory();
         memory.setMemoryContent(json.getString("content"));
         memory.setUser(user);
-        if(json.getString("memoryTitle") == null){ memory.setMemoryTitle("title"); }
-        //memory.setMemoryTitle("title");
+        if(json.getString("memoryTitle") != null)
+            memory.setMemoryTitle("title");
         memory.setMemoryTitle(json.getString("memoryTitle"));
         memory.setMemoryDate(new Timestamp((new Date()).getTime()));
         try {
