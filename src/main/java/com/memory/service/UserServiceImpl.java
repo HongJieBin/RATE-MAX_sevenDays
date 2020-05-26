@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService {
         if(userList.size()==1){
             loginuer = userList.get(0);
             if (loginuer.getPassword().equals(userPwd)) {
-                    System.out.println("登录成功，去往首页");
+                System.out.println("登录成功，去往首页");
             } else {
                 throw new Exception("用户名或密码错误！！");
             }
         }else{
-                System.out.println("不存在该用户");
-            }
+            System.out.println("不存在该用户");
+        }
 
         return loginuer;
     }
@@ -95,3 +95,4 @@ public class UserServiceImpl implements UserService {
 
 
 }
+

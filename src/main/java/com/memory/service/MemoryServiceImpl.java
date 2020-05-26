@@ -5,6 +5,8 @@ import com.memory.pojo.Memory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemoryServiceImpl implements MemoryService {
 
@@ -28,5 +30,10 @@ public class MemoryServiceImpl implements MemoryService {
 
     public void update(Memory memory){
         memoryDAO.update(memory);
+    }
+
+    @Override
+    public List<Memory> getAllOfUser(int userId) {
+        return  memoryDAO.getAllOfUser(userId);
     }
 }
