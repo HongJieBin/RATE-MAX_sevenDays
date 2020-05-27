@@ -11,4 +11,5 @@ import com.memory.pojo.Chatroom;
  **/
 public interface ChatroomService {
     public void addChatroom(Chatroom chatroom);
+    public boolean deleteChatroomById(int chatroomId);
 }

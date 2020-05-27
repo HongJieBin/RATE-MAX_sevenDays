@@ -44,4 +44,13 @@ public class ChatroomServiceImpl implements ChatroomService{
         chatroomDAO.add(chatroom);
     }
 
+    @Override
+    public boolean deleteChatroomById(int chatroomId) {
+        Chatroom chatroom = chatroomDAO.get(chatroomId);
+        if (chatroom == null){
+            return false;
+        }
+        chatroomDAO.delete(chatroom);
+        return true;
+    }
 }

@@ -35,4 +35,14 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok());
     }
 
+    @RequestMapping(value = "/chatRoom/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String deleteChatroom(int chatroomId){
+        boolean result = chatroomService.deleteChatroomById(chatroomId);
+        if (result){
+            return JsonUtils.toJSON(JsonResult.ok());
+        } else {
+            return JsonUtils.toJSON(JsonResult.errorMsg("删除失败"));
+        }
+    }
 }
