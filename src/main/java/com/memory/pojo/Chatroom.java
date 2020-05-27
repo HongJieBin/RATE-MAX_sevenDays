@@ -49,16 +49,15 @@ public class Chatroom {
     @Column(name = "chatroom_end", nullable = false)
     private Timestamp chatroomEnd;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private int userId;
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getChatroomId() {
@@ -134,6 +133,7 @@ public class Chatroom {
                 chatroomNumber == chatroom.chatroomNumber &&
                 chatroomStatement == chatroom.chatroomStatement &&
                 chatroomHot == chatroom.chatroomHot &&
+                userId == chatroom.userId &&
                 Objects.equals(chatroomName, chatroom.chatroomName) &&
                 Objects.equals(chatroomTag, chatroom.chatroomTag) &&
                 Objects.equals(chatroomStart, chatroom.chatroomStart) &&
@@ -142,9 +142,8 @@ public class Chatroom {
 
     @Override
     public int hashCode() {
-        return Objects.hash(chatroomId, chatroomName, chatroomTag, chatroomNumber, chatroomStatement, chatroomHot, chatroomStart, chatroomEnd);
+        return Objects.hash(chatroomId, chatroomName, chatroomTag, chatroomNumber, chatroomStatement, chatroomHot, chatroomStart, chatroomEnd, userId);
     }
-
 
     @Override
     public String toString() {
@@ -157,7 +156,7 @@ public class Chatroom {
                 ", chatroomHot=" + chatroomHot +
                 ", chatroomStart=" + chatroomStart +
                 ", chatroomEnd=" + chatroomEnd +
-                ", user=" + user +
+                ", userId=" + userId +
                 '}';
     }
 }
