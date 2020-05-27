@@ -62,8 +62,8 @@ public class ChatroomServiceImpl implements ChatroomService{
     }
 
     @Override
-    public List<ChatroomInfoVo> getMyChatroomInfoList(int userId) {
-        String hql1 = "from Chatroom c where c.userId= ?";
+    public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId) {
+        String hql1 = "from Chatroom c where c.userId= ? and c.chatroomStatement=0";
         List<Chatroom> roomList= (List<Chatroom>) hibernateTemplate.find(hql1,userId);
         List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
         for (Chatroom chatroom: roomList) {
@@ -85,10 +85,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Override
     public List<ChatroomInfoVo> getMyJoinChatrommList(int userId) {
-        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ?";
+        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
         List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
-        String hql3 = "from Chatroom as c where c.chatroomId in (:list)";
+        String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=0";
         if(roomIdList.isEmpty()){
             return null;
         }

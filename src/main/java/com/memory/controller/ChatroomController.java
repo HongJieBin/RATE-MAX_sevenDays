@@ -55,7 +55,7 @@ public class ChatroomController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyChatroomInfoList(user.getUserId())));
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyCreatChatroomInfoList(user.getUserId())));
     }
 
 

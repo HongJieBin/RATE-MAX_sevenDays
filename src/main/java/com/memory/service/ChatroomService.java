@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public interface ChatroomService {
     public void addChatroom(Chatroom chatroom);
     public boolean deleteChatroomById(int chatroomId);
-    public List<ChatroomInfoVo> getMyChatroomInfoList(int userId);
+    public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId);
     public ChatroomInfoVo getChatroomInfoById(int chatroomId);
     public List<ChatroomInfoVo> getMyJoinChatrommList(int userId);
 }
