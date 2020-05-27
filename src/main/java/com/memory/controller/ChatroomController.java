@@ -42,7 +42,7 @@ public class ChatroomController {
         if (result){
             return JsonUtils.toJSON(JsonResult.ok());
         } else {
-            return JsonUtils.toJSON(JsonResult.errorMsg("删除失败"));
+            return JsonUtils.toJSON(JsonResult.errorMsg("删除失败,聊天室不存在"));
         }
     }
 }
