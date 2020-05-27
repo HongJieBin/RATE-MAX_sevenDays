@@ -2,6 +2,7 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.memory.formbean.UserBean;
 import com.memory.pojo.Tag;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
@@ -164,5 +165,27 @@ public class UserController {
     public @ResponseBody String getUser(@RequestBody User user){
         User u = userService.get(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(u));
+    }
+
+
+    /**
+     * 修改用户头像
+     * @param json: userId:用户id
+     *              icon:用户头像url
+     * @return      UserBean
+     */
+    @RequestMapping(value = "modifyIcon",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    public @ResponseBody String modifyIcon(@RequestBody JSONObject json){
+        try {
+            User user = userService.get(json.getInteger("userId"));
+            if(user == null) return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在id："
+                    +json.getInteger("userId")));
+            if(json.getString("icon") == null) return JsonUtils.toJSON(JsonResult.errorMsg("头像不能为空！"));
+            user.setIcon(json.getString("icon"));
+            userService.update(user);
+            return JsonUtils.toJSON(JsonResult.ok("修改头像成功！"));
+        }catch ( Exception e ){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
     }
 }
