@@ -1,5 +1,7 @@
 package com.memory.dao;
 
+import com.memory.pojo.Chatroom;
+import com.memory.pojo.ChatroomTag;
 import com.memory.pojo.ChatroomUser;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,27 +19,28 @@ import javax.annotation.Resource;
 
 @Repository
 @Transactional
-public class ChatroomTagDAOImpl implements ChatroomUserDAO{
+public class ChatroomTagDAOImpl implements ChatroomTagDAO{
     @Resource
     private HibernateTemplate hibernateTemplate;
 
+
     @Override
-    public void add(ChatroomUser chatroomUser) {
-        hibernateTemplate.save(chatroomUser);
+    public void add(ChatroomTag chatroomTag) {
+        hibernateTemplate.save(chatroomTag);
     }
 
     @Override
-    public void update(ChatroomUser chatroomUser) {
-        hibernateTemplate.update(chatroomUser);
+    public void update(ChatroomTag chatroomTag) {
+        hibernateTemplate.update(chatroomTag);
     }
 
     @Override
-    public void delete(ChatroomUser chatroomUser) {
-        hibernateTemplate.delete(chatroomUser);
+    public void delete(ChatroomTag chatroomTag) {
+        hibernateTemplate.delete(chatroomTag);
     }
 
     @Override
-    public ChatroomUser get(int id) {
-        return hibernateTemplate.get(ChatroomUser.class, id);
+    public ChatroomTag get(int id) {
+        return hibernateTemplate.get(ChatroomTag.class, id);
     }
 }
