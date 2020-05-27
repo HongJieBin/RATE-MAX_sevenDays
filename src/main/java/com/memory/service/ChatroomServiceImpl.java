@@ -85,10 +85,19 @@ public class ChatroomServiceImpl implements ChatroomService{
     @Override
     public boolean deleteChatroomById(int chatroomId, int userId) {
         Chatroom chatroom = chatroomDAO.get(chatroomId);
+        System.out.println(chatroom);
+        System.out.println(chatroomId);
         if (chatroom == null){
             return false;
         }
-        chatroomDAO.delete(chatroom);
+        if (chatroom.getUserId() == userId){
+            chatroom.setChatroomStatement(1);
+            chatroomDAO.update(chatroom);
+        }
+        ChatroomUser chatroomUser = new ChatroomUser();
+        chatroomUser.setUserId(userId);
+        chatroomUser.setChatroomId(chatroomId);
+        chatroomUserDAO.delete(chatroomUser);
         return true;
     }
 
