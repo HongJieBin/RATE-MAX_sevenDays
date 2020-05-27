@@ -32,7 +32,8 @@ public class ChatroomController {
     public String createChatroom(@RequestBody Chatroom chatroom){
         System.out.println(chatroom);
         Chatroom room = chatroomService.addChatroom(chatroom);
-        return JsonUtils.toJSON(JsonResult.ok());
+        ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
+        return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
 
     @RequestMapping(value = "/chatRoom/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
