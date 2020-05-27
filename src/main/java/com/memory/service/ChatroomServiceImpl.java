@@ -6,6 +6,9 @@ import com.memory.dao.ChatroomTagDAO;
 import com.memory.dao.ChatroomUserDAO;
 import com.memory.dao.TagDAO;
 import com.memory.pojo.Chatroom;
+import com.memory.pojo.Friend;
+import com.memory.pojo.User;
+import org.hibernate.Session;
 import com.memory.pojo.ChatroomTag;
 import com.memory.pojo.ChatroomUser;
 import com.memory.pojo.Tag;
@@ -90,9 +93,37 @@ public class ChatroomServiceImpl implements ChatroomService{
     }
 
     @Override
-    public List<ChatroomInfoVo> getChatroomInfoList() {
-        String hql1 = "from Chatroom";
-        List<Chatroom> roomList= (List<Chatroom>) hibernateTemplate.find(hql1);
+    public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId) {
+        String hql1 = "from Chatroom c where c.userId= ? and c.chatroomStatement=0";
+        List<Chatroom> roomList= (List<Chatroom>) hibernateTemplate.find(hql1,userId);
+        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
+        for (Chatroom chatroom: roomList) {
+            ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
+            chatroomInfoVo.setChatroomInfo(chatroom);
+            chatroomInfoList.add(chatroomInfoVo);
+        }
+        return chatroomInfoList;
+    }
+
+
+    @Override
+    public ChatroomInfoVo getChatroomInfoById(int chatroomId) {
+        Chatroom chatroom = chatroomDAO.get(chatroomId);
+        ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
+        chatroomInfoVo.setChatroomInfo(chatroom);
+        return chatroomInfoVo;
+    }
+
+    @Override
+    public List<ChatroomInfoVo> getMyJoinChatrommList(int userId) {
+        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
+        List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
+        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=0";
+        if(roomIdList.isEmpty()){
+            return null;
+        }
+        List<Chatroom> roomList = (List<Chatroom>)session.createQuery(hql3).setParameterList("list",roomIdList).list();
         List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
         for (Chatroom chatroom: roomList) {
             ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();

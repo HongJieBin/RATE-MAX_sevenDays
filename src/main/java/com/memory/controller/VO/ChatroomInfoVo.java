@@ -18,8 +18,6 @@ public class ChatroomInfoVo {
     private String chatroomName;
     private String chatroomTag;
     private int chatroomNumber;
-    private int chatroomStatement;
-    private int chatroomHot;
     private Date chatroomStart;
     private Date chatroomEnd;
     private String userName;
@@ -56,22 +54,6 @@ public class ChatroomInfoVo {
         this.chatroomNumber = chatroomNumber;
     }
 
-    public int getChatroomStatement() {
-        return chatroomStatement;
-    }
-
-    public void setChatroomStatement(int chatroomStatement) {
-        this.chatroomStatement = chatroomStatement;
-    }
-
-    public int getChatroomHot() {
-        return chatroomHot;
-    }
-
-    public void setChatroomHot(int chatroomHot) {
-        this.chatroomHot = chatroomHot;
-    }
-
     public Date getChatroomStart() {
         return chatroomStart;
     }
@@ -98,12 +80,10 @@ public class ChatroomInfoVo {
 
     public void setChatroomInfo(Chatroom chatroom) {
         setChatroomId(chatroom.getChatroomId());
-        setChatroomHot(chatroom.getChatroomHot());
         setChatroomEnd(chatroom.getChatroomEnd());
         setChatroomName(chatroom.getChatroomName());
         setChatroomNumber(chatroom.getChatroomNumber());
         setChatroomStart(chatroom.getChatroomStart());
-        setChatroomStatement(chatroom.getChatroomStatement());
         setChatroomTag(chatroom.getChatroomTag());
         UserDAO userDAO = (UserDAO) SpringUtils.getBean("userDAOImpl");
         setUserName(userDAO.get(chatroom.getUserId()).getNickname());
