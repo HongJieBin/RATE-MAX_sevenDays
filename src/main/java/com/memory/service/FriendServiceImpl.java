@@ -1,14 +1,13 @@
 package com.memory.service;
 
-import com.memory.controller.VO.FriendInfoVO;
-import com.memory.controller.VO.RecommendFriendInfoVO;
-import com.memory.controller.VO.TrustInfoVO;
-import com.memory.controller.VO.UntrustInfoVO;
+import com.memory.controller.VO.*;
 import com.memory.dao.BlacklistDAO;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.UserDAO;
+import com.memory.dao.UserTagDAO;
 import com.memory.pojo.Friend;
 import com.memory.pojo.User;
+import com.memory.pojo.UserTag;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -19,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.management.Query;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -32,6 +29,8 @@ public class FriendServiceImpl implements FriendService{
     private UserDAO userDAO;
     @Autowired
     private BlacklistDAO blacklistDAO;
+    @Autowired
+    private UserTagDAO userTagDAO;
 
 
     @Resource
@@ -109,9 +108,50 @@ public class FriendServiceImpl implements FriendService{
         friendDAO.delete(friend);
     }
 
+
+
+    /**
+     * 基于本系统的结构从而设计的推荐朋友的算法，每次推荐5人
+     * 推荐的符合算法的朋友3名，且并非为朋友或者黑名单成员
+     * 除此之外，随机推荐任意非朋友或者黑名单成员2名
+     * 两次刷新出现的朋友不能完全一致（可通过随机进行打乱）
+     * 算法首先先选取该用户的标签中以往出现次数的前三名，且出现次数至少为3次（不到3次不选取，不足3个标签则空缺）
+     * 然后通过前三名的标签与其他的用户随机进行匹配，会通过一个算法得出一个匹配分数
+     * 达到一定的分数则匹配成功，成为推荐朋友，满3名则停止匹配
+     * 若匹配一段时间后无法匹配成功3人，则空缺由随机推荐补上
+     * 匹配算法比较前三名标签的符合程度，有一定的权重
+     */
     @Override
     public List<RecommendFriendInfoVO> recommendFriends(Integer myUserId){
-        int myId = myUserId;
+
+        //匹配过程
+        int cnt = userDAO.getCount(); //用户总人数
+        int randomId1 = 0;//以下为推荐用户的id
+        int randomId2 = 0;
+        int randomId3 = 0;
+        int randomId4 = 0;
+        int randomId5 = 0;
+
+        int num = 0; //总共匹配成功的人数
+        int match = 0; //进行匹配的次数，多于100次或者超过可匹配人数上限时停止匹配（刚开始时可能用户较少）
+        User tmp = null;
+        List myFriends = queryFriendsList(myUserId);
+        List myBlackList = queryBlackList(myUserId);
+
+
+
+        List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
+        recommendUsers.add(addByUserID(randomId1));
+        recommendUsers.add(addByUserID(randomId2));
+        recommendUsers.add(addByUserID(randomId3));
+        recommendUsers.add(addByUserID(randomId4));
+        recommendUsers.add(addByUserID(randomId5));
+        return recommendUsers;
+
+
+
+
+        /*int myId = myUserId;
         int cnt = userDAO.getCount();
         int randomId1 = 0;
         int randomId2 = 0;
@@ -121,7 +161,7 @@ public class FriendServiceImpl implements FriendService{
         int flag1 = 0;
         int flag2 = 0;
 
-        while (flag1 != 4){
+       while (flag1 != 4){
             flag1 = 0;
             randomId1 = getRandomId(cnt);
             tmp = userDAO.get(randomId1);
@@ -181,7 +221,7 @@ public class FriendServiceImpl implements FriendService{
 
         recommendUsers.add(rf1);
         recommendUsers.add(rf2);
-        return recommendUsers;
+        return recommendUsers;*/
     }
 
     @Override
@@ -265,4 +305,57 @@ public class FriendServiceImpl implements FriendService{
             return getUntrustedInfo(userId,friendId);
         }
     }
+
+    /**
+     * 选取出每个用户的标签出现次数前三名(若没有三个符合要求的则少的空缺)
+     */
+
+    @Override
+    public TagSortVO TagSort(Integer userId){
+
+        // 对标签出现次数进行排序
+        List<UserTag> userTag = userTagDAO.getByUserId(userId);
+        Collections.sort(userTag, new UserTagNumberComparator());
+        Collections.reverse(userTag);
+
+        TagSortVO tagSortVOS = null;
+        tagSortVOS.setUserID(userId);
+
+        if(userTag.get(0).getTagNumber()>=3)
+            tagSortVOS.setFirstTagID(userTag.get(0).getTagId());
+
+        if(userTag.get(1).getTagNumber()>=3)
+            tagSortVOS.setSecondTagID(userTag.get(1).getTagId());
+
+        if(userTag.get(2).getTagNumber()>=3)
+            tagSortVOS.setThirdTagID(userTag.get(2).getTagId());
+
+        return tagSortVOS;
+    }
+
+    @Override
+    public RecommendFriendInfoVO addByUserID(Integer userID) {
+        User u1 = userDAO.get(userID);
+        RecommendFriendInfoVO rf1 = new RecommendFriendInfoVO();
+        rf1.setUserId(userID);
+        rf1.setIcon(u1.getIcon());
+        rf1.setNickname(u1.getNickname());
+        return rf1;
+    }
+
+    @Override
+    public boolean isMatching(Integer userId, Integer friendId) {
+        Integer pt = 0;
+        TagSortVO tagSortVO1 = TagSort(userId);
+        TagSortVO tagSortVO2 = TagSort(friendId);
+        if()  pt+=5;
+            else if(1)  pt+=4;
+                else if(1)  pt+=3;
+                    else if(1) pt+=2;
+                        else if (1) pt+=1;
+        if(pt >= 4)  return true;
+            else  return false;
+    }
+
+
 }

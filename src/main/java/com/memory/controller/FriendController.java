@@ -41,6 +41,7 @@ public class FriendController {
         }
     }
 
+
     @RequestMapping(value = "Friend/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String addFriends(int userId, int friendUserId){
