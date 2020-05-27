@@ -1,10 +1,12 @@
 package com.memory.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -44,13 +46,18 @@ public class Chatroom {
     private int chatroomHot;
 
     @Column(name = "chatroom_start", nullable = false)
-    private Timestamp chatroomStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date chatroomStart;
 
     @Column(name = "chatroom_end", nullable = false)
-    private Timestamp chatroomEnd;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date chatroomEnd;
+
 
     @Column(name = "user_id", nullable = false)
     private int userId;
+
+
 
     public int getUserId() {
         return userId;
@@ -108,19 +115,19 @@ public class Chatroom {
         this.chatroomHot = chatroomHot;
     }
 
-    public Timestamp getChatroomStart() {
+    public Date getChatroomStart() {
         return chatroomStart;
     }
 
-    public void setChatroomStart(Timestamp chatroomStart) {
+    public void setChatroomStart(Date chatroomStart) {
         this.chatroomStart = chatroomStart;
     }
 
-    public Timestamp getChatroomEnd() {
+    public Date getChatroomEnd() {
         return chatroomEnd;
     }
 
-    public void setChatroomEnd(Timestamp chatroomEnd) {
+    public void setChatroomEnd(Date chatroomEnd) {
         this.chatroomEnd = chatroomEnd;
     }
 
@@ -159,4 +166,6 @@ public class Chatroom {
                 ", userId=" + userId +
                 '}';
     }
+
+
 }

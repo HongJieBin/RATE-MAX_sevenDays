@@ -1,15 +1,16 @@
 package com.memory.service;
 
+import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.dao.ChatroomDAO;
 import com.memory.pojo.Chatroom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * @ClassName ChatroomServiceImpl
@@ -25,6 +26,9 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Autowired
     private ChatroomDAO chatroomDAO;
+
+    @Resource
+    private HibernateTemplate hibernateTemplate;
 
     @Override
     public void addChatroom(Chatroom chatroom) {
@@ -52,5 +56,18 @@ public class ChatroomServiceImpl implements ChatroomService{
         }
         chatroomDAO.delete(chatroom);
         return true;
+    }
+
+    @Override
+    public List<ChatroomInfoVo> getChatroomInfoList() {
+        String hql1 = "from Chatroom";
+        List<Chatroom> roomList= (List<Chatroom>) hibernateTemplate.find(hql1);
+        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
+        for (Chatroom chatroom: roomList) {
+            ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
+            chatroomInfoVo.setChatroomInfo(chatroom);
+            chatroomInfoList.add(chatroomInfoVo);
+        }
+        return chatroomInfoList;
     }
 }

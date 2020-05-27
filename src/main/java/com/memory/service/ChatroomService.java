@@ -1,6 +1,10 @@
 package com.memory.service;
 
+import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.pojo.Chatroom;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @InterfaceName ChatroomService
@@ -12,4 +16,5 @@ import com.memory.pojo.Chatroom;
 public interface ChatroomService {
     public void addChatroom(Chatroom chatroom);
     public boolean deleteChatroomById(int chatroomId);
+    public List<ChatroomInfoVo> getChatroomInfoList();
 }

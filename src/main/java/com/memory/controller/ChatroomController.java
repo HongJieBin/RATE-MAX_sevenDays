@@ -1,5 +1,6 @@
 package com.memory.controller;
 
+import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.pojo.Chatroom;
 import com.memory.service.ChatroomService;
 import com.memory.utils.JsonResult;
@@ -9,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * @ClassName ChatroomController
@@ -44,5 +43,17 @@ public class ChatroomController {
         } else {
             return JsonUtils.toJSON(JsonResult.errorMsg("删除失败,聊天室不存在!"));
         }
+    }
+
+    @RequestMapping(value = "/chatRoom/getRoomInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getChatroomInfo(){
+        /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        try{
+            chatroomList = chatroomService.getChatroomInfoList();
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }*/
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getChatroomInfoList()));
     }
 }
