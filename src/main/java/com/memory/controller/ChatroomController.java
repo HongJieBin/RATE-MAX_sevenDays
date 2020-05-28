@@ -30,7 +30,6 @@ public class ChatroomController {
     @RequestMapping(value = "/chatRoom/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
-        System.out.println(chatroom);
         Chatroom room = chatroomService.addChatroom(chatroom);
         ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
@@ -85,13 +84,13 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
     }
 
-
-
-
-
-
-
-
-
+    @RequestMapping(value = "/chatRoom/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String updateChatroom(@RequestBody Chatroom chatroom){
+        System.out.println("chatroom:"+chatroom);
+        Chatroom room = chatroomService.updateChatroom(chatroom);
+        ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
+        return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
+    }
 
 }

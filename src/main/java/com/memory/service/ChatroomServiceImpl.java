@@ -69,6 +69,17 @@ public class ChatroomServiceImpl implements ChatroomService{
         return chatroom;
     }
 
+    @Override
+    public Chatroom updateChatroom(Chatroom chatroom) {
+        Chatroom result = chatroomDAO.get(chatroom.getChatroomId());
+        System.out.println("result:"+result);
+        result.setChatroomName(chatroom.getChatroomName());
+        result.setChatroomTag(chatroom.getChatroomTag());
+        chatroomDAO.update(result);
+        addChatroomTags(result);
+        return result;
+    }
+
     public boolean addChatroomTags(Chatroom chatroom){
         String tags = chatroom.getChatroomTag();
         String[] tagList = tags.split(" ");

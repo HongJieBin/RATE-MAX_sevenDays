@@ -19,4 +19,5 @@ public interface ChatroomService {
     public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId);
     public ChatroomInfoVo getChatroomInfoById(int chatroomId);
     public List<ChatroomInfoVo> getMyJoinChatrommList(int userId);
+    public Chatroom updateChatroom(Chatroom chatroom);
 }
