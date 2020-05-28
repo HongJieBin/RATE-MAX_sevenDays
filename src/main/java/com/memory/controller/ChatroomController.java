@@ -30,15 +30,15 @@ public class ChatroomController {
     @RequestMapping(value = "/chatRoom/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
-        System.out.println(chatroom);
-        chatroomService.addChatroom(chatroom);
-        return JsonUtils.toJSON(JsonResult.ok());
+        Chatroom room = chatroomService.addChatroom(chatroom);
+        ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
+        return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
 
     @RequestMapping(value = "/chatRoom/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String deleteChatroom(int chatroomId){
-        boolean result = chatroomService.deleteChatroomById(chatroomId);
+    public String deleteChatroom(@RequestBody Chatroom chatroom){
+        boolean result = chatroomService.deleteChatroomById(chatroom.getChatroomId(), chatroom.getUserId());
         if (result){
             return JsonUtils.toJSON(JsonResult.ok());
         } else {
@@ -84,13 +84,13 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
     }
 
-
-
-
-
-
-
-
-
+    @RequestMapping(value = "/chatRoom/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String updateChatroom(@RequestBody Chatroom chatroom){
+        System.out.println("chatroom:"+chatroom);
+        Chatroom room = chatroomService.updateChatroom(chatroom);
+        ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
+        return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
+    }
 
 }

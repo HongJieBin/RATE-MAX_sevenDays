@@ -14,9 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Version 1.0
  **/
 public interface ChatroomService {
-    public void addChatroom(Chatroom chatroom);
-    public boolean deleteChatroomById(int chatroomId);
+    public Chatroom addChatroom(Chatroom chatroom);
+    public boolean deleteChatroomById(int chatroomId, int userId);
     public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId);
     public ChatroomInfoVo getChatroomInfoById(int chatroomId);
     public List<ChatroomInfoVo> getMyJoinChatrommList(int userId);
+    public Chatroom updateChatroom(Chatroom chatroom);
 }
