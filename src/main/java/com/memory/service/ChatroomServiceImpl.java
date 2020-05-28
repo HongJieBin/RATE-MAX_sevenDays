@@ -86,8 +86,10 @@ public class ChatroomServiceImpl implements ChatroomService{
         for(String s : tagList){
             Tag tag = tagDAO.getByName(s);
             ChatroomTag chatroomTag = new ChatroomTag();
+            if (chatroomTagDAO.get())
             chatroomTag.setChatroomId(chatroom.getChatroomId());
             chatroomTag.setTagId(tag.getTagId());
+
             chatroomTagDAO.add(chatroomTag);
         }
         return true;

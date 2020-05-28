@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName ChatroomTagDAOImpl
@@ -42,5 +43,15 @@ public class ChatroomTagDAOImpl implements ChatroomTagDAO{
     @Override
     public ChatroomTag get(int id) {
         return hibernateTemplate.get(ChatroomTag.class, id);
+    }
+
+    @Override
+    public ChatroomTag getByBoth(int chatroomId, int tagId) {
+        String hql = "from ChatroomTag as ct where ct.chatroomId = " + chatroomId + "and ct.tagId = " + tagId;
+        List<ChatroomTag> chatroomTags = (List<ChatroomTag>) hibernateTemplate.find(hql);
+        if (chatroomTags == null){
+            return null;
+        }
+        return chatroomTags.get(0);
     }
 }

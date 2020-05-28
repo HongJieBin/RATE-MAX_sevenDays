@@ -15,4 +15,5 @@ public interface ChatroomTagDAO {
     void update(ChatroomTag chatroomTag);
     void delete(ChatroomTag chatroomTag);
     ChatroomTag get(int id);
+    ChatroomTag getByBoth(int chatroomId, int tagId);
 }
