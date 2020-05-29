@@ -1,7 +1,6 @@
 package com.memory.service;
 
 import com.memory.controller.VO.*;
-import com.memory.dao.BlacklistDAO;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.UserDAO;
 import com.memory.dao.UserTagDAO;
@@ -11,14 +10,15 @@ import com.memory.pojo.UserTag;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.management.Query;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -28,16 +28,14 @@ public class FriendServiceImpl implements FriendService{
     @Autowired
     private UserDAO userDAO;
     @Autowired
-    private BlacklistDAO blacklistDAO;
-    @Autowired
     private UserTagDAO userTagDAO;
 
 
     @Resource
     private HibernateTemplate hibernateTemplate;
 
-    private TrustInfoVO trustInfoVO = new TrustInfoVO() ;
-    private UntrustInfoVO untrustInfoVO = new UntrustInfoVO();
+    private final TrustInfoVO trustInfoVO = new TrustInfoVO() ;
+    private final UntrustInfoVO untrustInfoVO = new UntrustInfoVO();
 
 
     /**
@@ -50,6 +48,10 @@ public class FriendServiceImpl implements FriendService{
         System.out.println(hql1);
         List<Integer> add_id= (List<Integer>) hibernateTemplate.find(hql1,userId);
         System.out.println(add_id);
+        return getUsers(add_id);
+    }
+
+    private List<User> getUsers(List<Integer> add_id) {
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
         String hql3 = "from User as user where user.userId in (:list)";
         if(add_id.isEmpty()){
@@ -85,8 +87,7 @@ public class FriendServiceImpl implements FriendService{
     public boolean isExitUser(int userId) {
         String hql = "from User u where u.userId=?";
         List<User> users=(List<User>) hibernateTemplate.find(hql,userId);
-        if(users.isEmpty()) return false;
-        else return true;
+        return !users.isEmpty();
 
     }
 
@@ -124,104 +125,45 @@ public class FriendServiceImpl implements FriendService{
     @Override
     public List<RecommendFriendInfoVO> recommendFriends(Integer myUserId){
 
-        //匹配过程
+
         int cnt = userDAO.getCount(); //用户总人数
-        int randomId1 = 0;//以下为推荐用户的id
-        int randomId2 = 0;
-        int randomId3 = 0;
-        int randomId4 = 0;
-        int randomId5 = 0;
+        List<Integer> randomId = new ArrayList<>();//记录推荐的用户id
+        int random;
 
         int num = 0; //总共匹配成功的人数
         int match = 0; //进行匹配的次数，多于100次或者超过可匹配人数上限时停止匹配（刚开始时可能用户较少）
-        User tmp = null;
-        List myFriends = queryFriendsList(myUserId);
-        List myBlackList = queryBlackList(myUserId);
+        User tmp;
+        List<User> myFriends = queryFriendsList(myUserId);
+        List<User> myBlackList = queryBlackList(myUserId);
 
+        //匹配推荐
+        while(num < 3 && match < 100){
+             random = getRandomId(cnt);
+             tmp = userDAO.get(random);
+             if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                randomId.add(random);
+                 num++;
+             }
+             match++;
+        }
 
-
+        //随机推荐
+        while(num<5){
+            random = getRandomId(cnt);
+            tmp = userDAO.get(random);
+            if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                randomId.add(random);
+                num++;
+            }
+        }
         List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
-        recommendUsers.add(addByUserID(randomId1));
-        recommendUsers.add(addByUserID(randomId2));
-        recommendUsers.add(addByUserID(randomId3));
-        recommendUsers.add(addByUserID(randomId4));
-        recommendUsers.add(addByUserID(randomId5));
+        for (int i: randomId) {
+            recommendUsers.add(addByUserID(randomId.get(i)));
+        }
+
         return recommendUsers;
 
 
-
-
-        /*int myId = myUserId;
-        int cnt = userDAO.getCount();
-        int randomId1 = 0;
-        int randomId2 = 0;
-        User tmp = null;
-        List myFriends = queryFriendsList(myUserId);
-        List myBlackList = queryBlackList(myUserId);
-        int flag1 = 0;
-        int flag2 = 0;
-
-       while (flag1 != 4){
-            flag1 = 0;
-            randomId1 = getRandomId(cnt);
-            tmp = userDAO.get(randomId1);
-            if(myId != randomId1){
-                flag1++;
-            }
-            if(tmp != null){
-                flag1++;
-            }
-            if (myFriends == null || myFriends.isEmpty()){
-                flag1++;
-            }else if (!myFriends.contains(tmp)){
-                flag1++;
-            }
-            if (myBlackList == null || myBlackList.isEmpty() ){
-                flag1++;
-            } else if(!myBlackList.contains(tmp)){
-                flag1++;
-            }
-        }
-        while (flag2 != 5){
-            flag2 = 0;
-            randomId2 = getRandomId(cnt);
-            tmp = userDAO.get(randomId2);
-            if(randomId1 != randomId2){
-                flag2++;
-            }
-            if(myId != randomId2){
-                flag2++;
-            }
-            if(tmp != null){
-                flag2++;
-            }
-            if (myFriends == null || myFriends.isEmpty()){
-                flag2++;
-            }else if(!myFriends.contains(tmp)){
-                flag2++;
-            }
-            if (myBlackList == null || myBlackList.isEmpty()) {
-                flag2++;
-            }else if(!myBlackList.contains(tmp)){
-                flag2++;
-            }
-        }
-        List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
-        User u1 = userDAO.get(randomId1);
-        User u2 = userDAO.get(randomId2);
-        RecommendFriendInfoVO rf1 = new RecommendFriendInfoVO();
-        rf1.setUserId(randomId1);
-        rf1.setIcon(u1.getIcon());
-        rf1.setNickname(u1.getNickname());
-
-        RecommendFriendInfoVO rf2 = new RecommendFriendInfoVO();
-        rf2.setUserId(randomId2);
-        rf2.setIcon(u2.getIcon());
-        rf2.setNickname(u2.getNickname());
-
-        recommendUsers.add(rf1);
-        recommendUsers.add(rf2);
-        return recommendUsers;*/
     }
 
     @Override
@@ -236,22 +178,14 @@ public class FriendServiceImpl implements FriendService{
         List<Integer> add_id= (List<Integer>) hibernateTemplate.find(hql1,userId);
         String hql2 = "select userId from Blacklist b where b.userId= ? ";
         add_id.addAll((List<Integer>)hibernateTemplate.find(hql2,userId));
-        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
-        String hql3 = "from User as user where user.userId in (:list)";
-        if (add_id.isEmpty()){
-            return null;
-        }
-        List<User> users= (List<User>)session.createQuery(hql3).setParameterList("list",add_id).list();
-
-        return users;
+        return getUsers(add_id);
     }
 
     @Override
     public boolean isExitFriend(int userId,int friendId) {
         String hql = "from Friend f where f.userId = ? and f.addedId = ?";
         List<User> users=(List<User>) hibernateTemplate.find(hql,userId,friendId);
-        if(users.isEmpty()) return false;
-        else return true;
+        return !users.isEmpty();
     }
 
     @Override
@@ -315,10 +249,10 @@ public class FriendServiceImpl implements FriendService{
 
         // 对标签出现次数进行排序
         List<UserTag> userTag = userTagDAO.getByUserId(userId);
-        Collections.sort(userTag, new UserTagNumberComparator());
+        userTag.sort(new UserTagNumberComparator());
         Collections.reverse(userTag);
 
-        TagSortVO tagSortVOS = null;
+        TagSortVO tagSortVOS = new TagSortVO();
         tagSortVOS.setUserID(userId);
 
         if(userTag.get(0).getTagNumber()>=3)
@@ -345,16 +279,26 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public boolean isMatching(Integer userId, Integer friendId) {
-        Integer pt = 0;
+        int pt = 0;
         TagSortVO tagSortVO1 = TagSort(userId);
         TagSortVO tagSortVO2 = TagSort(friendId);
-        if()  pt+=5;
-            else if(1)  pt+=4;
-                else if(1)  pt+=3;
-                    else if(1) pt+=2;
-                        else if (1) pt+=1;
-        if(pt >= 4)  return true;
-            else  return false;
+       if(tagSortVO1.getFirstTagID() != null){
+           if(tagSortVO1.getFirstTagID().equals(tagSortVO2.getFirstTagID())) pt += 5;
+           else if(tagSortVO1.getFirstTagID().equals(tagSortVO2.getSecondTagID())) pt += 4;
+                else if(tagSortVO1.getFirstTagID().equals(tagSortVO2.getThirdTagID())) pt += 3;
+       }
+        if(tagSortVO1.getSecondTagID() != null){
+            if(tagSortVO1.getSecondTagID().equals(tagSortVO2.getFirstTagID())) pt += 4;
+            else if(tagSortVO1.getSecondTagID().equals(tagSortVO2.getSecondTagID())) pt += 3;
+            else if(tagSortVO1.getSecondTagID().equals(tagSortVO2.getThirdTagID())) pt += 2;
+        }
+        if(tagSortVO1.getThirdTagID() != null){
+            if(tagSortVO1.getThirdTagID().equals(tagSortVO2.getFirstTagID())) pt += 3;
+            else if(tagSortVO1.getThirdTagID().equals(tagSortVO2.getSecondTagID())) pt += 2;
+            else if(tagSortVO1.getThirdTagID().equals(tagSortVO2.getThirdTagID())) pt += 1;
+        }
+
+       return pt >= 4;
     }
 
 
