@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName DriftDAOImpl
@@ -39,5 +40,14 @@ public class DriftDAOImpl implements DriftDAO {
     @Override
     public Drift get(int id) {
         return hibernateTemplate.get(Drift.class, id);
+    }
+
+    @Override
+    public List<Drift> getAll() {
+        return (List<Drift>)hibernateTemplate.find("from Drift");
+    }
+
+    public void save(Drift drift)throws Exception{
+        hibernateTemplate.save(drift);
     }
 }
