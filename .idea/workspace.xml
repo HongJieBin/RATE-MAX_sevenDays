@@ -17,8 +17,9 @@
   <component name="ChangeListManager">
     <list default="true" id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="feat">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -372,6 +373,7 @@
       <workItem from="1590547607464" duration="685000" />
       <workItem from="1590589015982" duration="668000" />
       <workItem from="1590624752012" duration="490000" />
+      <workItem from="1590748913572" duration="243000" />
     </task>
     <task id="LOCAL-00001" summary="项目基本结构">
       <created>1587453590919</created>
@@ -912,8 +914,8 @@
     <state x="599" y="203" key="svn.repositoryBrowser/0.0.1536.824@0.0.1536.824" timestamp="1588164981134" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$myTest1_testMemoryDAO.ic" NAME="myTest1.testMemoryDAO Coverage Results" MODIFIED="1587620646849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$testServer_testFastDFS.ic" NAME="testServer.testFastDFS Coverage Results" MODIFIED="1587865393638" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$TestFriend_testFriend.ic" NAME="TestFriend.testFriend Coverage Results" MODIFIED="1587967917090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/spring_springmvc_hibernate$myTest1_testMemoryDAO.ic" NAME="myTest1.testMemoryDAO Coverage Results" MODIFIED="1587620646849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

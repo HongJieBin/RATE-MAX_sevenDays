@@ -23,31 +23,11 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ChatroomTagDAOImpl implements ChatroomTagDAO{
+public class ChatroomTagDAOImpl implements ChatroomTagDAO {
     @Resource
     private HibernateTemplate hibernateTemplate;
 
 
-
-    @Override
-    public void add(ChatroomTag chatroomTag) {
-        hibernateTemplate.save(chatroomTag);
-    }
-
-    @Override
-    public void update(ChatroomTag chatroomTag) {
-        hibernateTemplate.update(chatroomTag);
-    }
-
-    @Override
-    public void delete(ChatroomTag chatroomTag) {
-        hibernateTemplate.delete(chatroomTag);
-    }
-
-    @Override
-    public ChatroomTag get(int id) {
-        return hibernateTemplate.get(ChatroomTag.class, id);
-
     @Override
     public void add(ChatroomTag chatroomTag) {
         hibernateTemplate.save(chatroomTag);
@@ -67,14 +47,16 @@ public class ChatroomTagDAOImpl implements ChatroomTagDAO{
     public ChatroomTag get(int id) {
         return hibernateTemplate.get(ChatroomTag.class, id);
     }
+
 
     @Override
     public ChatroomTag getByBoth(int chatroomId, int tagId) {
         String hql = "from ChatroomTag as ct where ct.chatroomId = " + chatroomId + "and ct.tagId = " + tagId;
         List<ChatroomTag> chatroomTags = (List<ChatroomTag>) hibernateTemplate.find(hql);
-        if (chatroomTags.size() < 1){
+        if (chatroomTags.size() < 1) {
             return null;
         }
         return chatroomTags.get(0);
     }
-}
+
+    }
