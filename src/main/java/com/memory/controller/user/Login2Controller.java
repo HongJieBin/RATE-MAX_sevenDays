@@ -55,6 +55,7 @@ public class Login2Controller {
                 if (user.getTelephone().equals(key)) {//用户名即为手机号  username == telephone
                     if(session.getId().equals(loginMap.get(key))) {
                         System.out.println(username+"在同一地点多次登录！");
+                        return JsonUtils.toJSON(JsonResult.errorMsg("同一地点重复登录！"));
                     }else{
                         System.out.println(username+"异地登录被拒绝！");
                         //session.setAttribute("tip", "该用户已经异地登录！");
