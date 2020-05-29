@@ -62,6 +62,7 @@ public class LoginController {
                 if (user.getTelephone().equals(key)) {//用户名即为手机号  username == telephone
                     if(session.getId().equals(loginMap.get(key))) {
                         System.out.println(username+"在同一地点多次登录！");
+                        return JsonUtils.toJSON(JsonResult.errorMsg("同一地点重复登录！"));
                     }else{
                         System.out.println(username+"异地登录被拒绝！");
                         //session.setAttribute("tip", "该用户已经异地登录！");
@@ -72,6 +73,7 @@ public class LoginController {
             loginMap.put(user.getTelephone(),session.getId());
             application.setAttribute("loginMap", loginMap);
             session.setAttribute("username",user.getTelephone());
+            System.out.println(session.getId());
             System.out.println("登录成功！");
             return JsonUtils.toJSON(JsonResult.ok(user));
         } catch (Exception e) {
