@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Bug;
 import com.memory.pojo.Drift;
 
+import java.util.List;
+
 /**
  * @InterfaceName DriftDAO
  * @Description TODO
@@ -15,4 +17,6 @@ public interface DriftDAO {
     void update(Drift drift);
     void delete(Drift drift);
     Drift get(int id);
+    List<Drift> getAll();
+    void save(Drift drift)throws Exception;
 }
