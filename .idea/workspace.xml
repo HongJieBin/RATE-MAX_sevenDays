@@ -16,11 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="feat">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/dao/ChatroomTagDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

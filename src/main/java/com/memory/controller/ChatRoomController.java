@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/chatRoom")
-public class ChatRoomController {
+public class ChatroomController {
 
     @Autowired
     ChatroomService chatroomService;
