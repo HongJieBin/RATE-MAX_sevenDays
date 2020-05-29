@@ -74,10 +74,10 @@ public class FriendServiceImpl implements FriendService{
             friendInfoVO.setUserId(user.getUserId());
             friendInfoVO.setIcon(user.getIcon());
             Friend friend = new Friend();
-            friend.setUserId(userId);
-            friend.setAddedId(user.getUserId());
+            friend = friendDAO.get(userId,user.getUserId());
             friendInfoVO.setLevel(friend.getLevel());
-            friendInfoVO.setNickname(friend.getRemark());
+            friendInfoVO.setNickname(user.getNickname());
+            friendInfoVO.setRemark(friend.getRemark());
             friends.add(friendInfoVO);
         }
 

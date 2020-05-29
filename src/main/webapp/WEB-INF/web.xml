@@ -40,6 +40,12 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+    <!--hy 监听session的容器-->
+    <listener>
+        <listener-class>com.memory.utils.SessionListener</listener-class>
+    </listener>
+
     <session-config>
         <session-timeout>15</session-timeout>
     </session-config>

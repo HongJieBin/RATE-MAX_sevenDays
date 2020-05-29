@@ -30,8 +30,20 @@ public class DriftEditor {
     @Column(name = "edit_date", nullable = false)
     private Timestamp editDate;
 
+    @ManyToOne(targetEntity = Drift.class)
+    @JoinColumn(name = "bottle_id")
+    private Drift drift;
+
     public Integer getUserId() {
         return userId;
+    }
+
+    public Drift getDrift() {
+        return drift;
+    }
+
+    public void setDrift(Drift drift) {
+        this.drift = drift;
     }
 
     public void setUserId(Integer userId) {
