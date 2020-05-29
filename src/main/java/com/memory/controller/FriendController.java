@@ -2,21 +2,19 @@ package com.memory.controller;
 
 import com.memory.controller.VO.FriendInfoVO;
 import com.memory.controller.VO.RecommendFriendInfoVO;
-import com.memory.dao.FriendDAO;
 import com.memory.dao.ReportDAO;
-import com.memory.pojo.Friend;
 import com.memory.pojo.Report;
-import com.memory.pojo.User;
 import com.memory.service.FriendService;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -36,10 +34,11 @@ public class FriendController {
         }
         else {
             // 1. 数据库查询好友列表
-            List<FriendInfoVO> myFirends = (List<FriendInfoVO>) friendService.getFriendsList(userId);
-            return JsonUtils.toJSON(JsonResult.ok(myFirends));
+            List<FriendInfoVO> myFriends = friendService.getFriendsList(userId);
+            return JsonUtils.toJSON(JsonResult.ok(myFriends));
         }
     }
+
 
     @RequestMapping(value = "Friend/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
@@ -72,6 +71,7 @@ public class FriendController {
         List<RecommendFriendInfoVO> recommendFriends = friendService.recommendFriends(userId);
         return JsonUtils.toJSON(JsonResult.ok(recommendFriends));
     }
+
 
     @RequestMapping(value = "/Friend/trust",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody

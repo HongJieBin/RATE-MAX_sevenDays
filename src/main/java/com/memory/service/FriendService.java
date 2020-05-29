@@ -1,12 +1,10 @@
 package com.memory.service;
 
-import com.memory.controller.VO.FriendInfoVO;
-import com.memory.controller.VO.RecommendFriendInfoVO;
-import com.memory.controller.VO.TrustInfoVO;
-import com.memory.controller.VO.UntrustInfoVO;
+import com.memory.controller.VO.*;
 import com.memory.dao.FriendDAO;
 import com.memory.pojo.Friend;
 import com.memory.pojo.User;
+import com.memory.pojo.UserTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +32,7 @@ public interface FriendService {
     public TrustInfoVO getTrustedInfo(int userId,int friendId);
     public UntrustInfoVO getUntrustedInfo(int userId, int friendId);
     public Object getInformation(int userId,int friendId);
+    public TagSortVO TagSort(Integer userId);
+    public RecommendFriendInfoVO addByUserID(Integer userID);
+    public boolean isMatching(Integer userId,Integer friendId);
 }
