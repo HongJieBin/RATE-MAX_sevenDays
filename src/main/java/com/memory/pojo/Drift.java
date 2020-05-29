@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -36,10 +37,16 @@ public class Drift {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "edit_id")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private Set<DriftEditor> driftEditors = new HashSet<>();
+    @Column(name = "edit_date",nullable = false)
+    private Timestamp editDate;
+
+    public Timestamp getEditDate() {
+        return editDate;
+    }
+
+    public void setEditDate(Timestamp editDate) {
+        this.editDate = editDate;
+    }
 
     public User getUser() {
         return user;
@@ -47,14 +54,6 @@ public class Drift {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<DriftEditor> getDriftEditors() {
-        return driftEditors;
-    }
-
-    public void setDriftEditors(Set<DriftEditor> driftEditors) {
-        this.driftEditors = driftEditors;
     }
 
     public int getBottleId() {
@@ -103,7 +102,6 @@ public class Drift {
                 ", content='" + content + '\'' +
                 ", flag=" + flag +
                 ", user=" + user +
-                ", driftEditors=" + driftEditors +
                 '}';
     }
 }
