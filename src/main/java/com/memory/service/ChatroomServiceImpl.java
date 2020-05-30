@@ -1,6 +1,7 @@
 package com.memory.service;
 
 import com.memory.controller.VO.ChatRoomVO;
+import com.memory.controller.VO.TagSortVO;
 import com.memory.dao.ChatroomUserDAO;
 import com.memory.pojo.Chatroom;
 import com.memory.pojo.ChatroomUser;
@@ -43,7 +44,8 @@ public class ChatroomServiceImpl implements ChatroomService{
     private TagDAO tagDAO;
     @Autowired
     private ChatroomService chatroomService;
-
+    @Autowired
+    private FriendService friendService;
 
     @Resource
     private HibernateTemplate hibernateTemplate;
@@ -172,7 +174,23 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     }
 
+    /**
+     * 推荐聊天室的匹配程度只需要有两个聊天室标签和用户匹配就算成功
+     */
+
     private boolean isMatching(int userId, int random) {
+        int pt = 0;
+        TagSortVO tagSortVO = friendService.TagSort(userId);
+        List<ChatroomTag> chatroomTagList = chatroomService.findById(random);
+
+        for (ChatroomTag chatroomTag : chatroomTagList) {
+
+            if (tagSortVO.getFirstTagID().equals(chatroomTag.getTagId())) pt++;
+            if (tagSortVO.getSecondTagID().equals(chatroomTag.getTagId())) pt++;
+            if (tagSortVO.getThirdTagID().equals(chatroomTag.getTagId())) pt++;
+        }
+
+        return pt >= 2;
     }
 
 
@@ -234,6 +252,13 @@ public class ChatroomServiceImpl implements ChatroomService{
         chatroomDAO.update(result);
         addChatroomTags(result);
         return result;
+    }
+
+    @Override
+    public List<ChatroomTag> findById(int ChatroomId) {
+        String hql = "from ChatroomTag CT where ct.chatroomId = ?";
+        List<ChatroomTag> chatroomTagList =(List<ChatroomTag>)  hibernateTemplate.find(hql,ChatroomId);
+        return  chatroomTagList;
     }
 
     public void addChatroomTags(Chatroom chatroom){
