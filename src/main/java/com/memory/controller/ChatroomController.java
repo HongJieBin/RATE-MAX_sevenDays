@@ -22,6 +22,8 @@ public class ChatroomController {
     ChatroomService chatroomService;
 
 
+
+
     @RequestMapping(value = "/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String searchById(Integer chatroomId){
