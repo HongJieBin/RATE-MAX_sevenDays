@@ -15,4 +15,5 @@ public interface ChatroomDAO {
     void update(Chatroom chatroom);
     void delete(Chatroom chatroom);
     Chatroom get(int id);
+    int getCount(); //获取表中数据个数
 }

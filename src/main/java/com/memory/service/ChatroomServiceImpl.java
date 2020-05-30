@@ -10,14 +10,9 @@ import com.memory.utils.JsonUtils;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.dao.ChatroomDAO;
 import com.memory.dao.ChatroomTagDAO;
-import com.memory.dao.ChatroomUserDAO;
 import com.memory.dao.TagDAO;
-import com.memory.pojo.Chatroom;
-import com.memory.pojo.Friend;
-import com.memory.pojo.User;
 import org.hibernate.Session;
 import com.memory.pojo.ChatroomTag;
-import com.memory.pojo.ChatroomUser;
 import com.memory.pojo.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +41,8 @@ public class ChatroomServiceImpl implements ChatroomService{
     private ChatroomTagDAO chatroomTagDAO;
     @Autowired
     private TagDAO tagDAO;
+    @Autowired
+    private ChatroomService chatroomService;
 
 
     @Resource
@@ -131,7 +128,67 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Override
     public List<ChatRoomVO> recommendChatroom(int userId) {
-        return null;
+        int cnt = chatroomDAO.getCount(); //聊天室总数
+        List<Integer> randomId = new ArrayList<>();//记录推荐的id
+        int random;
+        List<Integer>  chatroom = new ArrayList<>();
+        List<ChatroomInfoVo> chatroomInfoVoList = chatroomService.getMyJoinChatroomList(userId);
+
+        for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList) {
+            chatroom.add(chatroomInfoVo.getChatroomId());
+        }
+        int num = 0; //总共匹配成功的聊天室
+        int match = 0; //进行匹配的次数，多于30次或者超过可匹配人数上限时停止匹配（刚开始时可能聊天室较少）
+        Chatroom tmp;
+
+
+        //匹配推荐
+        while(num < 3 && match < 30){
+            random = getRandomId(cnt);
+            tmp = chatroomDAO.get(random);
+            if((isMatching(userId,random)) && (tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
+                num++;
+            }
+            match++;
+        }
+
+        //随机推荐
+        while(num < 5){
+            random = getRandomId(cnt);
+            tmp = chatroomDAO.get(random);
+            if((tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
+                num++;
+            }
+        }
+        List<ChatRoomVO> recommendChatroom = new ArrayList<>();
+        for (int i: randomId) {
+            recommendChatroom.add(addByChatroomId(randomId.get(i)));
+        }
+
+        return recommendChatroom;
+
+
+    }
+
+    private boolean isMatching(int userId, int random) {
+    }
+
+
+    public int getRandomId(int cnt){
+            Random random = new Random();
+            return (random.nextInt(cnt)+1);
+        }
+
+
+    private ChatRoomVO addByChatroomId(Integer chatroomId) {
+        Chatroom c1 = chatroomDAO.get(chatroomId);
+        ChatRoomVO rf1 = new ChatRoomVO();
+        rf1.setChatroomName(c1.getChatroomName());
+        rf1.setChatroomTag(c1.getChatroomTag());
+        rf1.setChatroomId(chatroomId);
+        return rf1;
     }
 
     @Override
@@ -153,7 +210,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         if (chatroom.getChatroomEnd() == null){
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(date);
-            calendar.add(calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 1);
             date = calendar.getTime();
             timestamp = new Timestamp(date.getTime());
             chatroom.setChatroomEnd(timestamp);
@@ -179,7 +236,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         return result;
     }
 
-    public boolean addChatroomTags(Chatroom chatroom){
+    public void addChatroomTags(Chatroom chatroom){
         String tags = chatroom.getChatroomTag();
         String[] tagList = tags.split(" ");
         for(String s : tagList){
@@ -191,7 +248,6 @@ public class ChatroomServiceImpl implements ChatroomService{
                 chatroomTagDAO.add(chatroomTag);
             }
         }
-        return true;
     }
 
     @Override
@@ -217,13 +273,7 @@ public class ChatroomServiceImpl implements ChatroomService{
     public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId) {
         String hql1 = "from Chatroom c where c.userId= ? and c.chatroomStatement=0";
         List<Chatroom> roomList= (List<Chatroom>) hibernateTemplate.find(hql1,userId);
-        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
-        for (Chatroom chatroom: roomList) {
-            ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
-            chatroomInfoVo.setChatroomInfo(chatroom);
-            chatroomInfoList.add(chatroomInfoVo);
-        }
-        return chatroomInfoList;
+        return getChatroomInfoVos(roomList);
     }
 
 
@@ -236,16 +286,20 @@ public class ChatroomServiceImpl implements ChatroomService{
     }
 
     @Override
-    public List<ChatroomInfoVo> getMyJoinChatrommList(int userId) {
+    public List<ChatroomInfoVo> getMyJoinChatroomList(int userId) {
         String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
         List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
-        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        Session session = Objects.requireNonNull(hibernateTemplate.getSessionFactory()).getCurrentSession();
         String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=0";
         if(roomIdList.isEmpty()){
             return null;
         }
         List<Chatroom> roomList = (List<Chatroom>)session.createQuery(hql3).setParameterList("list",roomIdList).list();
-        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
+        return getChatroomInfoVos(roomList);
+    }
+
+    private List<ChatroomInfoVo> getChatroomInfoVos(List<Chatroom> roomList) {
+        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<>();
         for (Chatroom chatroom: roomList) {
             ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
             chatroomInfoVo.setChatroomInfo(chatroom);
