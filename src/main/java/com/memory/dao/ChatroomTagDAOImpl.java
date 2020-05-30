@@ -48,24 +48,7 @@ public class ChatroomTagDAOImpl implements ChatroomTagDAO{
     public ChatroomTag get(int id) {
         return hibernateTemplate.get(ChatroomTag.class, id);
 
-    @Override
-    public void add(ChatroomTag chatroomTag) {
-        hibernateTemplate.save(chatroomTag);
-    }
 
-    @Override
-    public void update(ChatroomTag chatroomTag) {
-        hibernateTemplate.update(chatroomTag);
-    }
-
-    @Override
-    public void delete(ChatroomTag chatroomTag) {
-        hibernateTemplate.delete(chatroomTag);
-    }
-
-    @Override
-    public ChatroomTag get(int id) {
-        return hibernateTemplate.get(ChatroomTag.class, id);
     }
 
     @Override

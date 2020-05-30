@@ -26,31 +26,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-devimport java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service
 @Transactional
 public class ChatroomServiceImpl implements ChatroomService{
 
 
-    @Autowired
-    ChatroomUserDAO chatroomUserDAO;
 
-import java.sql.Timestamp;
-import java.util.*;
-
-/**
- * @ClassName ChatroomServiceImpl
- * @Description TODO
- * @Author SupreacyXXXXX
- * @Date 2020/5/26
- * @Version 1.0
- **/
-
-@Service
-@Transactional()
-public class ChatroomServiceImpl implements ChatroomService{
 
     @Autowired
     private ChatroomDAO chatroomDAO;
@@ -141,6 +127,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         List<ChatroomUser> chatRoom=(List<ChatroomUser>) hibernateTemplate.find(hql,chatroomId,userId);
         return !chatRoom.isEmpty();
     }
+
 
     @Override
     public List<ChatRoomVO> recommendChatroom(int userId) {
