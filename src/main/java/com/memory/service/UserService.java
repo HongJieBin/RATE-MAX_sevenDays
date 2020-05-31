@@ -42,7 +42,14 @@ public interface UserService {
      * @throws Exception
      */
     void forgetRegister(String telephone, String password) throws Exception;
-
+    
+    /**
+     * 用户是否被封禁
+     * @param username
+     * @return
+     * @throws Exception
+     */
+    boolean userIsLocked(String username) throws Exception;
 
     public User get(Integer id);
 
