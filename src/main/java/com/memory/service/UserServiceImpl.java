@@ -1,7 +1,10 @@
 package com.memory.service;
 
+import com.memory.dao.BanDAO;
 import com.memory.dao.UserDAO;
+import com.memory.pojo.Ban;
 import com.memory.pojo.User;
+import org.mockito.internal.exceptions.ExceptionIncludingMockitoWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
     //private UserDAO userDAO = new UserDAOImpl();
+
+    @Autowired
+    private BanDAO banDAO;
 
 
     @Override
@@ -41,13 +47,13 @@ public class UserServiceImpl implements UserService {
         if(userList.size()==1){
             loginuer = userList.get(0);
             if (loginuer.getPassword().equals(userPwd)) {
-                System.out.println("登录成功，去往首页");
+                    System.out.println("登录成功，去往首页");
             } else {
                 throw new Exception("用户名或密码错误！！");
             }
         }else{
-            System.out.println("不存在该用户");
-        }
+                System.out.println("不存在该用户");
+            }
 
         return loginuer;
     }
@@ -82,17 +88,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    public User get(Integer id){
-        return userDAO.get(id);
+    @Override
+    public boolean userIsLocked(String username) throws Exception {
+        List<User> userList= userDAO.get("telephone",username);
+        List<Ban> banList=banDAO.get("user.userId",userList.get(0).getUserId());
+        if(banList.size()==1){
+            return true;
+        }
+        return false;
     }
-
-    public void update(User u){
-        userDAO.update(u);
-    }
-
-    public List<User>getAll(){return userDAO.getAll();}
-
 
 }
-
