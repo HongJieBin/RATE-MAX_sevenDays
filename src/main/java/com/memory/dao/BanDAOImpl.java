@@ -49,4 +49,10 @@ public class BanDAOImpl implements BanDAO{
             return list.get(0);
         return null;
     }
+
+    @Override
+    public List<Ban> get(String param, int value) {
+        String hql = "from Ban as u where u." + param + " = ?";
+        return (List<Ban>) hibernateTemplate.find(hql, value);
+    }
 }
