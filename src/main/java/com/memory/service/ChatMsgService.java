@@ -3,6 +3,7 @@ package com.memory.service;
 import com.memory.pojo.Msg;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ChatMsgService {
 
@@ -19,6 +20,10 @@ public interface ChatMsgService {
      * @return
      */
     public List<Msg> getAllMsgList(int userId,int receiveId);
+
+    public Map<Integer,Integer> save(int userId, int chatroomId, String content);
+
+    public List<Integer> getUserListInChatroom(int chatroomId);
 
 
 }
