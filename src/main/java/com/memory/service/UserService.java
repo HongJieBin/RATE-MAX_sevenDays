@@ -1,7 +1,10 @@
+
 package com.memory.service;
 
 import com.memory.pojo.User;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author hy
@@ -40,7 +43,7 @@ public interface UserService {
      * @throws Exception
      */
     void forgetRegister(String telephone, String password) throws Exception;
-
+    
     /**
      * 用户是否被封禁
      * @param username
@@ -48,4 +51,13 @@ public interface UserService {
      * @throws Exception
      */
     boolean userIsLocked(String username) throws Exception;
+
+    public User get(Integer id);
+
+    public void update(User u);
+
+    public List<User> getAll();
+
+
+
 }
