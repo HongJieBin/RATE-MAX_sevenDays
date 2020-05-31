@@ -50,4 +50,9 @@ public class DriftDAOImpl implements DriftDAO {
     public void save(Drift drift)throws Exception{
         hibernateTemplate.save(drift);
     }
+
+    @Override
+    public List<Drift> getByUserId(int userId) {
+        return (List<Drift>)hibernateTemplate.find("from Drift as d where d.user.userId");
+    }
 }
