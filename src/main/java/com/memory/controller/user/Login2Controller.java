@@ -44,6 +44,10 @@ public class Login2Controller {
             if(user==null){
                 return JsonUtils.toJSON(JsonResult.errorMsg("用户名/手机号不存在"));
             }
+            //封禁问题：
+            if(service.userIsLocked(username)){
+                return JsonUtils.toJSON(JsonResult.errorMsg("用户被锁"));
+            }
             //重复登录问题：
             //session.getServletContext()得到时application对象
             ServletContext application=session.getServletContext();
