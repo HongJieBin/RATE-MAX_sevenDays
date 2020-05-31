@@ -42,7 +42,7 @@ public interface UserService {
      * @throws Exception
      */
     void forgetRegister(String telephone, String password) throws Exception;
-
+    
     /**
      * 用户是否被封禁
      * @param username
@@ -56,6 +56,7 @@ public interface UserService {
     public void update(User u);
 
     public List<User> getAll();
+
 
 
 }
