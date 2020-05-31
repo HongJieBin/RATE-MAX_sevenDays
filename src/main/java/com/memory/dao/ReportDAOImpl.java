@@ -6,6 +6,8 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @ClassName ReportDAOImpl
  * @Description TODO
@@ -38,5 +40,26 @@ public class ReportDAOImpl implements ReportDAO{
     @Override
     public Report get(int id) {
         return hibernateTemplate.get(Report.class, id);
+    }
+
+    @Override
+    public List<Report> getAll() {
+        return (List<Report>)hibernateTemplate.find("from Report");
+    }
+
+    @Override
+    public List<Report> getByReason(int reportReason) {
+        return (List<Report>)hibernateTemplate.find("from Report as r where r.reportReason = ?",reportReason);
+    }
+
+    @Override
+    public List<Report> getByType(int reportType) {
+        return (List<Report>)hibernateTemplate.find("from Report as r where r.reportTypeId = ?",reportType);
+    }
+
+    @Override
+    public List<Report> getByTypeAndReason(int reportType, int reportReason) {
+        return (List<Report>)hibernateTemplate.find("from Report as r where r.reportReason =? " +
+                "and r.reportTypeId = ?",new Object[]{reportType,reportReason});
     }
 }

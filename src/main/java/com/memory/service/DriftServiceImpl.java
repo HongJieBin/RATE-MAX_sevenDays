@@ -48,4 +48,9 @@ public class DriftServiceImpl implements DriftService{
     public void update(Drift drift) {
         driftDAO.update(drift);
     }
+
+    @Override
+    public List<Drift> getByUserId(int userId) {
+        return driftDAO.getByUserId(userId);
+    }
 }
