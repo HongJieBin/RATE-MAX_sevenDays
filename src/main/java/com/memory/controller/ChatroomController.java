@@ -18,30 +18,31 @@ import java.util.*;
 
 
 @Controller
+@RequestMapping("/chatRoom")
 public class ChatroomController {
     @Autowired
     private ChatroomService chatroomService;
 
 
-    @RequestMapping(value = "/chatRoom/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String searchById(@RequestBody Chatroom chatroom){
         return chatroomService.searchById(chatroom.getChatroomId());
     }
 
-    @RequestMapping(value = "/chatRoom/searchByTag",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/searchByTag",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String searchByTag(@RequestBody Chatroom chatroom){
         return chatroomService.searchByTag(chatroom.getChatroomTag());
     }
 
-    @RequestMapping(value = "/chatRoom/searchByName",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/searchByName",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String searchByName(@RequestBody Chatroom chatroom){
         return chatroomService.searchByName(chatroom.getChatroomName());
     }
 
-    @RequestMapping(value = "/chatRoom/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String add(@RequestBody Chatroom chatroom,User user){
         try{
@@ -55,20 +56,15 @@ public class ChatroomController {
 
     }
 
-    @RequestMapping(value = "/chatRoom/recommend",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/recommend",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String recommend(@RequestBody User user){
         List<ChatRoomVO> chatRoomVOList = chatroomService.recommendChatroom(user.getUserId());
         return JsonUtils.toJSON(JsonResult.ok(chatRoomVOList));
 
     }
-<<<<<<< HEAD
-    
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-=======
 
-    @RequestMapping(value = "/chatRoom/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
->>>>>>> 149c681a20a9da1a02cce061f466913a4c397b49
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
         Chatroom room = chatroomService.addChatroom(chatroom);

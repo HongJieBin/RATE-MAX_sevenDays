@@ -16,7 +16,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afa5ab33-c3e0-4c66-a118-93fea42eb4ed" name="Default Changelist" comment="feat">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatroomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/controller/ChatRoomController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/memory/service/ChatroomServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -370,6 +371,7 @@
       <workItem from="1590589015982" duration="668000" />
       <workItem from="1590624752012" duration="490000" />
       <workItem from="1590748913572" duration="243000" />
+      <workItem from="1590886932968" duration="351000" />
     </task>
     <task id="LOCAL-00001" summary="项目基本结构">
       <created>1587453590919</created>

@@ -3,16 +3,13 @@ package com.memory.service;
 import com.memory.controller.VO.ChatRoomVO;
 
 import com.memory.controller.VO.TagSortVO;
-import com.memory.dao.ChatroomUserDAO;
+import com.memory.dao.*;
 import com.memory.pojo.Chatroom;
 import com.memory.pojo.ChatroomUser;
 import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 
 import com.memory.controller.VO.ChatroomInfoVo;
-import com.memory.dao.ChatroomDAO;
-import com.memory.dao.ChatroomTagDAO;
-import com.memory.dao.TagDAO;
 
 import org.hibernate.Session;
 
@@ -53,9 +50,13 @@ public class ChatroomServiceImpl implements ChatroomService{
     private ChatroomService chatroomService;
     @Autowired
     private FriendService friendService;
+    @Autowired
+    private ChatroomUserDAO chatroomUserDAO;
 
     @Resource
     private HibernateTemplate hibernateTemplate;
+
+
 
     @Override
 
@@ -115,6 +116,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         ChatroomUser chatroomUser = new ChatroomUser();
         chatroomUser.setChatroomId(chatRoomId);
         chatroomUser.setUserId(userid);
+
         chatroomUserDAO.add(chatroomUser);
     }
 
