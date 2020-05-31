@@ -15,4 +15,5 @@ public interface BanDAO {
     void delete(Ban ban);
     Ban get(int id);
     Ban getByUserId(int userId);
+    List<Ban> get(String param, int value);
 }
