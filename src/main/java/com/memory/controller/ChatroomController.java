@@ -89,8 +89,7 @@ public class ChatroomController {
             chatroomList = chatroomService.getChatroomInfoList();
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
-        }
-        */
+        }*/
         return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyCreatChatroomInfoList(user.getUserId())));
     }
 
@@ -131,7 +130,7 @@ public class ChatroomController {
 
     @RequestMapping(value = "/getBeforeRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-        public String getBeforeRoomInfoById(@RequestBody User user){
+    public String getBeforeRoomInfoById(@RequestBody User user){
         /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
         try{
             chatroomList = chatroomService.getChatroomInfoList();
