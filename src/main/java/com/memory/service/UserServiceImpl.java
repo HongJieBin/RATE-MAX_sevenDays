@@ -82,6 +82,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean userIsLocked(String username) throws Exception {
+        List<User> userList= userDAO.get("telephone",username);
+        List<Ban> banList=banDAO.get("user.userId",userList.get(0).getUserId());
+        if(banList.size()==1){
+            return true;
+        }
+        return false;
+    }
 
     public User get(Integer id){
         return userDAO.get(id);
