@@ -245,4 +245,22 @@ public class ChatroomServiceImpl implements ChatroomService{
         return chatroomInfoList;
     }
 
+    @Override
+    public List<ChatroomInfoVo> getBeforeChatroomList(int userId) {
+        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
+        List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
+        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=1";
+        if(roomIdList.isEmpty()){
+            return null;
+        }
+        List<Chatroom> roomList = (List<Chatroom>)session.createQuery(hql3).setParameterList("list",roomIdList).list();
+        List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
+        for (Chatroom chatroom: roomList) {
+            ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
+            chatroomInfoVo.setChatroomInfo(chatroom);
+            chatroomInfoList.add(chatroomInfoVo);
+        }
+        return chatroomInfoList;
+    }
 }

@@ -26,5 +26,6 @@ public interface ChatroomService {
     public ChatroomInfoVo getChatroomInfoById(int chatroomId);
     public List<ChatroomInfoVo> getMyJoinChatrommList(int userId);
     public Chatroom updateChatroom(Chatroom chatroom);
+    public List<ChatroomInfoVo> getBeforeChatroomList(int userId);
 
 }
