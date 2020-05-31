@@ -1,6 +1,8 @@
 package com.memory.service;
 
+import com.memory.dao.BanDAO;
 import com.memory.dao.UserDAO;
+import com.memory.pojo.Ban;
 import com.memory.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
     //private UserDAO userDAO = new UserDAOImpl();
+
+    @Autowired
+    private BanDAO banDAO;
 
 
     @Override
