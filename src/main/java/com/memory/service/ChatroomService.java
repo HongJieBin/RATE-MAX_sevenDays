@@ -31,5 +31,9 @@ public interface ChatroomService {
     public Chatroom updateChatroom(Chatroom chatroom);
     public List<ChatroomTag> findById(int ChatroomId);
 
+    void closeChatRoom(int chatRoomId) throws Exception;
+    void openChatRoom(int chatRoomId) throws Exception;
+    Chatroom get(int chatRoomId);
+    List<Chatroom> getAll();
 
 }
