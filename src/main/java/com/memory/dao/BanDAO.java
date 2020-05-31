@@ -2,6 +2,8 @@ package com.memory.dao;
 
 import com.memory.pojo.Ban;
 
+import java.util.List;
+
 /**
  * @InterfaceName BanDAO
  * @Description TODO
