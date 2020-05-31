@@ -46,4 +46,11 @@ public class ChatroomDAOImpl implements ChatroomDAO{
     public List<Chatroom> getAll() {
         return (List<Chatroom>)hibernateTemplate.find("from Chatroom");
     }
+  
+    @Override
+    public int getCount() {
+        String hql = "select count(*) from Chatroom as chatroom";
+        Long count = (Long)hibernateTemplate.find(hql).listIterator().next();
+        return count.intValue();
+    }
 }

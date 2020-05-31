@@ -1,6 +1,7 @@
 package com.memory.dao;
 
 import com.memory.pojo.Ban;
+import com.memory.pojo.User;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,10 +44,8 @@ public class BanDAOImpl implements BanDAO{
     }
 
     @Override
-    public Ban getByUserId(int userId) {
-        List<Ban> list = (List<Ban>) hibernateTemplate.find("from Ban as b where b.user.userId = ?" ,userId);
-        if(list.size() != 0)
-            return list.get(0);
-        return null;
+    public List<Ban> get(String param, int value) {
+        String hql = "from Ban as u where u." + param + " = ?";
+        return (List<Ban>) hibernateTemplate.find(hql, value);
     }
 }

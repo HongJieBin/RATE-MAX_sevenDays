@@ -1,10 +1,12 @@
 package com.memory.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -44,21 +46,25 @@ public class Chatroom {
     private int chatroomHot;
 
     @Column(name = "chatroom_start", nullable = false)
-    private Timestamp chatroomStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date chatroomStart;
 
     @Column(name = "chatroom_end", nullable = false)
-    private Timestamp chatroomEnd;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date chatroomEnd;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    public User getUser() {
-        return user;
+    @Column(name = "user_id", nullable = false)
+    private int userId;
+
+
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getChatroomId() {
@@ -109,19 +115,19 @@ public class Chatroom {
         this.chatroomHot = chatroomHot;
     }
 
-    public Timestamp getChatroomStart() {
+    public Date getChatroomStart() {
         return chatroomStart;
     }
 
-    public void setChatroomStart(Timestamp chatroomStart) {
+    public void setChatroomStart(Date chatroomStart) {
         this.chatroomStart = chatroomStart;
     }
 
-    public Timestamp getChatroomEnd() {
+    public Date getChatroomEnd() {
         return chatroomEnd;
     }
 
-    public void setChatroomEnd(Timestamp chatroomEnd) {
+    public void setChatroomEnd(Date chatroomEnd) {
         this.chatroomEnd = chatroomEnd;
     }
 
@@ -134,6 +140,7 @@ public class Chatroom {
                 chatroomNumber == chatroom.chatroomNumber &&
                 chatroomStatement == chatroom.chatroomStatement &&
                 chatroomHot == chatroom.chatroomHot &&
+                userId == chatroom.userId &&
                 Objects.equals(chatroomName, chatroom.chatroomName) &&
                 Objects.equals(chatroomTag, chatroom.chatroomTag) &&
                 Objects.equals(chatroomStart, chatroom.chatroomStart) &&
@@ -142,9 +149,8 @@ public class Chatroom {
 
     @Override
     public int hashCode() {
-        return Objects.hash(chatroomId, chatroomName, chatroomTag, chatroomNumber, chatroomStatement, chatroomHot, chatroomStart, chatroomEnd);
+        return Objects.hash(chatroomId, chatroomName, chatroomTag, chatroomNumber, chatroomStatement, chatroomHot, chatroomStart, chatroomEnd, userId);
     }
-
 
     @Override
     public String toString() {
@@ -157,7 +163,9 @@ public class Chatroom {
                 ", chatroomHot=" + chatroomHot +
                 ", chatroomStart=" + chatroomStart +
                 ", chatroomEnd=" + chatroomEnd +
-                ", user=" + user +
+                ", userId=" + userId +
                 '}';
     }
+
+
 }

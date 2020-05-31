@@ -70,10 +70,6 @@ public class User {
     @Cascade(CascadeType.DELETE)
     private Set<Drift> drifts = new HashSet<Drift>();   //漂流瓶表
 
-    @OneToMany(mappedBy = "user", targetEntity = Chatroom.class)
-    @Cascade(CascadeType.DELETE)
-    private Set<Chatroom> chatrooms = new HashSet<Chatroom>();   //漂流瓶表
-
     @OneToMany(mappedBy = "user", targetEntity = Post.class)
     @Cascade(CascadeType.DELETE)
     private Set<Post> posts = new HashSet<Post>();   //动态表
