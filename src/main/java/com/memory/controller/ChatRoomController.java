@@ -14,13 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.*;
 
-/**
- * @ClassName ChatroomController
- * @Description TODO
- * @Author SupreacyXXXXX
- * @Date 2020/5/26
- * @Version 1.0
- **/
+
 
 
 @Controller
@@ -123,7 +117,9 @@ public class ChatroomController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }*/
+
         return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
+
     }
 
     @RequestMapping(value = "/chatRoom/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})

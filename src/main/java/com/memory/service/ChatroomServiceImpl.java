@@ -1,6 +1,7 @@
 package com.memory.service;
 
 import com.memory.controller.VO.ChatRoomVO;
+
 import com.memory.controller.VO.TagSortVO;
 import com.memory.dao.ChatroomUserDAO;
 import com.memory.pojo.Chatroom;
@@ -12,18 +13,26 @@ import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.dao.ChatroomDAO;
 import com.memory.dao.ChatroomTagDAO;
 import com.memory.dao.TagDAO;
+
 import org.hibernate.Session;
+
+import com.memory.pojo.Chatroom;
+
 import com.memory.pojo.ChatroomTag;
 import com.memory.pojo.Tag;
-
+import com.memory.utils.JsonResult;
+import com.memory.utils.JsonUtils;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -36,8 +45,6 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Autowired
     private ChatroomDAO chatroomDAO;
-    @Autowired
-    private ChatroomUserDAO chatroomUserDAO;
     @Autowired
     private ChatroomTagDAO chatroomTagDAO;
     @Autowired

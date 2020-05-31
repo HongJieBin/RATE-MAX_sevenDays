@@ -23,10 +23,9 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ChatroomTagDAOImpl implements ChatroomTagDAO{
+public class ChatroomTagDAOImpl implements ChatroomTagDAO {
     @Resource
     private HibernateTemplate hibernateTemplate;
-
 
 
     @Override
@@ -49,15 +48,20 @@ public class ChatroomTagDAOImpl implements ChatroomTagDAO{
         return hibernateTemplate.get(ChatroomTag.class, id);
 
 
+
+
     }
+
+
 
     @Override
     public ChatroomTag getByBoth(int chatroomId, int tagId) {
         String hql = "from ChatroomTag as ct where ct.chatroomId = " + chatroomId + "and ct.tagId = " + tagId;
         List<ChatroomTag> chatroomTags = (List<ChatroomTag>) hibernateTemplate.find(hql);
-        if (chatroomTags.size() < 1){
+        if (chatroomTags.size() < 1) {
             return null;
         }
         return chatroomTags.get(0);
     }
-}
+
+    }

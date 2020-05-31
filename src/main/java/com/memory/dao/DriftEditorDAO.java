@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Drift;
 import com.memory.pojo.DriftEditor;
 
+import java.util.List;
+
 /**
  * @InterfaceName DriftEditorDAO
  * @Description TODO
@@ -15,4 +17,5 @@ public interface DriftEditorDAO {
     void update(DriftEditor driftEditor);
     void delete(DriftEditor driftEditor);
     DriftEditor get(int id);
+    List<DriftEditor> getAllByDriftId(Integer driftId);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName DriftEditorDAOImpl
@@ -40,5 +41,10 @@ public class DriftEditorDAOImpl implements DriftEditorDAO{
     @Override
     public DriftEditor get(int id) {
         return hibernateTemplate.get(DriftEditor.class, id);
+    }
+
+    @Override
+    public List<DriftEditor> getAllByDriftId(Integer driftId) {
+        return (List<DriftEditor>)hibernateTemplate.find("from DriftEditor as d where d.drift.bottleId = ?",driftId);
     }
 }
