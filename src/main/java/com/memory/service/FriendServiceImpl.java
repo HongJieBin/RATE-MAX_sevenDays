@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -52,7 +49,7 @@ public class FriendServiceImpl implements FriendService{
     }
 
     private List<User> getUsers(List<Integer> add_id) {
-        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        Session session = Objects.requireNonNull(hibernateTemplate.getSessionFactory()).getCurrentSession();
         String hql3 = "from User as user where user.userId in (:list)";
         if(add_id.isEmpty()){
             return null;
