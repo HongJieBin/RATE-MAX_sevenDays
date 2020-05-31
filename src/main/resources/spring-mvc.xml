@@ -25,7 +25,7 @@
         <property name="prefix" value="/WEB-INF/jsp/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
-    <!--hy配置用户拦截器-->
+    <!--hy配置用户拦截器
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -33,7 +33,7 @@
             <bean class="com.memory.interceptor.UserInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
-
+    -->
 
 
 </beans>
