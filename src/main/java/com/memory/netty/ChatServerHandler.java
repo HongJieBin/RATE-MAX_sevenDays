@@ -3,7 +3,9 @@ package com.memory.netty;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.memory.dao.MsgDAO;
+import com.memory.pojo.ChatMsg;
 import com.memory.pojo.Msg;
+import com.memory.service.ChatMsgService;
 import com.memory.service.MsgService;
 import com.memory.utils.JsonUtils;
 import com.memory.utils.SpringUtils;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public  static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
@@ -73,6 +76,38 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 else {
                     // 用户离线,推送
                     System.out.println("用户处于离线状态");
+                }
+            }
+        }
+
+        else if(action==MsgActionEnum.CHATROOM.type){
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            String msgContent = msg.getContent();
+            int senderId = msg.getSenderId();
+            int chatRoomId = msg.getChatRoomId();
+            System.out.println("dataContent为:" + dataContent);
+            // 保存消息到数据库,
+            ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatmsgServiceImpl");
+            //relation<int,int>  前一个存得是用户id,后一个存得是消息id
+            Map<Integer,Integer> relation = chatmsgService.save(msg.getChatRoomId(),msg.getChatRoomId(),msg.getContent());
+            for (Map.Entry<Integer,Integer> entry : relation.entrySet()) {
+                msg.setReceiverId(entry.getKey());
+                msg.setMsgId(entry.getValue());
+                DataContent dataContent1 = new DataContent(null, msg, null);
+                // 发送消息
+                Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
+                if (reveicerChannel == null) {
+                    // 推送
+                }
+                else {
+                    Channel findChannel = channels.find(reveicerChannel.id());
+                    if (findChannel!=null) {
+                        reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                    }
+                    else {
+                        // 用户离线,推送
+                        System.out.println("用户处于离线状态");
+                    }
                 }
             }
 
