@@ -3,6 +3,8 @@ package com.memory.service;
 import com.memory.pojo.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author hy
  * @date 2020/4/25 - 13:49
@@ -48,4 +50,12 @@ public interface UserService {
      * @throws Exception
      */
     boolean userIsLocked(String username) throws Exception;
+
+    public User get(Integer id);
+
+    public void update(User u);
+
+    public List<User> getAll();
+
+
 }

@@ -98,4 +98,14 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    public User get(Integer id){
+        return userDAO.get(id);
+    }
+
+    public void update(User u){
+        userDAO.update(u);
+    }
+
+    public List<User>getAll(){return userDAO.getAll();}
+
 }
