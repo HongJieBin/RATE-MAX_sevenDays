@@ -1,6 +1,5 @@
 package com.memory.controller;
 
-
 import com.memory.controller.VO.ChatRoomVO;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.pojo.Chatroom;
@@ -34,6 +33,50 @@ public class ChatroomController {
             return chatroomService.searchByTag(chatroomTag);
     }
 
+
+
+    @RequestMapping(value = "/chatRoom/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String searchById(@RequestBody Chatroom chatroom){
+        return chatroomService.searchById(chatroom.getChatroomId());
+    }
+
+    @RequestMapping(value = "/chatRoom/searchByTag",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String searchByTag(@RequestBody Chatroom chatroom){
+        return chatroomService.searchByTag(chatroom.getChatroomTag());
+    }
+
+    @RequestMapping(value = "/chatRoom/searchByName",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String searchByName(@RequestBody Chatroom chatroom){
+        return chatroomService.searchByName(chatroom.getChatroomName());
+    }
+
+    @RequestMapping(value = "/chatRoom/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String add(@RequestBody Chatroom chatroom,User user){
+        try{
+            if(!chatroomService.isExistChatRoom(chatroom.getChatroomId()))  return JsonUtils.toJSON(JsonResult.errorMsg("不存在此聊天室"));
+            else if(chatroomService.isInChatRoom(user.getUserId(),chatroom.getChatroomId())) return JsonUtils.toJSON(JsonResult.errorMsg("你已经在聊天室内"));
+            else chatroomService.addChatRoom(user.getUserId(),chatroom.getChatroomId());
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }
+        return JsonUtils.toJSON(JsonResult.ok());
+
+    }
+
+    @RequestMapping(value = "/chatRoom/recommend",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String recommend(@RequestBody User user){
+        List<ChatRoomVO> chatRoomVOList = chatroomService.recommendChatroom(user.getUserId());
+        return JsonUtils.toJSON(JsonResult.ok(chatRoomVOList));
+
+    }
+
+    @RequestMapping(value = "/chatRoom/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+
     @RequestMapping(value = "/searchByName",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String searchByName(String chatroomName){
@@ -63,6 +106,7 @@ public class ChatroomController {
     }
     
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
         Chatroom room = chatroomService.addChatroom(chatroom);
@@ -116,7 +160,7 @@ public class ChatroomController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
