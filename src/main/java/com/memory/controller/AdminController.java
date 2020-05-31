@@ -34,7 +34,7 @@ public class AdminController {
     private TagService tagService;
 
     @Autowired
-    private ChatRoomService chatRoomService;
+    private ChatroomService chatroomService;
 
     @RequestMapping(value = "logIn",method = RequestMethod.POST)
     public String logIn(@RequestParam(name = "adminName")String name,@RequestParam(name = "adminPassword")String password, HttpSession session, HttpServletRequest request){
@@ -121,7 +121,7 @@ public class AdminController {
     @RequestMapping(value = "getAllChatRoom",method = RequestMethod.GET,produces = "application/json;charset = UTF-8")
     public @ResponseBody String getAllChatRoom(@RequestBody JSONObject json){
         try {
-            return JsonUtils.toJSON(JsonResult.ok(chatRoomService.getAll()));
+            return JsonUtils.toJSON(JsonResult.ok(chatroomService.getAll()));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
@@ -137,7 +137,7 @@ public class AdminController {
     public String getChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");
         try {
-            return JsonUtils.toJSON(JsonResult.ok(chatRoomService.get(chatRoomId)));
+            return JsonUtils.toJSON(JsonResult.ok(chatroomService.get(chatRoomId)));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
@@ -153,7 +153,7 @@ public class AdminController {
     public String openChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");
         try {
-            chatRoomService.openChatRoom(chatRoomId);
+            chatroomService.openChatRoom(chatRoomId);
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
@@ -170,7 +170,7 @@ public class AdminController {
     public String closeChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");
         try {
-            chatRoomService.closeChatRoom(chatRoomId);
+            chatroomService.closeChatRoom(chatRoomId);
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }
