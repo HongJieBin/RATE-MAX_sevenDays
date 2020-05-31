@@ -2,6 +2,7 @@ package com.memory.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.memory.formbean.DriftBean;
 import com.memory.pojo.Drift;
 import com.memory.pojo.DriftEditor;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/drift")
@@ -134,6 +137,43 @@ public class DriftController {
             DriftBean driftBean = DriftBean.toDriftBean(drift);
             driftBean.setComments(driftEditorService.getAllByDriftId(json.getInteger("driftId")));
             return JsonUtils.toJSON(JsonResult.ok(driftBean));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+    }
+
+    /**
+     * 通过用户id获取漂流瓶
+     * @param json ：userId
+     * @return
+     */
+    @RequestMapping(value = "/viewByUserId",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @ResponseBody
+    public String viewByUserId(@RequestBody JSONObject json){
+        int userid = json.getInteger("userId");
+        User user = userService.get(userid);
+        if(user == null) return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在！"));
+        List<Drift> list;
+        try {
+            list = driftService.getByUserId(userid);
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+        List<DriftBean> driftBeans = new ArrayList<>();
+        for(Drift d : list)
+            driftBeans.add(DriftBean.toDriftBean(d));
+        return JsonUtils.toJSON(JsonResult.ok(driftBeans));
+    }
+
+    /**
+     * 随机获取一个漂流瓶
+     * @return
+     */
+    @RequestMapping(value = "/randomGetOne",method = RequestMethod.GET,produces = "application/json;charset = UTF-8")
+    @ResponseBody
+    public String randomGetOne(){
+        try {
+            return JsonUtils.toJSON(JsonResult.ok(driftService.randomGetOne()));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }

@@ -12,4 +12,5 @@ public interface DriftService {
     Drift get(int driftId);
     void delete(Drift drift);
     void update(Drift drift);
+    List<Drift> getByUserId(int userId);
 }
