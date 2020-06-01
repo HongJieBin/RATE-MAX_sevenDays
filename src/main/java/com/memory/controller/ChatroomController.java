@@ -62,7 +62,7 @@ public class ChatroomController {
 
     }
     
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
         Chatroom room = chatroomService.addChatroom(chatroom);
@@ -70,7 +70,7 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String deleteChatroom(@RequestBody Chatroom chatroom){
         boolean result = chatroomService.deleteChatroomById(chatroom.getChatroomId(), chatroom.getUserId());
@@ -81,7 +81,7 @@ public class ChatroomController {
         }
     }
 
-    @RequestMapping(value = "/getMyCreate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/getMyCreate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getChatroomInfoList(@RequestBody User user){
         /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
@@ -95,7 +95,7 @@ public class ChatroomController {
 
 
 
-    @RequestMapping(value = "/getRoomInfoById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/getRoomInfoById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getChatroomInfoById(@RequestBody Chatroom chatroom){
         ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
@@ -107,7 +107,7 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
 
-    @RequestMapping(value = "/getMyJoinRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/getMyJoinRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getMyJoinRoomInfoById(@RequestBody User user){
         /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
@@ -119,24 +119,12 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/chatRoom/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String updateChatroom(@RequestBody Chatroom chatroom){
         System.out.println("chatroom:"+chatroom);
         Chatroom room = chatroomService.updateChatroom(chatroom);
         ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
-    }
-
-    @RequestMapping(value = "/getBeforeRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public String getBeforeRoomInfoById(@RequestBody User user){
-        /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
-        try{
-            chatroomList = chatroomService.getChatroomInfoList();
-        }catch (Exception e){
-            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
-        }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getBeforeChatroomList(user.getUserId())));
     }
 }
