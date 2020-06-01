@@ -84,12 +84,12 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             com.memory.netty.Msg msg = dataContent.getMsg();
             String msgContent = msg.getContent();
             int senderId = msg.getSenderId();
-            int chatRoomId = msg.getChatRoomId();
+            int chatRoomId = msg.getReceiverId();
             System.out.println("dataContent为:" + dataContent);
             // 保存消息到数据库,
             ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatmsgServiceImpl");
             //relation<int,int>  前一个存得是用户id,后一个存得是消息id
-            Map<Integer,Integer> relation = chatmsgService.save(msg.getChatRoomId(),msg.getChatRoomId(),msg.getContent());
+            Map<Integer,Integer> relation = chatmsgService.save(msg.getSenderId(),msg.getReceiverId(),msg.getContent());
             for (Map.Entry<Integer,Integer> entry : relation.entrySet()) {
                 msg.setReceiverId(entry.getKey());
                 msg.setMsgId(entry.getValue());
