@@ -255,6 +255,13 @@ public class ChatroomServiceImpl implements ChatroomService{
         return result;
     }
 
+    @Override
+    public List<ChatroomTag> findById(int ChatroomId) {
+        String hql = "from ChatroomTag CT where ct.chatroomId = ?";
+        List<ChatroomTag> chatroomTagList =(List<ChatroomTag>)  hibernateTemplate.find(hql,ChatroomId);
+        return  chatroomTagList;
+    }
+
     public boolean addChatroomTags(Chatroom chatroom){
         String tags = chatroom.getChatroomTag();
         String[] tagList = tags.split(" ");
@@ -312,7 +319,7 @@ public class ChatroomServiceImpl implements ChatroomService{
     }
 
     @Override
-    public List<ChatroomInfoVo> getMyJoinChatrommList(int userId) {
+    public List<ChatroomInfoVo> getMyJoinChatroomList(int userId) {
         String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
         List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
