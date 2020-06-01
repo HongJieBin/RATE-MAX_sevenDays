@@ -91,7 +91,7 @@ public class AdminController {
      *               reportReasonId:举报原因类型id（不指定原因时为0）
      * @return
      */
-    @RequestMapping(value = "viewReport",method = RequestMethod.POST,produces = "applictaion/json;charset = UTF-8")
+    @RequestMapping(value = "viewReport",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String viewReport(@RequestBody JSONObject json){
         int reportReasonId = json.getInteger("reportReasonId");
         int reportType = json.getInteger("reportTypeId");
@@ -109,7 +109,7 @@ public class AdminController {
      * @param json：tags：标签组成的字符串，用‘，’分割
      * @return
      */
-    @RequestMapping(value = "addTags",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @RequestMapping(value = "addTags",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String addTags(@RequestBody JSONObject json){
         String tags = json.getString("tags");
         String[] list = tags.split(",");
@@ -127,7 +127,7 @@ public class AdminController {
      * @param json
      * @return
      */
-    @RequestMapping(value = "getAllChatRoom",method = RequestMethod.GET,produces = "application/json;charset = UTF-8")
+    @RequestMapping(value = "getAllChatRoom",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String getAllChatRoom(@RequestBody JSONObject json){
         try {
             return JsonUtils.toJSON(JsonResult.ok(chatroomService.getAll()));
@@ -141,7 +141,7 @@ public class AdminController {
      * @param json:chatRoomId
      * @return
      */
-    @RequestMapping(value = "getChatRoom",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @RequestMapping(value = "getChatRoom",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");
@@ -157,7 +157,7 @@ public class AdminController {
      * @param json
      * @return
      */
-    @RequestMapping(value = "openChatRoom",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @RequestMapping(value = "openChatRoom",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String openChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");
@@ -174,7 +174,7 @@ public class AdminController {
      * @param json
      * @return
      */
-    @RequestMapping(value = "closeChatRoom",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @RequestMapping(value = "closeChatRoom",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String closeChatRoom(@RequestBody JSONObject json){
         int chatRoomId = json.getInteger("chatRoomId");

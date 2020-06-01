@@ -6,6 +6,7 @@ public class Msg {
     private Integer receiverId;
     private String content;
     private Integer msgId;
+    private Integer chatRoomId;
 
     public Integer getSenderId() {
         return senderId;
@@ -37,6 +38,14 @@ public class Msg {
 
     public void setMsgId(Integer msgId) {
         this.msgId = msgId;
+    }
+
+    public Integer getChatRoomId() {
+        return chatRoomId;
+    }
+
+    public void setChatRoomId(Integer chatRoomId) {
+        this.chatRoomId = chatRoomId;
     }
 
     @Override

@@ -23,12 +23,15 @@ public interface ChatroomService {
     public List<ChatRoomVO> recommendChatroom(int userId);
     public ChatRoomVO addByChatroom(Chatroom chatroom);
 
+
+
     public Chatroom addChatroom(Chatroom chatroom);
     public boolean deleteChatroomById(int chatroomId, int userId);
     public List<ChatroomInfoVo> getMyCreatChatroomInfoList(int userId);
     public ChatroomInfoVo getChatroomInfoById(int chatroomId);
     public List<ChatroomInfoVo> getMyJoinChatroomList(int userId);
     public Chatroom updateChatroom(Chatroom chatroom);
+    public List<ChatroomInfoVo> getBeforeChatroomList(int userId);
     public List<ChatroomTag> findById(int ChatroomId);
 
     void closeChatRoom(int chatRoomId) throws Exception;

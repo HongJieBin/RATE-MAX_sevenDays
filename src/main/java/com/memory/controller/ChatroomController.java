@@ -1,5 +1,6 @@
 package com.memory.controller;
 
+
 import com.memory.controller.VO.ChatRoomVO;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.pojo.Chatroom;
@@ -11,17 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.*;
-
-
-
+import java.util.List;
 
 @Controller
-@RequestMapping("/chatRoom")
+@RequestMapping(value = "/chatRoom")
 public class ChatroomController {
+
     @Autowired
-    private ChatroomService chatroomService;
+    ChatroomService chatroomService;
 
 
     @RequestMapping(value = "/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -63,7 +61,7 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatRoomVOList));
 
     }
-
+    
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
@@ -118,9 +116,7 @@ public class ChatroomController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }*/
-
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
-
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -132,4 +128,15 @@ public class ChatroomController {
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
 
+    @RequestMapping(value = "/getBeforeRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String getBeforeRoomInfoById(@RequestBody User user){
+        /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        try{
+            chatroomList = chatroomService.getChatroomInfoList();
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
+        }*/
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getBeforeChatroomList(user.getUserId())));
+    }
 }
