@@ -1,11 +1,18 @@
 package com.memory.service;
 
 import com.memory.controller.VO.ChatRoomVO;
+
+import com.memory.controller.VO.TagSortVO;
+import com.memory.dao.*;
+import com.memory.pojo.Chatroom;
+import com.memory.pojo.ChatroomUser;
+import com.memory.utils.JsonResult;
+import com.memory.utils.JsonUtils;
+
 import com.memory.controller.VO.ChatroomInfoVo;
-import com.memory.dao.ChatroomDAO;
-import com.memory.dao.ChatroomTagDAO;
-import com.memory.dao.ChatroomUserDAO;
-import com.memory.dao.TagDAO;
+
+import org.hibernate.Session;
+
 import com.memory.pojo.Chatroom;
 import com.memory.pojo.ChatroomTag;
 import com.memory.pojo.ChatroomUser;
@@ -27,10 +34,7 @@ import java.util.*;
 public class ChatroomServiceImpl implements ChatroomService{
 
 
-    @Autowired
-    ChatroomUserDAO chatroomUserDAO;
-
-
+    private static long ONEDAY = 24*60*60*1000;
 
     @Autowired
     private ChatroomDAO chatroomDAO;
@@ -38,7 +42,12 @@ public class ChatroomServiceImpl implements ChatroomService{
     private ChatroomTagDAO chatroomTagDAO;
     @Autowired
     private TagDAO tagDAO;
-
+    @Autowired
+    private ChatroomService chatroomService;
+    @Autowired
+    private FriendService friendService;
+    @Autowired
+    private ChatroomUserDAO chatroomUserDAO;
 
     @Resource
     private HibernateTemplate hibernateTemplate;
@@ -122,7 +131,83 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Override
     public List<ChatRoomVO> recommendChatroom(int userId) {
-        return null;
+        int cnt = chatroomDAO.getCount(); //聊天室总数
+        List<Integer> randomId = new ArrayList<>();//记录推荐的id
+        int random;
+        List<Integer>  chatroom = new ArrayList<>();
+        List<ChatroomInfoVo> chatroomInfoVoList = chatroomService.getMyJoinChatroomList(userId);
+
+        for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList) {
+            chatroom.add(chatroomInfoVo.getChatroomId());
+        }
+        int num = 0; //总共匹配成功的聊天室
+        int match = 0; //进行匹配的次数，多于30次或者超过可匹配人数上限时停止匹配（刚开始时可能聊天室较少）
+        Chatroom tmp;
+
+
+        //匹配推荐
+        while(num < 3 && match < 30){
+            random = getRandomId(cnt);
+            tmp = chatroomDAO.get(random);
+            if((isMatching(userId,random)) && (tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
+                num++;
+            }
+            match++;
+        }
+
+        //随机推荐
+        while(num < 5){
+            random = getRandomId(cnt);
+            tmp = chatroomDAO.get(random);
+            if((tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
+                num++;
+            }
+        }
+        List<ChatRoomVO> recommendChatroom = new ArrayList<>();
+        for (int i: randomId) {
+            recommendChatroom.add(addByChatroomId(randomId.get(i)));
+        }
+
+        return recommendChatroom;
+
+
+    }
+
+    /**
+     * 推荐聊天室的匹配程度只需要有两个聊天室标签和用户匹配就算成功
+     */
+
+    private boolean isMatching(int userId, int random) {
+        int pt = 0;
+        TagSortVO tagSortVO = friendService.TagSort(userId);
+        List<ChatroomTag> chatroomTagList = chatroomService.findById(random);
+
+        for (ChatroomTag chatroomTag : chatroomTagList) {
+
+            if (tagSortVO.getFirstTagID().equals(chatroomTag.getTagId())) pt++;
+            if (tagSortVO.getSecondTagID().equals(chatroomTag.getTagId())) pt++;
+            if (tagSortVO.getThirdTagID().equals(chatroomTag.getTagId())) pt++;
+        }
+
+        return pt >= 2;
+    }
+
+
+    public int getRandomId(int cnt){
+            Random random = new Random();
+            return (random.nextInt(cnt)+1);
+        }
+
+
+    private ChatRoomVO addByChatroomId(Integer chatroomId) {
+        Chatroom c1 = chatroomDAO.get(chatroomId);
+        ChatRoomVO rf1 = new ChatRoomVO();
+        rf1.setChatroomName(c1.getChatroomName());
+        rf1.setChatroomTag(c1.getChatroomTag());
+        rf1.setChatroomId(chatroomId);
+        return rf1;
     }
 
     @Override
@@ -262,5 +347,38 @@ public class ChatroomServiceImpl implements ChatroomService{
             chatroomInfoList.add(chatroomInfoVo);
         }
         return chatroomInfoList;
+    }
+    @Override
+    public Chatroom get(int chatRoomId) {
+        return chatroomDAO.get(chatRoomId);
+    }
+
+    @Override
+    public List<Chatroom> getAll() {
+        return chatroomDAO.getAll();
+    }
+
+    @Override
+    public void closeChatRoom(int chatRoomId) throws Exception{
+        Chatroom chatroom = chatroomDAO.get(chatRoomId);
+        if(chatroom == null)
+            throw new Exception("该聊天室不存在！");
+        if(chatroom.getChatroomStatement() == 1)
+            throw new Exception("该聊天室已关闭！");
+        chatroom.setChatroomEnd(new Timestamp(new Date().getTime()));
+        chatroom.setChatroomStatement(1);
+        chatroomDAO.update(chatroom);
+    }
+
+    @Override
+    public void openChatRoom(int chatRoomId) throws Exception{
+        Chatroom chatroom= chatroomDAO.get(chatRoomId);
+        if (chatroom == null)
+            throw new Exception("该聊天室不存在！");
+        if(chatroom.getChatroomStatement() == 0)
+            throw new Exception("该聊天室已打开！");
+        chatroom.setChatroomEnd(new Timestamp(new Date().getTime() + ONEDAY));
+        chatroom.setChatroomStatement(0);
+        chatroomDAO.update(chatroom);
     }
 }

@@ -1,6 +1,9 @@
+
 package com.memory.dao;
 
 import com.memory.pojo.Ban;
+
+import java.util.List;
 
 /**
  * @InterfaceName BanDAO
@@ -15,4 +18,5 @@ public interface BanDAO {
     void delete(Ban ban);
     Ban get(int id);
     Ban getByUserId(int userId);
+    List<Ban> get(String param, int value);
 }

@@ -51,6 +51,10 @@ public class LoginController {
             if(user==null) {
                 return JsonUtils.toJSON(JsonResult.errorMsg("用户名或密码有误"));
             }
+            //封禁问题：
+            if(service.userIsLocked(username)){
+                return JsonUtils.toJSON(JsonResult.errorMsg("用户被锁"));
+            }
             //重复登录问题：
             //session.getServletContext()得到时application对象
             ServletContext application=session.getServletContext();

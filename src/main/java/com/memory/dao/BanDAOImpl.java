@@ -1,3 +1,4 @@
+
 package com.memory.dao;
 
 import com.memory.pojo.Ban;
@@ -48,5 +49,11 @@ public class BanDAOImpl implements BanDAO{
         if(list.size() != 0)
             return list.get(0);
         return null;
+    }
+
+    @Override
+    public List<Ban> get(String param, int value) {
+        String hql = "from Ban as u where u." + param + " = ?";
+        return (List<Ban>) hibernateTemplate.find(hql, value);
     }
 }

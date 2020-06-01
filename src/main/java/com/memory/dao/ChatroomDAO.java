@@ -3,6 +3,8 @@ package com.memory.dao;
 import com.memory.pojo.Bug;
 import com.memory.pojo.Chatroom;
 
+import java.util.List;
+
 /**
  * @InterfaceName ChatroomDAO
  * @Description TODO
@@ -15,4 +17,6 @@ public interface ChatroomDAO {
     void update(Chatroom chatroom);
     void delete(Chatroom chatroom);
     Chatroom get(int id);
+    List<Chatroom> getAll();
+    int getCount(); //获取表中数据个数
 }

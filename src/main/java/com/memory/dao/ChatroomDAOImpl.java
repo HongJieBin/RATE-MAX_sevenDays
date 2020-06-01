@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @ClassName ChatroomDAOImpl
@@ -39,5 +40,17 @@ public class ChatroomDAOImpl implements ChatroomDAO{
     @Override
     public Chatroom get(int id) {
         return hibernateTemplate.get(Chatroom.class, id);
+    }
+
+    @Override
+    public List<Chatroom> getAll() {
+        return (List<Chatroom>)hibernateTemplate.find("from Chatroom");
+    }
+  
+    @Override
+    public int getCount() {
+        String hql = "select count(*) from Chatroom as chatroom";
+        Long count = (Long)hibernateTemplate.find(hql).listIterator().next();
+        return count.intValue();
     }
 }

@@ -19,4 +19,5 @@ public interface DriftDAO {
     Drift get(int id);
     List<Drift> getAll();
     void save(Drift drift)throws Exception;
+    List<Drift> getByUserId(int userId);
 }
