@@ -41,6 +41,8 @@ public class BlacklistController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public @ResponseBody String add(@RequestBody Blacklist blist){
         Blacklist blacklist;
+        if(blist.getUserId() == blist.getAddedId())
+            return JsonUtils.toJSON(JsonResult.errorMsg("闲的蛋疼了吧，干嘛拉黑自己！"));
         try {
             blacklist = blacklistService.get(blist.getUserId(),blist.getAddedId());
         }catch (Exception e){

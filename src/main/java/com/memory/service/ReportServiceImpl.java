@@ -28,4 +28,11 @@ public class ReportServiceImpl implements ReportService {
         }
         return list;
     }
+
+    @Override
+    public void delete(int reportId) throws Exception{
+        Report report = reportDAO.get(reportId);
+        if(report == null) throw new Exception("该举报不存在或已被处理！");
+        reportDAO.delete(report);
+    }
 }

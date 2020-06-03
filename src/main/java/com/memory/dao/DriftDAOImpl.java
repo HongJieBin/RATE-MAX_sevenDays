@@ -53,6 +53,6 @@ public class DriftDAOImpl implements DriftDAO {
 
     @Override
     public List<Drift> getByUserId(int userId) {
-        return (List<Drift>)hibernateTemplate.find("from Drift as d where d.user.userId");
+        return (List<Drift>)hibernateTemplate.find("from Drift as d where d.user.userId = ?",userId);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/ban")
@@ -32,21 +33,10 @@ public class BanController {
      * @param  ：封禁的用户id
      * @return
      */
-    @RequestMapping(value = "banUser",method = RequestMethod.POST)
+    @RequestMapping(value = "banUser",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
     public @ResponseBody String ban(@RequestBody JSONObject json){
-        System.out.println("data:"+json.getInteger("userId"));
         try {
-            User user = userService.get(json.getInteger("userId"));
-            Ban ban1 = banService.getByUserId(json.getInteger("userId"));
-            if( ban1 != null)
-                return JsonUtils.toJSON(JsonResult.errorMsg("该用户已被封禁"));
-            if(user == null)
-                return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-            Ban ban = new Ban();
-            ban.setUser(user);
-            ban.setBanStime(new Timestamp((new Date()).getTime()));
-            ban.setBanEtime(new Timestamp(new Date().getTime()));
-            banService.ban(ban);
+            banService.ban(json.getInteger("userId"));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }
@@ -63,15 +53,14 @@ public class BanController {
     public @ResponseBody String disBan(@RequestBody JSONObject jsonObject){
         Ban ban = null;
         try {
-            ban = banService.getByUserId(jsonObject.getInteger("userId"));
-            if(ban != null){
-                banService.disBan(ban);
-                return JsonUtils.toJSON(JsonResult.ok("解封成功"));
-            }
+            List<Ban> list = banService.getByUserId(jsonObject.getInteger("userId"));
+            for(Ban b : list)
+                if(b.getBanEtime().after(new Timestamp(new Date().getTime())))
+                    banService.disBan(b);
+            return JsonUtils.toJSON(JsonResult.ok("解封成功！"));
         }catch (Exception e){
             e.printStackTrace();
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误："+e.getMessage()));
         }
-        return JsonUtils.toJSON(JsonResult.errorMsg("该用户没有被封禁"));
     }
 }
