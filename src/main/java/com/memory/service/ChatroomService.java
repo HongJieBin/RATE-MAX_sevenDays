@@ -4,14 +4,9 @@ package com.memory.service;
 import com.memory.controller.VO.ChatRoomVO;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.pojo.Chatroom;
-
-import java.util.List;
-import com.memory.controller.VO.ChatroomInfoVo;
-import com.memory.pojo.Chatroom;
 import com.memory.pojo.ChatroomTag;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 public interface ChatroomService {
 
     public String searchById(int chatroomId);
@@ -38,5 +33,7 @@ public interface ChatroomService {
     void openChatRoom(int chatRoomId) throws Exception;
     Chatroom get(int chatRoomId);
     List<Chatroom> getAll();
+
+
 
 }
