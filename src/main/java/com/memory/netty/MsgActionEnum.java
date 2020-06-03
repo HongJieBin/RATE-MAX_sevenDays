@@ -10,7 +10,8 @@ public enum MsgActionEnum {
     PULL_FRIEND(5, "拉取好友"),
     CHATROOM(6,"聊天室消息"),
     USEROUT(7,"用户退出"),
-    CHATROOMOUT(8,"聊天室退出");
+    CHATROOMOUT(8,"聊天室关闭退出"),
+    MUTIUSER(9,"多用户登陆退出");
 
 
     public final Integer type;

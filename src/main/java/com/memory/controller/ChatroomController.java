@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -110,13 +111,14 @@ public class ChatroomController {
     @RequestMapping(value = "/getMyJoinRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getMyJoinRoomInfoById(@RequestBody User user){
-        /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
         try{
-            chatroomList = chatroomService.getChatroomInfoList();
+            chatroomList = chatroomService.getMyJoinChatroomList(user.getUserId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
-        }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
+        }
+        return JsonUtils.toJSON(JsonResult.ok(chatroomList));
+        //return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -131,12 +133,13 @@ public class ChatroomController {
     @RequestMapping(value = "/getBeforeRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getBeforeRoomInfoById(@RequestBody User user){
-        /*List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
         try{
-            chatroomList = chatroomService.getChatroomInfoList();
+            chatroomList = chatroomService.getBeforeChatroomList(user.getUserId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
-        }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getBeforeChatroomList(user.getUserId())));
+        }
+        return JsonUtils.toJSON(JsonResult.ok(chatroomList));
+        //return JsonUtils.toJSON(JsonResult.ok(chatroomService.getBeforeChatroomList(user.getUserId())));
     }
 }
