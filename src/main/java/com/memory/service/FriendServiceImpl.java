@@ -3,7 +3,6 @@ package com.memory.service;
 import com.memory.controller.VO.*;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.UserDAO;
-import com.memory.dao.UserTagDAO;
 import com.memory.pojo.Friend;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
@@ -25,7 +24,7 @@ public class FriendServiceImpl implements FriendService{
     @Autowired
     private UserDAO userDAO;
     @Autowired
-    private UserTagDAO userTagDAO;
+    private UserTagService userTagService;
 
 
     @Resource
@@ -134,27 +133,27 @@ public class FriendServiceImpl implements FriendService{
         List<User> myBlackList = queryBlackList(myUserId);
 
         //匹配推荐
-        while(num < 3 && match < 100){
+        while(num < 3 && match < 50){
              random = getRandomId(cnt);
              tmp = userDAO.get(random);
              if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
-                randomId.add(random);
+                randomId.add(num,random);
                  num++;
              }
              match++;
         }
 
         //随机推荐
-        while(num<5){
+        while(num < 5){
             random = getRandomId(cnt);
             tmp = userDAO.get(random);
             if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
-                randomId.add(random);
+                randomId.add(num,random);
                 num++;
             }
         }
         List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
-        for (int i: randomId) {
+        for (int i = 0; i < 5; i++) {
             recommendUsers.add(addByUserID(randomId.get(i)));
         }
 
@@ -245,21 +244,36 @@ public class FriendServiceImpl implements FriendService{
     public TagSortVO TagSort(Integer userId){
 
         // 对标签出现次数进行排序
-        List<UserTag> userTag = userTagDAO.getByUserId(userId);
+        List<UserTag> userTag = userTagService.getMyUserTagList(userId);
+        if(userTag == null) return null;
         userTag.sort(new UserTagNumberComparator());
         Collections.reverse(userTag);
 
         TagSortVO tagSortVOS = new TagSortVO();
         tagSortVOS.setUserID(userId);
 
-        if(userTag.get(0).getTagNumber()>=3)
+
+         if(userTag.size() == 1) {
+            if(userTag.get(0).getTagNumber()>=3)
+                tagSortVOS.setFirstTagID(userTag.get(0).getTagId());
+        }
+        else if(userTag.size() == 2){
+            if(userTag.get(0).getTagNumber()>=3)
+                tagSortVOS.setFirstTagID(userTag.get(0).getTagId());
+
+            if(userTag.get(1).getTagNumber()>=3)
+                tagSortVOS.setSecondTagID(userTag.get(1).getTagId());
+        }
+        else {
+            if(userTag.get(0).getTagNumber()>=3)
             tagSortVOS.setFirstTagID(userTag.get(0).getTagId());
 
-        if(userTag.get(1).getTagNumber()>=3)
-            tagSortVOS.setSecondTagID(userTag.get(1).getTagId());
+            if(userTag.get(1).getTagNumber()>=3)
+                tagSortVOS.setSecondTagID(userTag.get(1).getTagId());
 
-        if(userTag.get(2).getTagNumber()>=3)
-            tagSortVOS.setThirdTagID(userTag.get(2).getTagId());
+            if(userTag.get(2).getTagNumber()>=3)
+                tagSortVOS.setThirdTagID(userTag.get(2).getTagId());}
+
 
         return tagSortVOS;
     }
@@ -279,6 +293,9 @@ public class FriendServiceImpl implements FriendService{
         int pt = 0;
         TagSortVO tagSortVO1 = TagSort(userId);
         TagSortVO tagSortVO2 = TagSort(friendId);
+        if(tagSortVO1 == null || tagSortVO2 == null)
+            return false;
+
        if(tagSortVO1.getFirstTagID() != null){
            if(tagSortVO1.getFirstTagID().equals(tagSortVO2.getFirstTagID())) pt += 5;
            else if(tagSortVO1.getFirstTagID().equals(tagSortVO2.getSecondTagID())) pt += 4;
