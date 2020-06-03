@@ -38,5 +38,6 @@ public interface ChatroomService {
     void openChatRoom(int chatRoomId) throws Exception;
     Chatroom get(int chatRoomId);
     List<Chatroom> getAll();
+    boolean isOpenChatroom(int chatRoomId);
 
 }
