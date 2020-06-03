@@ -244,6 +244,8 @@ public class ChatroomServiceImpl implements ChatroomService{
             chatroom.setChatroomEnd(timestamp);
         }
 
+        chatroom.setChatroomNumber(1);
+
         chatroomDAO.add(chatroom);
         ChatroomUser chatroomUser = new ChatroomUser();
         chatroomUser.setChatroomId(chatroom.getChatroomId());
@@ -298,6 +300,8 @@ public class ChatroomServiceImpl implements ChatroomService{
             chatroom.setChatroomStatement(1);
             chatroomDAO.update(chatroom);
         }
+        chatroom.setChatroomNumber(chatroom.getChatroomNumber() - 1);
+        chatroomDAO.update(chatroom);
         ChatroomUser chatroomUser = new ChatroomUser();
         chatroomUser.setUserId(userId);
         chatroomUser.setChatroomId(chatroomId);
