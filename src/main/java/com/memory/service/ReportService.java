@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReportService {
 
     List<Report> getReport(int reportType,int reportReason);
+    void delete(int reportId) throws Exception;
 }

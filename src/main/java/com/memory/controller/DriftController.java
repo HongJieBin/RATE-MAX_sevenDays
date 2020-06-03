@@ -4,6 +4,7 @@ package com.memory.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.memory.formbean.DriftBean;
+import com.memory.formbean.DriftEditorBean;
 import com.memory.pojo.Drift;
 import com.memory.pojo.DriftEditor;
 import com.memory.pojo.User;
@@ -174,6 +175,31 @@ public class DriftController {
     public String randomGetOne(){
         try {
             return JsonUtils.toJSON(JsonResult.ok(driftService.randomGetOne()));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+    }
+
+    /**
+     * 获取指定漂流瓶的所有评论
+     * @param json：bottleId
+     * @return
+     */
+    @RequestMapping(value = "getAllComment",method = RequestMethod.GET,produces = "application/json;charset = UTF-8")
+    @ResponseBody
+    public String getAllComment(@RequestBody JSONObject json){
+        int bottleId;
+        try {
+            bottleId = json.getInteger("bottleId");
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+        try {
+            List<DriftEditor> list = driftEditorService.getAllByDriftId(bottleId);
+            List<DriftEditorBean> beans = new ArrayList<>();
+            for(DriftEditor driftEditor : list)
+                beans.add(DriftEditorBean.toDriftEditorBean(driftEditor));
+            return JsonUtils.toJSON(JsonResult.ok(beans));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
         }

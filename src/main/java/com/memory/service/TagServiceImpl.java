@@ -33,4 +33,13 @@ public class TagServiceImpl implements TagService{
     }
 
     public void add(Tag tag){ tagDAO.add(tag);}
+
+    @Override
+    public void deleteTag(int tagId) throws Exception {
+        Tag tag = tagDAO.get(tagId);
+        if (tag == null)
+            throw new Exception("该标签不存在！");
+        tagDAO.delete(tag);
+    }
+
 }

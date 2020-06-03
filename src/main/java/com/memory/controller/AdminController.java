@@ -36,6 +36,15 @@ public class AdminController {
     @Autowired
     private ChatroomService chatroomService;
 
+    @Autowired
+    private BanService banService;
+
+    @Autowired
+    private DriftService driftService;
+
+    @Autowired
+    private PostService postService;
+
     @RequestMapping(value = "logIn",method = RequestMethod.POST)
     public String logIn(@RequestParam(name = "adminName")String name,@RequestParam(name = "adminPassword")String password, HttpSession session, HttpServletRequest request){
         Admin admin1 = null;
@@ -177,9 +186,74 @@ public class AdminController {
         return JsonUtils.toJSON(JsonResult.ok("关闭聊天室成功！"));
     }
 
-    @RequestMapping(value = "handleReport",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    /**
+     *
+     * @param json：reportId:
+     *               reportTypeId
+     *               reportedId
+     * @return
+     */
+    @RequestMapping(value = "handleReport",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
     @ResponseBody
     public String handleReport(@RequestBody JSONObject json){
-        return null;
+        int reportId;
+        int reportTypeId;
+        int reportedId;
+        try {
+            reportId = json.getInteger("reportId");
+            reportTypeId = json.getInteger("reportTypeId");
+            reportedId = json.getInteger("reportedId");
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException("参数不足!"));
+        }
+        try {
+            if(reportTypeId == 1) banService.ban(reportedId);
+            if(reportTypeId == 2) banService.ban(reportedId);
+            if(reportTypeId == 3) postService.delete(reportedId);
+            if(reportTypeId == 4) chatroomService.closeChatRoom(reportedId);
+            if(reportTypeId == 5) driftService.delete(driftService.get(reportedId));
+            reportService.delete(reportId);
+            return JsonUtils.toJSON(JsonResult.ok("处理成功！"));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+    }
+
+
+    /**
+     * 获取所有标签
+     * @return
+     */
+    @RequestMapping(value = "getAllTags",method = RequestMethod.GET,produces = "applicaton/json;charset = UTF-8")
+    @ResponseBody
+    public String getAllTags(){
+        try {
+            List<Tag> list = tagService.getAll();
+            return JsonUtils.toJSON(JsonResult.ok(list));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
+    }
+
+    /**
+     * 删除指定标签
+     * @param json：tagId
+     * @return
+     */
+    @RequestMapping(value = "deleteTag",method = RequestMethod.POST,produces = "application/json;charset = UTF-8")
+    @ResponseBody
+    public String deleteTag(@RequestBody JSONObject json){
+        int tagId;
+        try {
+            tagId = json.getInteger("tagId");
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorTokenMsg("参数有误！" + e.getMessage()));
+        }
+        try {
+            tagService.deleteTag(tagId);
+            return JsonUtils.toJSON(JsonResult.ok("删除成功！"));
+        }catch (Exception e){
+            return JsonUtils.toJSON(JsonResult.errorException(e.getMessage()));
+        }
     }
 }

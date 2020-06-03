@@ -106,6 +106,8 @@ public class FriendController {
     @RequestMapping(value = "Friend/report", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String reportUser(@RequestBody Report report){
+        if(report.getSendId() == report.getReportedId())
+            return JsonUtils.toJSON(JsonResult.errorMsg("为什么不能举报自己呢？"));
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         report.setReportDate(timestamp);

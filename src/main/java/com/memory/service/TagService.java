@@ -9,4 +9,5 @@ public interface TagService {
     Tag getByTagName(String name);
     List<Tag> getAll();
     void add(Tag tag);
+    void deleteTag(int tagId) throws Exception;
 }
