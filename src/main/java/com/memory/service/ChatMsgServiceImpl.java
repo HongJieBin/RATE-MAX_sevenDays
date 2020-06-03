@@ -1,7 +1,10 @@
 package com.memory.service;
 
+import com.memory.controller.VO.ChatRoomMsgVO;
+import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.dao.*;
 import com.memory.pojo.*;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
     private ChatroomMsgRelationDAO chatroomMsgRelationDAO;
 
 
+    //私聊未读消息
     @Override
     public List<Msg> getUnReadMsgList(int receiveId) {
         String hql = "from Msg as msg where msg.receiveUser.userId = ? and msg.msgAction = ?";
@@ -44,6 +48,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         return  msgs;
     }
 
+    //私聊所有消息
     @Override
     public List<Msg> getAllMsgList(int userId, int receiveId) {
         String hql = "from Msg as msg where msg.sendUser.userId = ? and msg.receiveUser.userId = ?";
@@ -81,5 +86,61 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         String hql = "select userId from ChatroomUser as cu where cu.chatroomId = ?";
         List<Integer> userIds = (List<Integer>)hibernateTemplate.find(hql,chatroomId);
         return userIds;
+    }
+
+    @Override
+    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId, int chatroomId) {
+        String hql = "select msgId from ChatroomMsgRelation as cm where cm.receiveId = ? and cm.msgAction=0";
+        List<Integer> msgIds = (List<Integer>)hibernateTemplate.find(hql,acceptUserId);
+        if(msgIds.isEmpty()) {
+            System.out.println(11);
+            return null;
+        }
+        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        String hql3 = "from ChatMsg as cm where cm.cmsgId in (:list) and cm.chatroom.chatroomId ="+chatroomId;
+        List<ChatMsg> chatmsgList = (List<ChatMsg>)session.createQuery(hql3).setParameterList("list",msgIds).list();
+        if(chatmsgList.isEmpty()){
+            System.out.println(22);
+            return null;
+        }
+        List<ChatRoomMsgVO> chatroomMsgList = new ArrayList<ChatRoomMsgVO>();
+        for (ChatMsg chatMsg: chatmsgList) {
+            ChatRoomMsgVO chatRoomMsgVO = new ChatRoomMsgVO();
+            chatRoomMsgVO.setChatroomId(chatroomId);
+            chatRoomMsgVO.setCmsgContent(chatMsg.getCmsgContent());
+            chatRoomMsgVO.setCmsgDatetime(chatMsg.getCmsgDatetime());
+            chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
+            chatRoomMsgVO.setSenderId(chatMsg.getSendUser().getUserId());
+            chatroomMsgList.add(chatRoomMsgVO);
+        }
+        return chatroomMsgList;
+    }
+
+    @Override
+    public List<ChatRoomMsgVO> getAllChatMsgList(int acceptUserId, int chatroomId) {
+        String hql = "select msgId from ChatroomMsgRelation as cm where cm.receiveId = ?";
+        List<Integer> msgIds = (List<Integer>)hibernateTemplate.find(hql,acceptUserId);
+        if(msgIds.isEmpty()) {
+            System.out.println(11);
+            return null;
+        }
+        Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        String hql3 = "from ChatMsg as cm where cm.cmsgId in (:list) and cm.chatroom.chatroomId ="+chatroomId;
+        List<ChatMsg> chatmsgList = (List<ChatMsg>)session.createQuery(hql3).setParameterList("list",msgIds).list();
+        if(chatmsgList.isEmpty()){
+            System.out.println(22);
+            return null;
+        }
+        List<ChatRoomMsgVO> chatroomMsgList = new ArrayList<ChatRoomMsgVO>();
+        for (ChatMsg chatMsg: chatmsgList) {
+            ChatRoomMsgVO chatRoomMsgVO = new ChatRoomMsgVO();
+            chatRoomMsgVO.setChatroomId(chatroomId);
+            chatRoomMsgVO.setCmsgContent(chatMsg.getCmsgContent());
+            chatRoomMsgVO.setCmsgDatetime(chatMsg.getCmsgDatetime());
+            chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
+            chatRoomMsgVO.setSenderId(chatMsg.getSendUser().getUserId());
+            chatroomMsgList.add(chatRoomMsgVO);
+        }
+        return chatroomMsgList;
     }
 }

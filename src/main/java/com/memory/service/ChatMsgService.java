@@ -1,5 +1,6 @@
 package com.memory.service;
 
+import com.memory.controller.VO.ChatRoomMsgVO;
 import com.memory.pojo.Msg;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public interface ChatMsgService {
     public Map<Integer,Integer> save(int userId, int chatroomId, String content);
 
     public List<Integer> getUserListInChatroom(int chatroomId);
+
+    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId, int chatroomId);
+
+    public List<ChatRoomMsgVO> getAllChatMsgList(int acceptUserId, int chatroomId);
 
 
 }

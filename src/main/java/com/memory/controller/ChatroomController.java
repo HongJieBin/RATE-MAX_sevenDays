@@ -43,7 +43,7 @@ public class ChatroomController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String add(@RequestBody Chatroom chatroom,User user){
+    public String add(@RequestBody User user,Chatroom chatroom){
         try{
             if(!chatroomService.isExistChatRoom(chatroom.getChatroomId()))  return JsonUtils.toJSON(JsonResult.errorMsg("不存在此聊天室"));
             else if(chatroomService.isInChatRoom(user.getUserId(),chatroom.getChatroomId())) return JsonUtils.toJSON(JsonResult.errorMsg("你已经在聊天室内"));
