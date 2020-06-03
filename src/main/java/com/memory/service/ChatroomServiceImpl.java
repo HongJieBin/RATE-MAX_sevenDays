@@ -137,8 +137,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         List<Integer>  chatroom = new ArrayList<>();
         List<ChatroomInfoVo> chatroomInfoVoList = chatroomService.getMyJoinChatroomList(userId);
 
-        if(chatroomInfoVoList !=null)
-         for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList) {
+        for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList) {
             chatroom.add(chatroomInfoVo.getChatroomId());
         }
         int num = 0; //总共匹配成功的聊天室
@@ -150,10 +149,8 @@ public class ChatroomServiceImpl implements ChatroomService{
         while(num < 3 && match < 30){
             random = getRandomId(cnt);
             tmp = chatroomDAO.get(random);
-            if((isMatching(userId,random)) && (tmp != null) && (!chatroom.contains(userId))){
-
-
-                randomId.add(num,random);
+            if((isMatching(userId,random)) && (tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
                 num++;
             }
             match++;
@@ -163,14 +160,13 @@ public class ChatroomServiceImpl implements ChatroomService{
         while(num < 5){
             random = getRandomId(cnt);
             tmp = chatroomDAO.get(random);
-            if((tmp != null) && (!chatroom.contains(userId))){
-
-                randomId.add(num,random);
+            if((tmp != null) && chatroom.contains(userId)){
+                randomId.add(random);
                 num++;
             }
         }
         List<ChatRoomVO> recommendChatroom = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i: randomId) {
             recommendChatroom.add(addByChatroomId(randomId.get(i)));
         }
 
@@ -188,7 +184,6 @@ public class ChatroomServiceImpl implements ChatroomService{
         TagSortVO tagSortVO = friendService.TagSort(userId);
         List<ChatroomTag> chatroomTagList = chatroomService.findById(random);
 
-        if(tagSortVO == null || chatroomTagList == null) return false;
         for (ChatroomTag chatroomTag : chatroomTagList) {
 
             if (tagSortVO.getFirstTagID().equals(chatroomTag.getTagId())) pt++;
@@ -262,7 +257,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Override
     public List<ChatroomTag> findById(int ChatroomId) {
-        String hql = "from ChatroomTag ct where ct.chatroomId = ?";
+        String hql = "from ChatroomTag CT where ct.chatroomId = ?";
         List<ChatroomTag> chatroomTagList =(List<ChatroomTag>)  hibernateTemplate.find(hql,ChatroomId);
         return  chatroomTagList;
     }
@@ -341,8 +336,6 @@ public class ChatroomServiceImpl implements ChatroomService{
         }
         return chatroomInfoList;
     }
-
-
 
     @Override
     public List<ChatroomInfoVo> getBeforeChatroomList(int userId) {

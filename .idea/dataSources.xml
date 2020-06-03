@@ -7,11 +7,5 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/ssmbuild?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=utf-8</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="Hedbo" uuid="47e503fe-4d72-4794-822f-fd6f58906c62">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://cdb-hhu95v2g.cd.tencentcdb.com:10095</jdbc-url>
-    </data-source>
   </component>
 </project>
