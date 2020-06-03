@@ -6,6 +6,7 @@ import com.memory.dao.MsgDAO;
 import com.memory.pojo.ChatMsg;
 import com.memory.pojo.Msg;
 import com.memory.service.ChatMsgService;
+import com.memory.service.ChatroomService;
 import com.memory.service.MsgService;
 import com.memory.utils.JsonUtils;
 import com.memory.utils.SpringUtils;
@@ -47,7 +48,20 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             com.memory.netty.Msg msg = dataContent.getMsg();
             // 获取发送人的id,和channel
             Integer senderId = msg.getSenderId();
-            UserChannelRelation.add(senderId, currentChannel);
+            Channel now = UserChannelRelation.get(msg.getSenderId());
+            if(now == null) {
+                UserChannelRelation.add(senderId, currentChannel);
+            }
+            //多用户登陆时向前端发送消息
+            else {
+                msg.setContent(MsgActionEnum.MUTIUSER.content);
+                DataContent dataContent1 = new DataContent(MsgActionEnum.MUTIUSER.type, msg, null);
+                Channel reveicerChannel = UserChannelRelation.get(msg.getSenderId());
+                Channel findChannel = channels.find(reveicerChannel.id());
+                reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                UserChannelRelation.remove(senderId);
+                UserChannelRelation.add(senderId, currentChannel);
+            }
         }
         else if (action==MsgActionEnum.CHAT.type) {
             // 如果是聊天消息
@@ -82,20 +96,12 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
 
         else if(action==MsgActionEnum.CHATROOM.type){
             com.memory.netty.Msg msg = dataContent.getMsg();
-            String msgContent = msg.getContent();
-            int senderId = msg.getSenderId();
-            int chatRoomId = msg.getReceiverId();
-            System.out.println("dataContent为:" + dataContent);
-            // 保存消息到数据库,
-            ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatmsgServiceImpl");
-            //relation<int,int>  前一个存得是用户id,后一个存得是消息id
-            Map<Integer,Integer> relation = chatmsgService.save(msg.getSenderId(),msg.getReceiverId(),msg.getContent());
-            for (Map.Entry<Integer,Integer> entry : relation.entrySet()) {
-                msg.setReceiverId(entry.getKey());
-                msg.setMsgId(entry.getValue());
-                DataContent dataContent1 = new DataContent(null, msg, null);
-                // 发送消息
-                Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
+            //发送消息时判断用户所在聊天室状态
+            ChatroomService chatroomService = (ChatroomService) SpringUtils.getBean("chatroomServiceImpl");
+            if(!chatroomService.isOpenChatroom(msg.getReceiverId())){
+                msg.setContent(MsgActionEnum.CHATROOMOUT.content);
+                DataContent dataContent1 = new DataContent(MsgActionEnum.CHATROOMOUT.type, msg, null);
+                Channel reveicerChannel = UserChannelRelation.get(msg.getSenderId());
                 if (reveicerChannel == null) {
                     // 推送
                 }
@@ -107,6 +113,35 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                     else {
                         // 用户离线,推送
                         System.out.println("用户处于离线状态");
+                    }
+                }
+            }
+            //消息发送
+            else {
+                String msgContent = msg.getContent();
+                int senderId = msg.getSenderId();
+                int chatRoomId = msg.getReceiverId();
+                System.out.println("dataContent为:" + dataContent);
+                // 保存消息到数据库,
+                ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatmsgServiceImpl");
+                //relation<int,int>  前一个存得是用户id,后一个存得是消息id
+                Map<Integer, Integer> relation = chatmsgService.save(msg.getSenderId(), msg.getReceiverId(), msg.getContent());
+                for (Map.Entry<Integer, Integer> entry : relation.entrySet()) {
+                    msg.setReceiverId(entry.getKey());
+                    msg.setMsgId(entry.getValue());
+                    DataContent dataContent1 = new DataContent(null, msg, null);
+                    // 发送消息
+                    Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
+                    if (reveicerChannel == null) {
+                        // 推送
+                    } else {
+                        Channel findChannel = channels.find(reveicerChannel.id());
+                        if (findChannel != null) {
+                            reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                        } else {
+                            // 用户离线,推送
+                            System.out.println("用户处于离线状态");
+                        }
                     }
                 }
             }
