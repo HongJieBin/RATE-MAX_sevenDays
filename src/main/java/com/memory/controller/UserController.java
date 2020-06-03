@@ -100,33 +100,38 @@ public class UserController {
         }
         if( u == null)
             return JsonUtils.toJSON(JsonResult.errorMsg("该用户不存在"));
-        System.out.println("传过来的标签为" + user.getThisWeekTag());
-//        String thisWeekTag = u.getThisWeekTag();                    //获取本周标签
-//        System.out.println(u.getThisWeekTag());
-//        String[] lastTagList = null;
-//        if( lastTag != null) {
-//            lastTagList = lastTag.split(",");//将字符串分开
-//            System.out.println(lastTagList.toString());
-//
-//            for (String s : lastTagList) {//update UserTag chart
-//                System.out.println(s);
-//                if(s!=null) {
-//                    Tag t = tagService.getByTagName(s);
-//                    UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
-//                    if (ut == null) {
-//                        ut = new UserTag();
-//                        ut.setUserId(user.getUserId());
-//                        ut.setTagId(t.getTagId());
-//                        ut.setTagNumber(1);
-//                        userTagService.save(ut);
-//                    } else {
-//                        ut.setTagNumber(ut.getTagNumber() + 1);
-//                        userTagService.update(ut);
-//                    }
-//                }
-//            }
-//        }
+        //System.out.println("传过来的标签为" + user.getThisWeekTag());
+        String lastTag = u.getThisWeekTag();                    //获取本周标签
+        //System.out.println(u.getThisWeekTag());
+        String[] lastTagList = null;
+        if( lastTag != null) {
+            lastTagList = lastTag.split(",");//将字符串分开
+            //System.out.println(lastTagList.toString());
+            for (String s : lastTagList) {//update UserTag chart
+                //System.out.println(s);
+                if(s!=null) {
+                    Tag t = tagService.getByTagName(s);
+                    UserTag ut = userTagService.get(user.getUserId(), t.getTagId());
+                    if (ut == null) {
+                        ut = new UserTag();
+                        ut.setUserId(user.getUserId());
+                        ut.setTagId(t.getTagId());
+                        ut.setTagNumber(1);
+                        userTagService.save(ut);
+                    } else {
+                        ut.setTagNumber(ut.getTagNumber() + 1);
+                        userTagService.update(ut);
+                    }
+                }
+            }
+        }
         try {
+            String[] list = user.getThisWeekTag().split(",");
+            for(String s : list){
+                Tag tag = tagService.getByTagName(s);
+                if(tag == null)
+                    return JsonUtils.toJSON(JsonResult.errorMsg("该标签不存在！"));
+            }
             u.setThisWeekTag(user.getThisWeekTag());            //update user.thisWeekTag
             userService.update(u);
         }catch (Exception e){
