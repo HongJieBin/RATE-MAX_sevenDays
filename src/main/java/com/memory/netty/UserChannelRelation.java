@@ -16,4 +16,8 @@ public class UserChannelRelation {
     public static Channel get(Integer userId) {
         return relation.get(userId);
     }
+
+    public static  void remove(Integer userId){
+        relation.remove(userId);
+    }
 }

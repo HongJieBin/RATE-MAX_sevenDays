@@ -320,14 +320,17 @@ public class ChatroomServiceImpl implements ChatroomService{
 
     @Override
     public List<ChatroomInfoVo> getMyJoinChatroomList(int userId) {
-        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
+        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ?";
         List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
-        String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=0";
+        String hql3 = "from Chatroom as c where c.chatroomId in (:list) and c.chatroomStatement=0 and c.userId !="+userId;
         if(roomIdList.isEmpty()){
             return null;
         }
         List<Chatroom> roomList = (List<Chatroom>)session.createQuery(hql3).setParameterList("list",roomIdList).list();
+        if(roomList.isEmpty()){
+            return null;
+        }
         List<ChatroomInfoVo> chatroomInfoList = new ArrayList<ChatroomInfoVo>();
         for (Chatroom chatroom: roomList) {
             ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
@@ -387,5 +390,12 @@ public class ChatroomServiceImpl implements ChatroomService{
         chatroom.setChatroomEnd(new Timestamp(new Date().getTime() + ONEDAY));
         chatroom.setChatroomStatement(0);
         chatroomDAO.update(chatroom);
+    }
+
+    @Override
+    public boolean isOpenChatroom(int chatRoomId) {
+        Chatroom chatroom = chatroomDAO.get(chatRoomId);
+        if(chatroom.getChatroomStatement()==0) return true;
+        else return false;
     }
 }
