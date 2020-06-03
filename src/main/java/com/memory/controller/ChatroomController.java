@@ -116,7 +116,7 @@ public class ChatroomController {
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }*/
-        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatrommList(user.getUserId())));
+        return JsonUtils.toJSON(JsonResult.ok(chatroomService.getMyJoinChatroomList(user.getUserId())));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
