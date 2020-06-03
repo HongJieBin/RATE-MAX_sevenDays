@@ -110,6 +110,10 @@ public class ChatroomServiceImpl implements ChatroomService{
         ChatroomUser chatroomUser = new ChatroomUser();
         chatroomUser.setChatroomId(chatRoomId);
         chatroomUser.setUserId(userId);
+        Chatroom chatroom = chatroomDAO.get(chatRoomId);
+        int num = chatroom.getChatroomNumber() + 1;
+        chatroom.setChatroomNumber(num);
+        chatroomDAO.add(chatroom);
         chatroomUserDAO.add(chatroomUser);
     }
 
