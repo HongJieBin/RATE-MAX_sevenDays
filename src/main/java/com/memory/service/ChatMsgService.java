@@ -26,7 +26,7 @@ public interface ChatMsgService {
 
     public List<Integer> getUserListInChatroom(int chatroomId);
 
-    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId, int chatroomId);
+    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId);
 
     public List<ChatRoomMsgVO> getAllChatMsgList(int acceptUserId, int chatroomId);
 

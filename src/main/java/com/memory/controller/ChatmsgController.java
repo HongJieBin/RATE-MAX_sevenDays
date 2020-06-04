@@ -30,12 +30,11 @@ public class ChatmsgController {
     String getUnReadChatMsgList(@RequestBody ChatMsgRequestVO chatMsgRequestVO) {
 
         int acceptUserId = chatMsgRequestVO.getAcceptUserId();
-        int chatroomId = chatMsgRequestVO.getChatroomId();
         if (!friendService.isExitUser(acceptUserId)) {
             return JsonUtils.toJSON(JsonResult.errorMsg("不存在此用户"));
         }
         else {
-            List<ChatRoomMsgVO> chatRoomMsgVOList =chatMsgService.getUnReadChatMsgList(acceptUserId,chatroomId);
+            List<ChatRoomMsgVO> chatRoomMsgVOList =chatMsgService.getUnReadChatMsgList(acceptUserId);
             return JsonUtils.toJSON(JsonResult.ok(chatRoomMsgVOList));
         }
     }

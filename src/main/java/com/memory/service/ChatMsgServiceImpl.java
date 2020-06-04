@@ -62,15 +62,15 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         User senderUser = userDao.get(userId);
         Chatroom chatroom = chatroomDAO.get(chatroomId);
         ConcurrentHashMap<Integer,Integer> relation = new ConcurrentHashMap<>();
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setSendUser(senderUser);
+        chatMsg.setCmsgDatetime(new Timestamp((new Date()).getTime()));
+        chatMsg.setCmsgContent(content);
+        chatMsg.setChatroom(chatroom);
+        chatmsgDAO.save(chatMsg);
         for (Integer user:userIds) {
             if(user != userId) {
-                ChatMsg chatMsg = new ChatMsg();
                 ChatroomMsgRelation chatroomMsgRelation =new ChatroomMsgRelation();
-                chatMsg.setSendUser(senderUser);
-                chatMsg.setCmsgDatetime(new Timestamp((new Date()).getTime()));
-                chatMsg.setCmsgContent(content);
-                chatMsg.setChatroom(chatroom);
-                chatmsgDAO.save(chatMsg);
                 chatroomMsgRelation.setMsgAction(0);
                 chatroomMsgRelation.setMsgId(chatMsg.getCmsgId());
                 chatroomMsgRelation.setReceiveId(user);
@@ -89,7 +89,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
     }
 
     @Override
-    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId, int chatroomId) {
+    public List<ChatRoomMsgVO> getUnReadChatMsgList(int acceptUserId) {
         String hql = "select msgId from ChatroomMsgRelation as cm where cm.receiveId = ? and cm.msgAction=0";
         List<Integer> msgIds = (List<Integer>)hibernateTemplate.find(hql,acceptUserId);
         if(msgIds.isEmpty()) {
@@ -97,7 +97,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
             return null;
         }
         Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
-        String hql3 = "from ChatMsg as cm where cm.cmsgId in (:list) and cm.chatroom.chatroomId ="+chatroomId;
+        String hql3 = "from ChatMsg as cm where cm.cmsgId in (:list) ";
         List<ChatMsg> chatmsgList = (List<ChatMsg>)session.createQuery(hql3).setParameterList("list",msgIds).list();
         if(chatmsgList.isEmpty()){
             System.out.println(22);
@@ -106,7 +106,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         List<ChatRoomMsgVO> chatroomMsgList = new ArrayList<ChatRoomMsgVO>();
         for (ChatMsg chatMsg: chatmsgList) {
             ChatRoomMsgVO chatRoomMsgVO = new ChatRoomMsgVO();
-            chatRoomMsgVO.setChatroomId(chatroomId);
+            chatRoomMsgVO.setChatroomId(chatMsg.getChatroom().getChatroomId());
             chatRoomMsgVO.setCmsgContent(chatMsg.getCmsgContent());
             chatRoomMsgVO.setCmsgDatetime(chatMsg.getCmsgDatetime());
             chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
