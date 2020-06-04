@@ -136,10 +136,41 @@ public class FriendServiceImpl implements FriendService{
         while(num < 3 && match < 50){
              random = getRandomId(cnt);
              tmp = userDAO.get(random);
-             if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
-                randomId.add(num,random);
-                 num++;
+             if((myFriends != null) && (myBlackList != null)){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                    if(!randomId.contains(random)){
+                        randomId.add(num,random);
+                        num++;
+                    }
+                 }
              }
+             else if((myFriends == null) && (myBlackList != null)){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp))){
+                     if(!randomId.contains(random)){
+                         randomId.add(num,random);
+                         num++;
+                     }
+                 }
+             }
+
+             else if(myFriends != null){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp))){
+                     if(!randomId.contains(random)){
+                         randomId.add(num,random);
+                         num++;
+                     }
+                 }
+             }
+             else {
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null)){
+                     if(!randomId.contains(random)){
+                         randomId.add(num,random);
+                         num++;
+                     }
+                 }
+             }
+
+
              match++;
         }
 
@@ -147,10 +178,40 @@ public class FriendServiceImpl implements FriendService{
         while(num < 5){
             random = getRandomId(cnt);
             tmp = userDAO.get(random);
-            if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
-                randomId.add(num,random);
-                num++;
+            if((myFriends != null) && (myBlackList != null)){
+                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                    if(!randomId.contains(random)){
+                    randomId.add(num,random);
+                    num++;
+                    }
+                }
             }
+            else if((myFriends == null) && (myBlackList != null)){
+                if((myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp))){
+                    if(!randomId.contains(random)){
+                        randomId.add(num,random);
+                        num++;
+                    }
+                }
+            }
+
+            else if(myFriends != null){
+                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp))){
+                    if(!randomId.contains(random)){
+                        randomId.add(num,random);
+                        num++;
+                    }
+                }
+            }
+            else {
+                if((myUserId != random) && (tmp != null)){
+                    if(!randomId.contains(random)){
+                        randomId.add(num,random);
+                        num++;
+                    }
+                }
+            }
+
         }
         List<RecommendFriendInfoVO> recommendUsers = new ArrayList<>();
         for (int i = 0; i < 5; i++) {

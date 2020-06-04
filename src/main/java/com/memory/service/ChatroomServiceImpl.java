@@ -156,10 +156,12 @@ public class ChatroomServiceImpl implements ChatroomService{
             tmp = chatroomDAO.get(random);
             if((isMatching(userId,random)) && (tmp != null) && (!chatroom.contains(userId))){
 
-
-                randomId.add(num,random);
-                num++;
+                if(!randomId.contains(random)){
+                    randomId.add(num,random);
+                    num++;
+                }
             }
+
             match++;
         }
 
@@ -168,9 +170,11 @@ public class ChatroomServiceImpl implements ChatroomService{
             random = getRandomId(cnt);
             tmp = chatroomDAO.get(random);
             if((tmp != null) && (!chatroom.contains(userId))){
+                if(!randomId.contains(random)){
+                    randomId.add(num,random);
+                    num++;
+                }
 
-                randomId.add(num,random);
-                num++;
             }
         }
         List<ChatRoomVO> recommendChatroom = new ArrayList<>();
