@@ -30,5 +30,7 @@ public interface ChatMsgService {
 
     public List<ChatRoomMsgVO> getAllChatMsgList(int acceptUserId, int chatroomId);
 
+    void updateChatMsgSigned(List<Integer> msgIdList);
+
 
 }

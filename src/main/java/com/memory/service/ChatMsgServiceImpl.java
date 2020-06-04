@@ -4,6 +4,7 @@ import com.memory.controller.VO.ChatRoomMsgVO;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.dao.*;
 import com.memory.pojo.*;
+import com.memory.utils.SpringUtils;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -75,7 +76,8 @@ public class ChatMsgServiceImpl implements ChatMsgService{
                 chatroomMsgRelation.setMsgId(chatMsg.getCmsgId());
                 chatroomMsgRelation.setReceiveId(user);
                 chatroomMsgRelationDAO.save(chatroomMsgRelation);
-                relation.put(user,chatMsg.getCmsgId());
+                //relation.put(user,chatMsg.getCmsgId());
+                relation.put(user,chatroomMsgRelation.getRelationId());
             }
         }
         return relation;
@@ -106,10 +108,12 @@ public class ChatMsgServiceImpl implements ChatMsgService{
         List<ChatRoomMsgVO> chatroomMsgList = new ArrayList<ChatRoomMsgVO>();
         for (ChatMsg chatMsg: chatmsgList) {
             ChatRoomMsgVO chatRoomMsgVO = new ChatRoomMsgVO();
+            ChatroomMsgRelation chatroomMsgRelation = chatroomMsgRelationDAO.get(chatMsg.getCmsgId(),acceptUserId);
             chatRoomMsgVO.setChatroomId(chatMsg.getChatroom().getChatroomId());
             chatRoomMsgVO.setCmsgContent(chatMsg.getCmsgContent());
             chatRoomMsgVO.setCmsgDatetime(chatMsg.getCmsgDatetime());
-            chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
+            chatRoomMsgVO.setCmsgId(chatroomMsgRelation.getRelationId());
+            //chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
             chatRoomMsgVO.setSenderId(chatMsg.getSendUser().getUserId());
             chatRoomMsgVO.setSenderIcon(chatMsg.getSendUser().getIcon());
             chatroomMsgList.add(chatRoomMsgVO);
@@ -143,5 +147,16 @@ public class ChatMsgServiceImpl implements ChatMsgService{
             chatroomMsgList.add(chatRoomMsgVO);
         }
         return chatroomMsgList;
+    }
+
+    @Override
+    public void updateChatMsgSigned(List<Integer> msgIdList) {
+        for (Integer msgId : msgIdList) {
+            ChatroomMsgRelation msg = chatroomMsgRelationDAO.get(msgId);
+            msg.setMsgAction(1);
+            chatroomMsgRelationDAO.save(msg);
+        }
+        //Object msgServiceImpl = SpringUtils.getBean("msgServiceImpl");
+        //System.out.println(msgServiceImpl);
     }
 }

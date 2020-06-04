@@ -10,4 +10,5 @@ public interface ChatroomMsgRelationDAO {
     void delete(ChatroomMsgRelation chatroomMsgRelation);
     ChatroomMsgRelation get(int id);
     Integer save(ChatroomMsgRelation chatroomMsgRelation);
+    ChatroomMsgRelation get(int msgId,int receiveId);
 }

@@ -3,8 +3,10 @@ package com.memory.netty;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.memory.dao.MsgDAO;
+import com.memory.dao.UserDAO;
 import com.memory.pojo.ChatMsg;
 import com.memory.pojo.Msg;
+import com.memory.pojo.User;
 import com.memory.service.ChatMsgService;
 import com.memory.service.ChatroomService;
 import com.memory.service.MsgService;
@@ -30,6 +32,9 @@ import java.util.Map;
 
 public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public  static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
+    @Autowired
+    private UserDAO userDAO;
 
 
 
@@ -129,7 +134,8 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 for (Map.Entry<Integer, Integer> entry : relation.entrySet()) {
                     msg.setReceiverId(entry.getKey());
                     msg.setMsgId(entry.getValue());
-                    DataContent dataContent1 = new DataContent(null, msg, null);
+                    User sender =userDAO.get(msg.getSenderId());
+                    DataContent dataContent1 = new DataContent(null, msg, sender.getIcon());
                     // 发送消息
                     Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
                     if (reveicerChannel == null) {
@@ -168,6 +174,29 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 msgService.updateMsgSigned(msgList);
 
             }
+        }
+        else if(action ==MsgActionEnum.CHATROOMMSG_SIGNED.type){
+            // 消息签收
+            String extand = dataContent.getExtend();
+            // 分割需要签收消息的id
+            String[] msgIdStr = extand.split(",");
+            System.out.println("dataContent为:" + dataContent);
+            List<Integer> msgList = new ArrayList<>();
+            for (String mid : msgIdStr) {
+                if ( StringUtils.isNoneBlank(mid)) {
+                    int i = Integer.parseInt(mid);
+                    msgList.add(i);
+                }
+            }
+
+            System.out.println(msgList.toString());
+            // 更新需要签收消息的msg_action
+            if (msgList!=null && !msgList.isEmpty() && msgList.size()>0) {
+                ChatMsgService msgService = (ChatMsgService ) SpringUtils.getBean("chatmsgServiceImpl");
+                msgService.updateChatMsgSigned(msgList);
+            }
+
+
         }
         else if (action==MsgActionEnum.KEEPALIVE.type) {
             System.out.println("收到来自为[" + currentChannel + "]的心跳包");
