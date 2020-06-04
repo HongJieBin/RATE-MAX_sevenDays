@@ -111,6 +111,7 @@ public class ChatMsgServiceImpl implements ChatMsgService{
             chatRoomMsgVO.setCmsgDatetime(chatMsg.getCmsgDatetime());
             chatRoomMsgVO.setCmsgId(chatMsg.getCmsgId());
             chatRoomMsgVO.setSenderId(chatMsg.getSendUser().getUserId());
+            chatRoomMsgVO.setSenderIcon(chatMsg.getSendUser().getIcon());
             chatroomMsgList.add(chatRoomMsgVO);
         }
         return chatroomMsgList;

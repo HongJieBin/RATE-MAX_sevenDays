@@ -9,6 +9,7 @@ public class ChatRoomMsgVO {
     private int senderId;
     private Timestamp cmsgDatetime;
     private String cmsgContent;
+    private String senderIcon;
 
     public int getChatroomId() {
         return chatroomId;
@@ -56,5 +57,13 @@ public class ChatRoomMsgVO {
 
     public void setCmsgContent(String cmsgContent) {
         this.cmsgContent = cmsgContent;
+    }
+
+    public String getSenderIcon() {
+        return senderIcon;
+    }
+
+    public void setSenderIcon(String senderIcon) {
+        this.senderIcon = senderIcon;
     }
 }
