@@ -10,6 +10,7 @@ import com.memory.pojo.User;
 import com.memory.service.ChatMsgService;
 import com.memory.service.ChatroomService;
 import com.memory.service.MsgService;
+import com.memory.service.UserService;
 import com.memory.utils.JsonUtils;
 import com.memory.utils.SpringUtils;
 import io.netty.channel.Channel;
@@ -128,7 +129,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 int chatRoomId = msg.getReceiverId();
                 System.out.println("dataContent为:" + dataContent);
                 // 保存消息到数据库,
-                ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatmsgServiceImpl");
+                ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatMsgServiceImpl");
                 //relation<int,int>  前一个存得是用户id,后一个存得是消息id
                 Map<Integer, Integer> relation = chatmsgService.save(msg.getSenderId(), msg.getReceiverId(), msg.getContent());
                 for (Map.Entry<Integer, Integer> entry : relation.entrySet()) {
@@ -192,10 +193,37 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             System.out.println(msgList.toString());
             // 更新需要签收消息的msg_action
             if (msgList!=null && !msgList.isEmpty() && msgList.size()>0) {
-                ChatMsgService msgService = (ChatMsgService ) SpringUtils.getBean("chatmsgServiceImpl");
+                ChatMsgService msgService = (ChatMsgService ) SpringUtils.getBean("chatMsgServiceImpl");
                 msgService.updateChatMsgSigned(msgList);
             }
 
+
+        }
+        else if(action == MsgActionEnum.USEROUT.type) {
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            Integer senderId = msg.getSenderId();
+            System.out.println(senderId);
+            User sender =userDAO.get(senderId);
+            System.out.println(sender);
+            UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
+            if(!userService.userIsLocked(sender.getTelephone())){
+                msg.setContent(MsgActionEnum.USEROUT.content);
+                DataContent dataContent1 = new DataContent(MsgActionEnum.USEROUT.type, msg, null);
+                Channel reveicerChannel = UserChannelRelation.get(msg.getSenderId());
+                if (reveicerChannel == null) {
+                    // 推送
+                }
+                else {
+                    Channel findChannel = channels.find(reveicerChannel.id());
+                    if (findChannel!=null) {
+                        reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                    }
+                    else {
+                        // 用户离线,推送
+                        System.out.println("用户处于离线状态");
+                    }
+                }
+            }
 
         }
         else if (action==MsgActionEnum.KEEPALIVE.type) {
