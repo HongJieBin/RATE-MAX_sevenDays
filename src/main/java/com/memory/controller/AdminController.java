@@ -60,7 +60,7 @@ public class AdminController {
                     request.setAttribute("code",200);
                     request.setAttribute("msg","登录成功！");
                     request.setAttribute("users",userService.getAll());
-                    return "listUser";
+                    return "manage";
                 }else {
                     System.out.println("密码错误");
                     request.setAttribute("code",2008);
@@ -128,7 +128,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "getAllChatRoom",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
-    public @ResponseBody String getAllChatRoom(@RequestBody JSONObject json){
+    public @ResponseBody String getAllChatRoom(){
         try {
             return JsonUtils.toJSON(JsonResult.ok(chatroomService.getAll()));
         }catch (Exception e){

@@ -208,7 +208,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             Integer senderId = msg.getSenderId();
             UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
             User sender = userService.get(senderId);
-            if(!userService.userIsLocked(sender.getTelephone())){
+            if(userService.userIsLocked(sender.getTelephone())){
                 msg.setContent(MsgActionEnum.USEROUT.content);
                 DataContent dataContent1 = new DataContent(MsgActionEnum.USEROUT.type, msg, null);
                 Channel reveicerChannel = UserChannelRelation.get(msg.getSenderId());
@@ -233,7 +233,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             Integer receiverId = msg.getReceiverId();
             UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
             User sender = userService.get(receiverId);
-            if(!userService.userIsLocked(sender.getTelephone())){
+            if(userService.userIsLocked(sender.getTelephone())){
                 msg.setContent(MsgActionEnum.PULL_FRIEND.content);
                 DataContent dataContent1 = new DataContent(MsgActionEnum.PULL_FRIEND.type, msg, null);
                 Channel reveicerChannel = UserChannelRelation.get(receiverId);
@@ -254,6 +254,23 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         }
 
         else if (action==MsgActionEnum.KEEPALIVE.type) {
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            Integer senderId = msg.getSenderId();
+            Channel reveicerChannel = UserChannelRelation.get(senderId);
+            if (reveicerChannel == null) {
+                // 推送
+            }
+            else {
+                DataContent dataContent1 = new DataContent(MsgActionEnum.KEEPALIVE.type, msg, null);
+                Channel findChannel = channels.find(reveicerChannel.id());
+                if (findChannel!=null) {
+                    reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                }
+                else {
+                    // 用户离线,推送
+                    System.out.println("用户处于离线状态");
+                }
+            }
             System.out.println("收到来自为[" + currentChannel + "]的心跳包");
         }
 
