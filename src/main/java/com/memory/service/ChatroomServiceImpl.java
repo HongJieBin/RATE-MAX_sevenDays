@@ -34,8 +34,6 @@ import java.util.*;
 public class ChatroomServiceImpl implements ChatroomService{
 
 
-    private static long ONEDAY = 24*60*60*1000;
-
     @Autowired
     private ChatroomDAO chatroomDAO;
     @Autowired
@@ -154,7 +152,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         while(num < 3 && match < 30){
             random = getRandomId(cnt);
             tmp = chatroomDAO.get(random);
-            if((isMatching(userId,random)) && (tmp != null) && (!chatroom.contains(userId))){
+            if((isMatching(userId,random)) && (tmp != null) && (!chatroom.contains(userId)) && tmp.getChatroomStatement() == 0){
 
                 if(!randomId.contains(random)){
                     randomId.add(num,random);
@@ -242,7 +240,7 @@ public class ChatroomServiceImpl implements ChatroomService{
         if (chatroom.getChatroomEnd() == null){
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(date);
-            calendar.add(calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 1);
             date = calendar.getTime();
             timestamp = new Timestamp(date.getTime());
             chatroom.setChatroomEnd(timestamp);
@@ -406,6 +404,7 @@ public class ChatroomServiceImpl implements ChatroomService{
             throw new Exception("该聊天室不存在！");
         if(chatroom.getChatroomStatement() == 0)
             throw new Exception("该聊天室已打开！");
+        long ONEDAY = 24 * 60 * 60 * 1000;
         chatroom.setChatroomEnd(new Timestamp(new Date().getTime() + ONEDAY));
         chatroom.setChatroomStatement(0);
         chatroomDAO.update(chatroom);

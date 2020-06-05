@@ -3,6 +3,7 @@ package com.memory.controller;
 
 import com.memory.controller.VO.ChatRoomVO;
 import com.memory.controller.VO.ChatroomInfoVo;
+import com.memory.controller.VO.addVO;
 import com.memory.pojo.Chatroom;
 import com.memory.pojo.User;
 import com.memory.service.ChatroomService;
@@ -43,11 +44,11 @@ public class ChatroomController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String add(@RequestBody User user,Chatroom chatroom){
+    public String add(@RequestBody addVO addVO){
         try{
-            if(!chatroomService.isExistChatRoom(chatroom.getChatroomId()))  return JsonUtils.toJSON(JsonResult.errorMsg("不存在此聊天室"));
-            else if(chatroomService.isInChatRoom(user.getUserId(),chatroom.getChatroomId())) return JsonUtils.toJSON(JsonResult.errorMsg("你已经在聊天室内"));
-            else chatroomService.addChatRoom(user.getUserId(),chatroom.getChatroomId());
+            if(!chatroomService.isExistChatRoom(addVO.getChatroomId()))  return JsonUtils.toJSON(JsonResult.errorMsg("不存在此聊天室"));
+            else if(chatroomService.isInChatRoom(addVO.getUserId(),addVO.getChatroomId())) return JsonUtils.toJSON(JsonResult.errorMsg("你已经在聊天室内"));
+            else chatroomService.addChatRoom(addVO.getUserId(),addVO.getChatroomId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
         }

@@ -1,8 +1,10 @@
 package com.memory.service;
 
 import com.memory.controller.VO.*;
+import com.memory.dao.BanDAO;
 import com.memory.dao.FriendDAO;
 import com.memory.dao.UserDAO;
+import com.memory.pojo.Ban;
 import com.memory.pojo.Friend;
 import com.memory.pojo.User;
 import com.memory.pojo.UserTag;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -25,6 +28,8 @@ public class FriendServiceImpl implements FriendService{
     private UserDAO userDAO;
     @Autowired
     private UserTagService userTagService;
+    @Autowired
+    private BanDAO banDAO;
 
 
     @Resource
@@ -137,7 +142,7 @@ public class FriendServiceImpl implements FriendService{
              random = getRandomId(cnt);
              tmp = userDAO.get(random);
              if((myFriends != null) && (myBlackList != null)){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random))){
                     if(!randomId.contains(random)){
                         randomId.add(num,random);
                         num++;
@@ -145,7 +150,7 @@ public class FriendServiceImpl implements FriendService{
                  }
              }
              else if((myFriends == null) && (myBlackList != null)){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp))){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random))){
                      if(!randomId.contains(random)){
                          randomId.add(num,random);
                          num++;
@@ -154,7 +159,7 @@ public class FriendServiceImpl implements FriendService{
              }
 
              else if(myFriends != null){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp))){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random))){
                      if(!randomId.contains(random)){
                          randomId.add(num,random);
                          num++;
@@ -162,7 +167,7 @@ public class FriendServiceImpl implements FriendService{
                  }
              }
              else {
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null)){
+                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && !(isBan(random))){
                      if(!randomId.contains(random)){
                          randomId.add(num,random);
                          num++;
@@ -221,6 +226,11 @@ public class FriendServiceImpl implements FriendService{
         return recommendUsers;
 
 
+    }
+
+    private boolean isBan(int random) {
+            Ban ban = banDAO.getByUserId(random);
+            return !(ban == null);
     }
 
     @Override
