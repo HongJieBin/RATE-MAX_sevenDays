@@ -184,7 +184,7 @@ public class FriendServiceImpl implements FriendService{
             random = getRandomId(cnt);
             tmp = userDAO.get(random);
             if((myFriends != null) && (myBlackList != null)){
-                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp))){
+                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random))){
                     if(!randomId.contains(random)){
                     randomId.add(num,random);
                     num++;
@@ -192,7 +192,7 @@ public class FriendServiceImpl implements FriendService{
                 }
             }
             else if((myFriends == null) && (myBlackList != null)){
-                if((myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp))){
+                if((myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random))){
                     if(!randomId.contains(random)){
                         randomId.add(num,random);
                         num++;
@@ -201,7 +201,7 @@ public class FriendServiceImpl implements FriendService{
             }
 
             else if(myFriends != null){
-                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp))){
+                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random))){
                     if(!randomId.contains(random)){
                         randomId.add(num,random);
                         num++;
@@ -209,7 +209,7 @@ public class FriendServiceImpl implements FriendService{
                 }
             }
             else {
-                if((myUserId != random) && (tmp != null)){
+                if((myUserId != random) && (tmp != null) && !(isBan(random))){
                     if(!randomId.contains(random)){
                         randomId.add(num,random);
                         num++;

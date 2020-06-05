@@ -19,4 +19,5 @@ public interface ChatroomDAO {
     Chatroom get(int id);
     List<Chatroom> getAll();
     int getCount(); //获取表中数据个数
+    int getOpenCount(); //获取表中开放聊天室个数
 }

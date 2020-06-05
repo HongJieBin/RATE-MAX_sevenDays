@@ -53,4 +53,11 @@ public class ChatroomDAOImpl implements ChatroomDAO{
         Long count = (Long)hibernateTemplate.find(hql).listIterator().next();
         return count.intValue();
     }
+
+    @Override
+    public int getOpenCount() {
+        String hql = "select count(*) from Chatroom as chatroom where chatroom.chatroomStatement = ?";
+        Long count = (Long)hibernateTemplate.find(hql,0).listIterator().next();
+        return count.intValue();
+    }
 }
