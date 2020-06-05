@@ -2,9 +2,12 @@ package com.memory.netty;
 
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.memory.dao.ChatroomDAO;
 import com.memory.dao.MsgDAO;
 import com.memory.dao.UserDAO;
+import com.memory.dao.UserDAOImpl;
 import com.memory.pojo.ChatMsg;
+import com.memory.pojo.Chatroom;
 import com.memory.pojo.Msg;
 import com.memory.pojo.User;
 import com.memory.service.ChatMsgService;
@@ -34,8 +37,6 @@ import java.util.Map;
 public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public  static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    @Autowired
-    private UserDAO userDAO;
 
 
 
@@ -44,6 +45,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         String content = textWebSocketFrame.text();
         System.out.println(content);
         Channel currentChannel = ctx.channel();
+
 
         // 获取发送的消息
         DataContent dataContent = JsonUtils.toBean(content, DataContent.class);
@@ -58,6 +60,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             if(now == null) {
                 UserChannelRelation.add(senderId, currentChannel);
             }
+
             //多用户登陆时向前端发送消息
             else {
                 msg.setContent(MsgActionEnum.MUTIUSER.content);
@@ -128,6 +131,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 int senderId = msg.getSenderId();
                 int chatRoomId = msg.getReceiverId();
                 System.out.println("dataContent为:" + dataContent);
+                UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
                 // 保存消息到数据库,
                 ChatMsgService chatmsgService = (ChatMsgService) SpringUtils.getBean("chatMsgServiceImpl");
                 //relation<int,int>  前一个存得是用户id,后一个存得是消息id
@@ -135,7 +139,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 for (Map.Entry<Integer, Integer> entry : relation.entrySet()) {
                     msg.setReceiverId(entry.getKey());
                     msg.setMsgId(entry.getValue());
-                    User sender =userDAO.get(msg.getSenderId());
+                    User sender = userService.get(senderId);
                     DataContent dataContent1 = new DataContent(null, msg, sender.getIcon());
                     // 发送消息
                     Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
@@ -176,7 +180,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
 
             }
         }
-        else if(action ==MsgActionEnum.CHATROOMMSG_SIGNED.type){
+        else if(action == MsgActionEnum.CHATROOMMSG_SIGNED.type){
             // 消息签收
             String extand = dataContent.getExtend();
             // 分割需要签收消息的id
@@ -202,10 +206,8 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
         else if(action == MsgActionEnum.USEROUT.type) {
             com.memory.netty.Msg msg = dataContent.getMsg();
             Integer senderId = msg.getSenderId();
-            System.out.println(senderId);
-            User sender =userDAO.get(senderId);
-            System.out.println(sender);
             UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
+            User sender = userService.get(senderId);
             if(!userService.userIsLocked(sender.getTelephone())){
                 msg.setContent(MsgActionEnum.USEROUT.content);
                 DataContent dataContent1 = new DataContent(MsgActionEnum.USEROUT.type, msg, null);
@@ -226,6 +228,31 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             }
 
         }
+        else if(action == MsgActionEnum.PULL_FRIEND.type) {
+            com.memory.netty.Msg msg = dataContent.getMsg();
+            Integer receiverId = msg.getReceiverId();
+            UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
+            User sender = userService.get(receiverId);
+            if(!userService.userIsLocked(sender.getTelephone())){
+                msg.setContent(MsgActionEnum.PULL_FRIEND.content);
+                DataContent dataContent1 = new DataContent(MsgActionEnum.PULL_FRIEND.type, msg, null);
+                Channel reveicerChannel = UserChannelRelation.get(receiverId);
+                if (reveicerChannel == null) {
+                    // 推送
+                }
+                else {
+                    Channel findChannel = channels.find(reveicerChannel.id());
+                    if (findChannel!=null) {
+                        reveicerChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.toJSON(dataContent1)));
+                    }
+                    else {
+                        // 用户离线,推送
+                        System.out.println("用户处于离线状态");
+                    }
+                }
+            }
+        }
+
         else if (action==MsgActionEnum.KEEPALIVE.type) {
             System.out.println("收到来自为[" + currentChannel + "]的心跳包");
         }
