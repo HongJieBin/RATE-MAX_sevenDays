@@ -131,15 +131,11 @@ public class ChatroomServiceImpl implements ChatroomService{
         int cnt = chatroomDAO.getOpenCount(); //开放聊天室总数
         List<Integer> randomId = new ArrayList<>();//记录推荐的id
         int random;
-        List<Integer>  chatroom = new ArrayList<>();
         List<Integer>  chatroom1 = new ArrayList<>();
-        List<ChatroomInfoVo> chatroomInfoVoList = chatroomService.getMyJoinChatroomList(userId); //列出我加入的聊天室
+        List<Integer> chatroom = chatroomService.getMyJoinChatroomList1(userId); //列出我加入的聊天室id
         List<ChatroomInfoVo> chatroomInfoVoList1 = chatroomService.getOpenChatroomList();
 
-        if(chatroomInfoVoList !=null)
-         for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList) {
-            chatroom.add(chatroomInfoVo.getChatroomId());
-        }
+
         if(chatroomInfoVoList1 !=null)
             for (ChatroomInfoVo chatroomInfoVo : chatroomInfoVoList1) {
                 chatroom1.add(chatroomInfoVo.getChatroomId());
@@ -147,19 +143,22 @@ public class ChatroomServiceImpl implements ChatroomService{
         int num = 0; //总共匹配成功的聊天室
         int match = 0; //进行匹配的次数，多于30次或者超过可匹配人数上限时停止匹配（刚开始时可能聊天室较少）
         Chatroom tmp;
+        int cnt1 = cnt;
 
-
+        for (Integer integer : chatroom1) {
+            if (chatroom.contains(integer)) cnt1--;
+        }
         if(cnt == 0){
             return null;
         }
         //匹配推荐
         while(num < 3 && match < 30){
             random = getRandomId(cnt);
-            tmp = chatroomDAO.get(random);
-            if((isMatching(userId,random)) && (tmp != null) && (!chatroom.contains(userId)) ){
+            tmp = chatroomDAO.get(chatroom1.get(random-1));
+            if((isMatching(userId,chatroom1.get(random-1))) && (tmp != null) && (!chatroom.contains(chatroom1.get(random-1))) ){
 
-                if(!randomId.contains(random)){
-                    randomId.add(num,random);
+                if(!randomId.contains(chatroom1.get(random-1))){
+                    randomId.add(num,chatroom1.get(random-1));
                     num++;
                 }
             }
@@ -168,11 +167,11 @@ public class ChatroomServiceImpl implements ChatroomService{
         }
 
         //随机推荐
-        if(cnt < 5){
-            while(num < cnt){
+        if(cnt1 < 5){
+            while(num < cnt1){
                 random = getRandomId(cnt);
                 tmp = chatroomDAO.get(chatroom1.get(random-1));
-                if((tmp != null) && (!chatroom.contains(userId))){
+                if((tmp != null) && (!chatroom.contains(chatroom1.get(random-1)))){
                     if(!randomId.contains(chatroom1.get(random-1))){
                         randomId.add(num,chatroom1.get(random-1));
                         num++;
@@ -186,7 +185,7 @@ public class ChatroomServiceImpl implements ChatroomService{
             while(num < 5){
                 random = getRandomId(cnt);
                 tmp = chatroomDAO.get(chatroom1.get(random-1));
-                if((tmp != null) && (!chatroom.contains(userId))){
+                if((tmp != null) && (!chatroom.contains(chatroom1.get(random-1)))){
                     if(!randomId.contains(chatroom1.get(random-1))){
                         randomId.add(num,chatroom1.get(random-1));
                         num++;
@@ -197,8 +196,8 @@ public class ChatroomServiceImpl implements ChatroomService{
         }
 
         List<ChatRoomVO> recommendChatroom = new ArrayList<>();
-        if(cnt < 5){
-            for (int i = 0; i < cnt; i++) {
+        if(cnt1 < 5){
+            for (int i = 0; i < cnt1; i++) {
                 recommendChatroom.add(addByChatroomId(randomId.get(i)));
             }
         }
@@ -461,5 +460,15 @@ public class ChatroomServiceImpl implements ChatroomService{
             chatroomInfoList.add(chatroomInfoVo);
         }
         return chatroomInfoList;
+    }
+
+    @Override
+    public List<Integer> getMyJoinChatroomList1(int userId) {
+        String hql1 = "select chatroomId from ChatroomUser cu where cu.userId= ? ";
+        List<Integer> roomIdList= (List<Integer>) hibernateTemplate.find(hql1,userId);
+        if(roomIdList.isEmpty()){
+            return null;
+        }
+        return roomIdList;
     }
 }

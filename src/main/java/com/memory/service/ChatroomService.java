@@ -36,7 +36,7 @@ public interface ChatroomService {
     boolean isOpenChatroom(int chatRoomId);
 
     List<ChatroomInfoVo> getOpenChatroomList();
-
+    public List<Integer> getMyJoinChatroomList1(int userId);
 
 
 }
