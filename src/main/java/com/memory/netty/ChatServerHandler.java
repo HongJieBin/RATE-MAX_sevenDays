@@ -85,7 +85,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             msg.setMsgId(msgId);
             System.out.println("保存的msgId为:" + msgId);
             // 创建需要转发的dataContent
-            DataContent dataContent1 = new DataContent(null, msg, null);
+            DataContent dataContent1 = new DataContent(MsgActionEnum.CHAT.type, msg, null);
             // 发送消息
             Channel reveicerChannel = UserChannelRelation.get(receiverId);
             if (reveicerChannel == null) {
@@ -137,12 +137,12 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
                 //relation<int,int>  前一个存得是用户id,后一个存得是消息id
                 Map<Integer, Integer> relation = chatmsgService.save(msg.getSenderId(), msg.getReceiverId(), msg.getContent());
                 for (Map.Entry<Integer, Integer> entry : relation.entrySet()) {
-                    msg.setReceiverId(entry.getKey());
+                    msg.setReceiverId(chatRoomId);
                     msg.setMsgId(entry.getValue());
                     User sender = userService.get(senderId);
-                    DataContent dataContent1 = new DataContent(null, msg, sender.getIcon());
+                    DataContent dataContent1 = new DataContent(MsgActionEnum.CHATROOM.type, msg, sender.getIcon());
                     // 发送消息
-                    Channel reveicerChannel = UserChannelRelation.get(entry.getValue());
+                    Channel reveicerChannel = UserChannelRelation.get(entry.getKey());
                     if (reveicerChannel == null) {
                         // 推送
                     } else {
@@ -233,7 +233,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<TextWebSocket
             Integer receiverId = msg.getReceiverId();
             UserService userService = (UserService) SpringUtils.getBean("userServiceImpl");
             User sender = userService.get(receiverId);
-            if(userService.userIsLocked(sender.getTelephone())){
+            if(!userService.userIsLocked(sender.getTelephone())){
                 msg.setContent(MsgActionEnum.PULL_FRIEND.content);
                 DataContent dataContent1 = new DataContent(MsgActionEnum.PULL_FRIEND.type, msg, null);
                 Channel reveicerChannel = UserChannelRelation.get(receiverId);

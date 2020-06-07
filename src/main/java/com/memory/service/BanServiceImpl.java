@@ -41,8 +41,7 @@ public class BanServiceImpl implements BanService {
 
     @Override
     public void disBan(Ban ban) {
-        ban.setBanEtime(new Timestamp(new Date().getTime()));
-        banDAO.update(ban);
+        banDAO.delete(ban);
     }
 
     @Override

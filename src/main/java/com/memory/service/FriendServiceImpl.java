@@ -49,7 +49,9 @@ public class FriendServiceImpl implements FriendService{
         System.out.println(hql1);
         List<Integer> add_id= (List<Integer>) hibernateTemplate.find(hql1,userId);
         System.out.println(add_id);
-        return getUsers(add_id);
+        if(add_id.isEmpty())
+            return null;
+        else return getUsers(add_id);
     }
 
     private List<User> getUsers(List<Integer> add_id) {
@@ -70,19 +72,21 @@ public class FriendServiceImpl implements FriendService{
     public List<FriendInfoVO> getFriendsList(int userId) {
         List<FriendInfoVO> friends = new ArrayList<FriendInfoVO>();
         List<User> users = queryFriendsList(userId);
-        for (User user: users) {
-            FriendInfoVO friendInfoVO = new FriendInfoVO();
-            friendInfoVO.setUserId(user.getUserId());
-            friendInfoVO.setIcon(user.getIcon());
-            Friend friend;
-            friend = friendDAO.get(userId,user.getUserId());
-            friendInfoVO.setLevel(friend.getLevel());
-            friendInfoVO.setNickname(user.getNickname());
-            friendInfoVO.setRemark(friend.getRemark());
-            friends.add(friendInfoVO);
+        if(users== null) return null;
+        else {
+            for (User user : users) {
+                FriendInfoVO friendInfoVO = new FriendInfoVO();
+                friendInfoVO.setUserId(user.getUserId());
+                friendInfoVO.setIcon(user.getIcon());
+                Friend friend;
+                friend = friendDAO.get(userId, user.getUserId());
+                friendInfoVO.setLevel(friend.getLevel());
+                friendInfoVO.setNickname(user.getNickname());
+                friendInfoVO.setRemark(friend.getRemark());
+                friends.add(friendInfoVO);
+            }
+            return friends;
         }
-
-        return friends;
     }
 
     public boolean isExitUser(int userId) {
@@ -299,7 +303,7 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public Object getInformation(int userId, int friendId) {
-        Friend friend = friendDAO.get(userId,friendId);
+        Friend friend = friendDAO.get(friendId,userId);
         if(friend.getLevel()==1) {
             return getTrustedInfo(userId,friendId);
         } else {

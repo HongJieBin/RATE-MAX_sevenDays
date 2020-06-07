@@ -145,8 +145,10 @@ public class ChatroomServiceImpl implements ChatroomService{
         Chatroom tmp;
         int cnt1 = cnt;
 
-        for (Integer integer : chatroom1) {
-            if (chatroom.contains(integer)) cnt1--;
+        if(chatroom !=null && chatroom1 != null) {
+            for (Integer integer : chatroom1) {
+                if (chatroom.contains(integer)) cnt1--;
+            }
         }
         if(cnt == 0){
             return null;
