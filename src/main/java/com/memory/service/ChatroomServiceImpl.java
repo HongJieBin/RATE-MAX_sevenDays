@@ -145,35 +145,53 @@ public class ChatroomServiceImpl implements ChatroomService{
         Chatroom tmp;
         int cnt1 = cnt;
 
-        if(chatroom !=null && chatroom1 != null) {
-            for (Integer integer : chatroom1) {
-                if (chatroom.contains(integer)) cnt1--;
-            }
+        if(chatroom != null)
+        for (Integer integer : chatroom1) {
+            if (chatroom.contains(integer)) cnt1--;
         }
         if(cnt == 0){
             return null;
         }
         //匹配推荐
-        while(num < 3 && match < 30){
-            random = getRandomId(cnt);
-            tmp = chatroomDAO.get(chatroom1.get(random-1));
-            if((isMatching(userId,chatroom1.get(random-1))) && (tmp != null) && (!chatroom.contains(chatroom1.get(random-1))) ){
+        if(cnt1 < 3){
+            while(num < cnt1 && match < 5){
+                random = getRandomId(cnt);
+                tmp = chatroomDAO.get(chatroom1.get(random-1));
+                if((isMatching(userId,chatroom1.get(random-1))) && (tmp != null) && ((chatroom == null) ||(!chatroom.contains(chatroom1.get(random-1)))) ){
 
-                if(!randomId.contains(chatroom1.get(random-1))){
-                    randomId.add(num,chatroom1.get(random-1));
-                    num++;
+                    if(!randomId.contains(chatroom1.get(random-1))){
+                        randomId.add(num,chatroom1.get(random-1));
+                        num++;
+                    }
                 }
-            }
 
-            match++;
+                match++;
+            }
         }
+
+        else {
+            while(num < 3 && match < cnt){
+                random = getRandomId(cnt);
+                tmp = chatroomDAO.get(chatroom1.get(random-1));
+                if((isMatching(userId,chatroom1.get(random-1))) && (tmp != null) && ((chatroom == null) ||(!chatroom.contains(chatroom1.get(random-1)))) ){
+
+                    if(!randomId.contains(chatroom1.get(random-1))){
+                        randomId.add(num,chatroom1.get(random-1));
+                        num++;
+                    }
+                }
+
+                match++;
+            }
+        }
+
 
         //随机推荐
         if(cnt1 < 5){
             while(num < cnt1){
                 random = getRandomId(cnt);
                 tmp = chatroomDAO.get(chatroom1.get(random-1));
-                if((tmp != null) && (!chatroom.contains(chatroom1.get(random-1)))){
+                if((tmp != null) && ((chatroom == null) ||(!chatroom.contains(chatroom1.get(random-1))))){
                     if(!randomId.contains(chatroom1.get(random-1))){
                         randomId.add(num,chatroom1.get(random-1));
                         num++;
@@ -187,7 +205,7 @@ public class ChatroomServiceImpl implements ChatroomService{
             while(num < 5){
                 random = getRandomId(cnt);
                 tmp = chatroomDAO.get(chatroom1.get(random-1));
-                if((tmp != null) && (!chatroom.contains(chatroom1.get(random-1)))){
+                if((tmp != null) && ((chatroom == null) ||(!chatroom.contains(chatroom1.get(random-1))))){
                     if(!randomId.contains(chatroom1.get(random-1))){
                         randomId.add(num,chatroom1.get(random-1));
                         num++;
