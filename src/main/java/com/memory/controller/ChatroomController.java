@@ -4,6 +4,7 @@ package com.memory.controller;
 import com.memory.controller.VO.ChatRoomVO;
 import com.memory.controller.VO.ChatroomInfoVo;
 import com.memory.controller.VO.addVO;
+import com.memory.dao.ChatroomDAO;
 import com.memory.pojo.Chatroom;
 import com.memory.pojo.User;
 import com.memory.service.ChatroomService;
@@ -11,9 +12,11 @@ import com.memory.utils.JsonResult;
 import com.memory.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,6 +25,8 @@ public class ChatroomController {
 
     @Autowired
     ChatroomService chatroomService;
+    @Autowired
+    ChatroomDAO chatroomDAO;
 
 
     @RequestMapping(value = "/searchById",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -48,6 +53,7 @@ public class ChatroomController {
         try{
             if(!chatroomService.isExistChatRoom(addVO.getChatroomId()))  return JsonUtils.toJSON(JsonResult.errorMsg("不存在此聊天室"));
             else if(chatroomService.isInChatRoom(addVO.getUserId(),addVO.getChatroomId())) return JsonUtils.toJSON(JsonResult.errorMsg("你已经在聊天室内"));
+            else if(chatroomDAO.get(addVO.getChatroomId()).getChatroomStatement() == 1) return  JsonUtils.toJSON(JsonResult.errorMsg("该聊天室已经关闭"));
             else chatroomService.addChatRoom(addVO.getUserId(),addVO.getChatroomId());
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("服务器错误:"+e.getMessage()));
@@ -67,7 +73,6 @@ public class ChatroomController {
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String createChatroom(@RequestBody Chatroom chatroom){
-        Chatroom room = chatroomService.addChatroom(chatroom);
         ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
@@ -100,7 +105,7 @@ public class ChatroomController {
     @RequestMapping(value = "/getRoomInfoById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getChatroomInfoById(@RequestBody Chatroom chatroom){
-        ChatroomInfoVo chatroomInfoVo = new ChatroomInfoVo();
+        ChatroomInfoVo chatroomInfoVo;
         try {
             chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
         }catch (Exception e){
@@ -112,7 +117,7 @@ public class ChatroomController {
     @RequestMapping(value = "/getMyJoinRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getMyJoinRoomInfoById(@RequestBody User user){
-        List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        List<ChatroomInfoVo> chatroomList;
         try{
             chatroomList = chatroomService.getMyJoinChatroomList(user.getUserId());
         }catch (Exception e){
@@ -126,7 +131,6 @@ public class ChatroomController {
     @ResponseBody
     public String updateChatroom(@RequestBody Chatroom chatroom){
         System.out.println("chatroom:"+chatroom);
-        Chatroom room = chatroomService.updateChatroom(chatroom);
         ChatroomInfoVo chatroomInfoVo = chatroomService.getChatroomInfoById(chatroom.getChatroomId());
         return JsonUtils.toJSON(JsonResult.ok(chatroomInfoVo));
     }
@@ -134,7 +138,7 @@ public class ChatroomController {
     @RequestMapping(value = "/getBeforeRoomListById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String getBeforeRoomInfoById(@RequestBody User user){
-        List<ChatroomInfoVo> chatroomList = new ArrayList<ChatroomInfoVo>();
+        List<ChatroomInfoVo> chatroomList;
         try{
             chatroomList = chatroomService.getBeforeChatroomList(user.getUserId());
         }catch (Exception e){
