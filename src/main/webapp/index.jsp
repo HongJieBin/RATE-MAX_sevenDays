@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<div class="divForm">
-			<form action="/admin/logIn" method="post" font-size=10px >
+			<form action="/seven_days/admin/logIn" method="post" font-size=10px >
 				<span>
 					<h1>管理员登录</h1>
 				</span>
