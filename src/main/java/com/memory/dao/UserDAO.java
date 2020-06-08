@@ -19,4 +19,5 @@ public interface UserDAO {
     List<User> get(String param, String value);  //根据用户昵称返回用户类
     List<User> getAll();
     int getCount(); //获取表中数据个数
+    List<Integer> getAllUserId();
 }

@@ -93,4 +93,9 @@ public class UserDAOImpl implements UserDAO {
         return count.intValue();
     }
 
+    @Override
+    public List<Integer> getAllUserId() {
+        String hql = "select userId from User";
+        return (List<Integer>) hibernateTemplate.find(hql);
+    }
 }

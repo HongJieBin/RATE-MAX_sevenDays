@@ -55,10 +55,10 @@ public class ChatroomServiceImpl implements ChatroomService{
         else if(chatroom.get(0).getChatroomStatement() == 1) return  JsonUtils.toJSON(JsonResult.errorMsg("该聊天室已经关闭"));
         else{
                 chatRoomVO.setChatroomId(chatroom.get(0).getChatroomId());
-                chatRoomVO.setChatroomTag(chatroom.get(0).getChatroomTag());
-                chatRoomVO.setChatroomName(chatroom.get(0).getChatroomName());
-                chatRoomVO1.add(chatRoomVO);
-                return JsonUtils.toJSON(JsonResult.ok(chatRoomVO1));
+            chatRoomVO.setChatroomTag(chatroom.get(0).getChatroomTag());
+            chatRoomVO.setChatroomName(chatroom.get(0).getChatroomName());
+            chatRoomVO1.add(chatRoomVO);
+            return JsonUtils.toJSON(JsonResult.ok(chatRoomVO1));
             }
 
     }

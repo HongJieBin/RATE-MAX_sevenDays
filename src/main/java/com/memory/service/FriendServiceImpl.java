@@ -133,7 +133,9 @@ public class FriendServiceImpl implements FriendService{
 
         int cnt = userDAO.getCount(); //用户总人数
         List<Integer> randomId = new ArrayList<>();//记录推荐的用户id
+        List<Integer> userIdList = userDAO.getAllUserId();
         int random;
+        int random1;
 
         int num = 0; //总共匹配成功的人数
         int match = 0; //进行匹配的次数，多于100次或者超过可匹配人数上限时停止匹配（刚开始时可能用户较少）
@@ -143,79 +145,81 @@ public class FriendServiceImpl implements FriendService{
 
         //匹配推荐
         while(num < 3 && match < 50){
-             random = getRandomId(cnt);
-             tmp = userDAO.get(random);
-             if((myFriends != null) && (myBlackList != null)){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random))){
-                    if(!randomId.contains(random)){
-                        randomId.add(num,random);
-                        num++;
-                    }
-                 }
-             }
-             else if((myFriends == null) && (myBlackList != null)){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random))){
-                     if(!randomId.contains(random)){
-                         randomId.add(num,random);
-                         num++;
-                     }
-                 }
-             }
-
-             else if(myFriends != null){
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random))){
-                     if(!randomId.contains(random)){
-                         randomId.add(num,random);
-                         num++;
-                     }
-                 }
-             }
-             else {
-                 if((isMatching(myUserId,random)) && (myUserId != random) && (tmp != null) && !(isBan(random))){
-                     if(!randomId.contains(random)){
-                         randomId.add(num,random);
-                         num++;
-                     }
-                 }
-             }
-
-
-             match++;
-        }
-
-        //随机推荐
-        while(num < 5){
             random = getRandomId(cnt);
-            tmp = userDAO.get(random);
+            random1 = userIdList.get(random-1);
+            tmp = userDAO.get(random1);
             if((myFriends != null) && (myBlackList != null)){
-                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random))){
-                    if(!randomId.contains(random)){
-                    randomId.add(num,random);
-                    num++;
+                if((isMatching(myUserId,random1)) && (myUserId != random1) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
+                        num++;
                     }
                 }
             }
             else if((myFriends == null) && (myBlackList != null)){
-                if((myUserId != random) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random))){
-                    if(!randomId.contains(random)){
-                        randomId.add(num,random);
+                if((isMatching(myUserId,random1)) && (myUserId != random1) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
                         num++;
                     }
                 }
             }
 
             else if(myFriends != null){
-                if((myUserId != random) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random))){
-                    if(!randomId.contains(random)){
-                        randomId.add(num,random);
+                if((isMatching(myUserId,random1)) && (myUserId != random1) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
                         num++;
                     }
                 }
             }
             else {
-                if((myUserId != random) && (tmp != null) && !(isBan(random))){
-                    if(!randomId.contains(random)){
-                        randomId.add(num,random);
+                if((isMatching(myUserId,random1)) && (myUserId != random1) && (tmp != null) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
+                        num++;
+                    }
+                }
+            }
+
+
+            match++;
+        }
+
+        //随机推荐
+        while(num < 5){
+            random = getRandomId(cnt);
+            random1 = userIdList.get(random-1);
+            tmp = userDAO.get(random1);
+            if((myFriends != null) && (myBlackList != null)){
+                if((myUserId != random1) && (tmp != null) && (!myFriends.contains(tmp)) && (!myBlackList.contains(tmp)) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
+                        num++;
+                    }
+                }
+            }
+            else if((myFriends == null) && (myBlackList != null)){
+                if((myUserId != random1) && (tmp != null) && (!myBlackList.contains(tmp)) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
+                        num++;
+                    }
+                }
+            }
+
+            else if(myFriends != null){
+                if((myUserId != random1) && (tmp != null) && (!myFriends.contains(tmp)) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
+                        num++;
+                    }
+                }
+            }
+            else {
+                if((myUserId != random1) && (tmp != null) && !(isBan(random1))){
+                    if(!randomId.contains(random1)){
+                        randomId.add(num,random1);
                         num++;
                     }
                 }
