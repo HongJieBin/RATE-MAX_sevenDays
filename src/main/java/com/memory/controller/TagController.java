@@ -33,16 +33,10 @@ public class TagController {
         List<Tag> list;
         try {           //get all tags
             list = tagService.getAll();
+            return JsonUtils.toJSON(JsonResult.ok(list));
         }catch (Exception e){
             return JsonUtils.toJSON(JsonResult.errorException("查询异常"));
         }
-        if(list.size() <= 10)                   //if all tags less than ten return all
-            return JsonUtils.toJSON(JsonResult.ok(list));
-        List<Tag> returnList = new LinkedList<>();
-        for(int i = 0 ; i < 10 ; i++){                                      //else randomly return ten tags
-            returnList.add(list.get(random.nextInt() % list.size()));
-        }
-        return JsonUtils.toJSON(JsonResult.ok(returnList));
     }
 
     /**

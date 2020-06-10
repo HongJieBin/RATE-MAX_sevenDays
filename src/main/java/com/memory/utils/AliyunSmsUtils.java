@@ -8,6 +8,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
+import java.text.DecimalFormat;
+
 /**
  * @author hy
  * @date 2020/4/24 - 23:14
@@ -103,7 +105,7 @@ public class AliyunSmsUtils {
 
         //必填:短信模板-可在短信控制台中找到
 
-        request.setTemplateCode("SMS_189030844");
+        request.setTemplateCode("SMS_192542678");
 
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
 
@@ -199,9 +201,9 @@ public class AliyunSmsUtils {
 
     //以下为测试代码，随机生成验证码
 
-    private static int newcode;
+    private static String newcode;
 
-    public static int getNewcode() {
+    public static String getNewcode() {
 
         return newcode;
 
@@ -209,15 +211,17 @@ public class AliyunSmsUtils {
 
     public static void setNewcode(){
 
-        newcode = (int)(Math.random()*9999)+100;  //每次调用生成一位四位数的随机数
-
+        int code = (int)(Math.random()*9999)+100;  //每次调用生成一位四位数的随机数
+        //格式化
+        DecimalFormat df = new DecimalFormat("0000");
+        newcode = df.format(code);
     }
 
     public static void main(String[] args) throws ClientException, InterruptedException {
 
         setNewcode();
 
-        String code = Integer.toString(getNewcode());
+        String code = getNewcode();
 
         System.out.println("发送的验证码为："+code);
 

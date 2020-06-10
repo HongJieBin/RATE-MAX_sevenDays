@@ -38,7 +38,7 @@ public class GetVerificationCodeController {
 
         AliyunSmsUtils.setNewcode();
 
-        String code = Integer.toString(AliyunSmsUtils.getNewcode());
+        String code = AliyunSmsUtils.getNewcode();
 
         System.out.println("发送的验证码为："+code);
 

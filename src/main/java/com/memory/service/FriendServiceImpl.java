@@ -144,7 +144,7 @@ public class FriendServiceImpl implements FriendService{
         List<User> myBlackList = queryBlackList(myUserId);
 
         //匹配推荐
-        while(num < 3 && match < 50){
+        while(num < 3 && match < cnt/2){
             random = getRandomId(cnt);
             random1 = userIdList.get(random-1);
             tmp = userDAO.get(random1);
@@ -249,10 +249,8 @@ public class FriendServiceImpl implements FriendService{
 
     @Override
     public List<User> queryBlackList(int userId) {
-        String hql1 = "select addedId from Blacklist b where b.addedId= ? ";
+        String hql1 = "select addedId from Blacklist b where userId= ? ";
         List<Integer> add_id= (List<Integer>) hibernateTemplate.find(hql1,userId);
-        String hql2 = "select userId from Blacklist b where b.userId= ? ";
-        add_id.addAll((List<Integer>)hibernateTemplate.find(hql2,userId));
         return getUsers(add_id);
     }
 
